@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tyro - Zero-Config API Boilerplate for Laravel 12</title>
+    <meta name="description" content="Production-ready Laravel API in minutes. Tyro ships Sanctum authentication, role/ability management, ready-made routes, and 40+ artisan commands with zero configuration.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Laravel 12 • PHP 8.2+ • Sanctum 4.0
+                </div>
+
+                <h1 class="hero-title">
+                    Production-Ready<br>
+                    <span class="gradient-text">Laravel APIs</span>
+                    in Minutes
+                </h1>
+
+                <p class="hero-description">
+                    Zero-config API Package for authentication, authorization, privilege management,
+                    40+ artisan commands, and battle-tested security. Everything you need to ship secure APIs fast.
+                </p>
+
+                <div class="hero-cta">
+                    <div class="install-command">
+                        <code id="installCommand">composer require hasinhayder/tyro</code>
+                        <button class="copy-btn" id="copyBtn" aria-label="Copy command">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="#features" class="btn btn-primary">Explore Features</a>
+                        <a href="https://github.com/hasinhayder/tyro-plus" class="btn btn-secondary" target="_blank" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">40+</div>
+                        <div class="stat-label">Artisan Commands</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Zero</div>
+                        <div class="stat-label">Configuration</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Battle-Tested</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Tyro</h2>
+                <p class="section-description">Everything you need to build secure, scalable APIs in minutes.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Zero Configuration</h3>
+                    <p class="feature-description">Install once and inherit login, registration, profile, role, privilege, and audit endpoints with sensible defaults.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Security Hardened</h3>
+                    <p class="feature-description">Sanctum tokens mirror role + privilege slugs, suspension workflows revoke tokens instantly, battle-tested middleware stack.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Roles & Privileges</h3>
+                    <p class="feature-description">Manage reusable privileges per role via HTTP or CLI, then reuse them in middleware or $user->can() calls.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">40+ CLI Commands</h3>
+                    <p class="feature-description">Seed roles, attach privileges, rotate tokens, suspend users, inspect collections - incident response without raw SQL.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Production Ready</h3>
+                    <p class="feature-description">Ships with factories, seeders, tests, and official Postman collection. Teams can experiment or automate immediately.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Fully Extensible</h3>
+                    <p class="feature-description">Publish config, migrations, factories, or disable route auto-loading when you want to override Tyro internals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quick-start">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get Started in 2 Steps</h2>
+                <p class="section-description">From zero to production-ready API in under 60 seconds</p>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Install the Package</h3>
+                        <div class="code-block">
+                            <code>composer require hasinhayder/tyro</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Run the Installer</h3>
+                        <div class="code-block">
+                            <code>php artisan tyro:install</code>
+                        </div>
+                        <p class="step-note">Wraps install:api + migrate + seed + prepare-user-model</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-start-cta">
+                <p>That's it! Your API is ready with authentication, authorization, roles, privileges, middleware and 40+ commands.</p>
+                <a href="https://github.com/hasinhayder/tyro-plus#readme" class="btn btn-primary" target="_blank" rel="noopener">Read Full Documentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example Section -->
+    <section class="code-example">
+        <div class="container">
+            <div class="code-showcase">
+                <div class="code-showcase-content">
+                    <h2 class="section-title">Powerful Role & Privilege System</h2>
+                    <p class="section-description">Check permissions anywhere in your application with a clean, Laravel-style API</p>
+
+                    <ul class="feature-list">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Gate integration with $user->can()
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Real-time privilege checking
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            User suspension with token revocation
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Performance optimized
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="code-showcase-code">
+                    <div class="code-window">
+                        <div class="code-window-header">
+                            <div class="code-window-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="code-window-title">app/Http/Controllers/ReportController.php</div>
+                        </div>
+                        <pre><code class="language-php">if ($request->user()->can('reports.run')) {
+    // User has the privilege through their roles
+}
+
+if ($request->user()->hasRole('admin')) {
+    // Check specific role
+}
+
+if ($request->user()->hasPrivileges(['billing.view', 'reports.run'])) {
+    // Require multiple privileges
+}
+
+// Suspend a user and revoke all tokens
+$user->suspend('Policy violation');
+
+// Check suspension status
+if ($user->isSuspended()) {
+    return response()->json([
+        'error' => $user->getSuspensionReason()
+    ], 423);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artisan Commands Section -->
+    <section id="commands" class="artisan-commands">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful CLI Commands</h2>
+                <p class="section-description">40+ Artisan commands for complete Role and Privilege management and inspection without touching the database or writing raw SQL</p>
+            </div>
+
+            <div class="commands-accordion">
+                <!-- Setup & Installation -->
+                <div class="command-group">
+                    <button class="command-group-header" aria-expanded="true">
+                        <div class="command-group-title-wrapper">
+                            <div class="command-group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="command-group-title">Setup & Installation</h3>
+                                <p class="command-group-count">5 commands</p>
+                            </div>
+                        </div>
+                        <svg class="command-group-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="command-group-content">
+                        <div class="command-list">
+                            <div class="command-item">
+                                <code class="command-name">tyro:install</code>
+                                <p class="command-description">Run Laravel's install:api, migrate, and optionally seed or prepare user model</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:prepare-user-model</code>
+                                <p class="command-description">Automatically add HasApiTokens and HasTyroRoles to your User model</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:seed</code>
+                                <p class="command-description">Run the full TyroSeeder (roles + bootstrap admin)</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:publish-config</code>
+                                <p class="command-description">Drop config/tyro.php into your app</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:publish-migrations</code>
+                                <p class="command-description">Copy Tyro's migrations into your database/migrations directory</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="command-group">
+                    <button class="command-group-header" aria-expanded="false">
+                        <div class="command-group-title-wrapper">
+                            <div class="command-group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="command-group-title">User Management</h3>
+                                <p class="command-group-count">9 commands</p>
+                            </div>
+                        </div>
+                        <svg class="command-group-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="command-group-content">
+                        <div class="command-list">
+                            <div class="command-item">
+                                <code class="command-name">tyro:create-user</code>
+                                <p class="command-description">Prompt for name/email/password and attach the default role</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:users</code>
+                                <p class="command-description">Inspect users with their role slugs and suspension status</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:users-with-roles</code>
+                                <p class="command-description">Display users with their role slugs and suspension column</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:suspend-user</code>
+                                <p class="command-description">Suspend a user with optional reason or lift with --unsuspend</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:unsuspend-user</code>
+                                <p class="command-description">Dedicated shortcut to lift user suspensions</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:suspended-users</code>
+                                <p class="command-description">Show every suspended user, when locked, and why</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:update-user</code>
+                                <p class="command-description">Update user details while ensuring you don't remove the last admin</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:delete-user</code>
+                                <p class="command-description">Delete a user while ensuring you don't remove the last admin</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:user-privileges</code>
+                                <p class="command-description">Display the real-time privilege table a user inherits through their roles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role & Privilege Management -->
+                <div class="command-group">
+                    <button class="command-group-header" aria-expanded="false">
+                        <div class="command-group-title-wrapper">
+                            <div class="command-group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="command-group-title">Role & Privilege Management</h3>
+                                <p class="command-group-count">17 commands</p>
+                            </div>
+                        </div>
+                        <svg class="command-group-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="command-group-content">
+                        <div class="command-list">
+                            <div class="command-item">
+                                <code class="command-name">tyro:roles</code>
+                                <p class="command-description">Display all roles with user counts</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:roles-with-privileges</code>
+                                <p class="command-description">Display roles alongside their attached privilege slugs and user counts</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:create-role</code>
+                                <p class="command-description">Manage custom roles (protected slugs cannot be renamed or deleted)</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:update-role</code>
+                                <p class="command-description">Update existing role details</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:delete-role</code>
+                                <p class="command-description">Delete a role (protected slugs cannot be deleted)</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:assign-role</code>
+                                <p class="command-description">Attach a role to a user by email/ID</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:delete-user-role</code>
+                                <p class="command-description">Detach a role from a user</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:role-users</code>
+                                <p class="command-description">List all users currently attached to a given role</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:user-roles</code>
+                                <p class="command-description">Display a specific user's roles and attached privileges</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:seed-roles</code>
+                                <p class="command-description">Reapply the default role catalogue</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:flush-roles</code>
+                                <p class="command-description">Truncate the roles + pivot tables without re-seeding</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:privileges</code>
+                                <p class="command-description">List every privilege and which roles currently own it</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:add-privilege</code>
+                                <p class="command-description">Create new privilege records</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:update-privilege</code>
+                                <p class="command-description">Edit existing privilege records</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:delete-privilege</code>
+                                <p class="command-description">Remove privilege records</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:attach-privilege</code>
+                                <p class="command-description">Attach privileges to roles via slug or ID</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:detach-privilege</code>
+                                <p class="command-description">Detach privileges from roles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Token Management -->
+                <div class="command-group">
+                    <button class="command-group-header" aria-expanded="false">
+                        <div class="command-group-title-wrapper">
+                            <div class="command-group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="command-group-title">Token Management</h3>
+                                <p class="command-group-count">6 commands</p>
+                            </div>
+                        </div>
+                        <svg class="command-group-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="command-group-content">
+                        <div class="command-list">
+                            <div class="command-item">
+                                <code class="command-name">tyro:login</code>
+                                <p class="command-description">Mint a Sanctum token using user ID or email (respects suspensions)</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:quick-token</code>
+                                <p class="command-description">Mint a Sanctum token by user ID/email without password prompt</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:me</code>
+                                <p class="command-description">Paste a Sanctum token and see which user/abilities it belongs to</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:logout</code>
+                                <p class="command-description">Revoke a single token for a given user</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:logout-all</code>
+                                <p class="command-description">Revoke every token for a given user</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:logout-all-users</code>
+                                <p class="command-description">Revoke every Sanctum token for every user (emergency rotation)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Utilities & Information -->
+                <div class="command-group">
+                    <button class="command-group-header" aria-expanded="false">
+                        <div class="command-group-title-wrapper">
+                            <div class="command-group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="command-group-title">Utilities & Information</h3>
+                                <p class="command-group-count">7 commands</p>
+                            </div>
+                        </div>
+                        <svg class="command-group-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="command-group-content">
+                        <div class="command-list">
+                            <div class="command-item">
+                                <code class="command-name">tyro:seed-privileges</code>
+                                <p class="command-description">Reapply Tyro's default privilege catalog and role mappings</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:purge-privileges</code>
+                                <p class="command-description">Remove all privileges and detach them from every role</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:version</code>
+                                <p class="command-description">Echo the current Tyro version from configuration</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:postman-collection</code>
+                                <p class="command-description">Open (or print) the official Postman collection URL</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:star</code>
+                                <p class="command-description">Opens the GitHub repo so you can give Tyro a ⭐</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:doc</code>
+                                <p class="command-description">Opens the documentation site (or prints the URL with --no-open)</p>
+                            </div>
+                            <div class="command-item">
+                                <code class="command-name">tyro:about</code>
+                                <p class="command-description">Summarises Tyro's mission, author, and useful links</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="commands-cta">
+                <div class="commands-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    <p>All commands support <code>--help</code> flag and non-interactive mode for automation</p>
+                </div>
+                <a href="https://github.com/hasinhayder/tyro-plus#artisan-commands" class="btn btn-primary" target="_blank" rel="noopener">View Full Command Reference</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-description">Everything you need to know about Tyro</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What is Tyro and why should I use it?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tyro is a zero-config API boilerplate for Laravel 12 that provides everything you need to build secure APIs: Sanctum authentication, role/ability management, 40+ artisan commands, ready-made routes, and battle-tested security. Instead of spending days setting up authentication and authorization, you get a production-ready API surface in minutes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What are the requirements to use Tyro?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tyro requires PHP 8.2 or higher, Laravel 12.0 or higher, and Laravel Sanctum 4.0 or higher. It's designed to work seamlessly with fresh Laravel installations and can be integrated into existing projects.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I install Tyro?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Installation is simple: run <code>composer require hasinhayder/tyro</code> followed by <code>php artisan tyro:install</code>. The install command automatically sets up Sanctum, runs migrations, seeds default roles and privileges, and prepares your User model. That's it—your API is ready!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What artisan commands does Tyro provide?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tyro ships with 40+ artisan commands for managing users, roles, privileges, tokens, and more. Key commands include: <code>tyro:create-user</code>, <code>tyro:assign-role</code>, <code>tyro:suspend-user</code>, <code>tyro:add-privilege</code>, <code>tyro:attach-privilege</code>, <code>tyro:quick-token</code>, and <code>tyro:logout-all-users</code>. Every command supports non-interactive flags for automation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How does the role and privilege system work?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tyro uses a flexible role-privilege system. Roles (like "admin", "editor") can have multiple privileges (like "reports.run", "billing.view"). Users are assigned roles, and they inherit all privileges from those roles. You can check permissions using <code>$user->can('privilege.name')</code>, <code>$user->hasRole('role-slug')</code>, or middleware like <code>ability:admin,reports.run</code>. Sanctum tokens automatically include all role and privilege slugs as abilities.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I customize Tyro's behavior?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! Publish the config file with <code>php artisan vendor:publish --tag=tyro-config</code> to customize route prefixes, middleware, table names, default roles, and more. You can also publish migrations and disable built-in routes or commands via environment variables. Tyro is designed to be extensible without friction.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I suspend a user?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Use <code>php artisan tyro:suspend-user --user=email@example.com --reason="Policy violation"</code> or call <code>$user->suspend('reason')</code> in your code. Suspension automatically revokes all Sanctum tokens and prevents login. To lift a suspension, use <code>php artisan tyro:unsuspend-user</code> or <code>$user->unsuspend()</code>. Check suspension status with <code>$user->isSuspended()</code>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Is Tyro suitable for production use?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Tyro is battle-tested and ships with the same security hardening, middleware stack, and authorization logic used in production applications. It includes comprehensive tests, factories, seeders, and follows Laravel best practices. You can disable commands in production via <code>TYRO_DISABLE_COMMANDS=true</code> for additional security.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Where can I get help or report issues?</span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Visit the <a href="https://github.com/hasinhayder/tyro-plu" target="_blank" rel="noopener">GitHub repository</a> to read the full documentation, open issues, or submit pull requests. The README includes detailed examples, API references, and troubleshooting guides. You can also use <code>php artisan tyro:doc</code> to open the documentation directly from your terminal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Build Your API?</h2>
+                <p class="cta-description">Join developers who ship secure Laravel APIs faster with Tyro</p>
+
+                <div class="install-command large">
+                    <code>composer require hasinhayder/tyro</code>
+                    <button class="copy-btn" id="copyBtnFooter" aria-label="Copy command">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="cta-links">
+                    <a href="https://github.com/hasinhayder/tyro-plus" target="_blank" rel="noopener">View on GitHub</a>
+                    <span>•</span>
+                    <a href="https://github.com/hasinhayder/tyro-plus#readme" target="_blank" rel="noopener">Documentation</a>
+                    <span>•</span>
+                    <a href="https://github.com/hasinhayder/tyro-plus/issues" target="_blank" rel="noopener">Report Issue</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Tyro</h3>
+                    <p>Zero-config API boilerplate for Laravel 12</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://github.com/hasinhayder/tyro-plus/#readme" target="_blank" rel="noopener">Documentation</a></li>
+                            <li><a href="https://github.com/hasinhayder/tyro-plus/" target="_blank" rel="noopener">GitHub</a></li>
+                            <li><a href="https://github.com/hasinhayder/tyro-plus/issues" target="_blank" rel="noopener">Issues</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://github.com/hasinhayder/tyro-plus/discussions" target="_blank" rel="noopener">Discussions</a></li>
+                            <li><a href="https://github.com/hasinhayder/tyro-plus/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                            <li><a href="https://github.com/hasinhayder" target="_blank" rel="noopener">Author</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Open-sourced under the <a href="https://github.com/hasinhayder/tyro-plus/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></p>
+                <p>Built with ❤️ by <a href="https://github.com/hasinhayder" target="_blank" rel="noopener">Hasin Hayder</a></p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
