@@ -1,16 +1,4 @@
-<div style="position:relative;width:100%;max-width:900px;margin:auto;">
-  <div style="padding-top:56.25%;position:relative;">
-    <iframe 
-      src="https://www.youtube.com/embed/gDgvNl28er8?si=1D3UFrtwCZY2HjyV"
-      title="YouTube video player"
-      style="position:absolute;top:0;left:0;width:100%;height:100%;"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen>
-    </iframe>
-  </div>
-</div>
+![Tyro](https://res.cloudinary.com/roxlox/image/upload/v1763790856/tyro/tyro-banner_cecuup.jpg)
 
 # Tyro Package
 
