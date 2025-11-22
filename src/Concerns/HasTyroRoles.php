@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-trait HasTyroRoles
-{
+trait HasTyroRoles {
     protected ?array $tyroRoleSlugsCache = null;
 
     protected ?array $tyroPrivilegeSlugsCache = null;
@@ -22,8 +21,7 @@ trait HasTyroRoles
     /**
      * Get the roles relationship for the user.
      */
-    public function roles(): BelongsToMany
-    {
+    public function roles(): BelongsToMany {
         return $this->belongsToMany(
             Role::class,
             config('tyro.tables.pivot', 'user_roles')
@@ -33,28 +31,25 @@ trait HasTyroRoles
     /**
      * Assign a role to the user.
      */
-    public function assignRole(Role $role): void
-    {
+    public function assignRole(Role $role): void {
         $this->roles()->syncWithoutDetaching($role);
         TyroCache::forgetUser($this->getKey());
-        $this->flushHydraRuntimeCache();
+        $this->flushTyroRuntimeCache();
     }
 
     /**
      * Remove a role from the user.
      */
-    public function removeRole(Role $role): void
-    {
+    public function removeRole(Role $role): void {
         $this->roles()->detach($role);
         TyroCache::forgetUser($this->getKey());
-        $this->flushHydraRuntimeCache();
+        $this->flushTyroRuntimeCache();
     }
 
     /**
      * Check if the user has a specific role.
      */
-    public function hasRole(string $role): bool
-    {
+    public function hasRole(string $role): bool {
         $userRoles = $this->tyroRoleSlugs();
         return in_array($role, $userRoles, true) || in_array('*', $userRoles, true);
     }
@@ -62,8 +57,7 @@ trait HasTyroRoles
     /**
      * Check if the user has all of the given roles.
      */
-    public function hasRoles(array $roles): bool
-    {
+    public function hasRoles(array $roles): bool {
         $userRoles = $this->tyroRoleSlugs();
         if (in_array('*', $userRoles, true)) {
             return true;
@@ -75,18 +69,17 @@ trait HasTyroRoles
      * Get all privileges for the user (flattened from all roles).
      * Eager-load privileges if missing to avoid N+1 queries.
      */
-    public function privileges(): Collection
-    {
+    public function privileges(): Collection {
         if ($this->relationLoaded('roles')) {
             $roles = $this->roles;
-            if ($roles->isNotEmpty() && ! $roles->first()->relationLoaded('privileges')) {
+            if ($roles->isNotEmpty() && !$roles->first()->relationLoaded('privileges')) {
                 $roles->load('privileges');
             }
         } else {
             $roles = $this->roles()->with('privileges')->get();
         }
         return $roles
-            ->flatMap(fn (Role $role) => $role->privileges)
+            ->flatMap(fn(Role $role) => $role->privileges)
             ->unique('id')
             ->values();
     }
@@ -94,8 +87,7 @@ trait HasTyroRoles
     /**
      * Check if the user has all of the given privileges.
      */
-    public function hasPrivileges(array $privileges): bool
-    {
+    public function hasPrivileges(array $privileges): bool {
         $userPrivileges = $this->tyroPrivilegeSlugs();
         if (in_array('*', $userPrivileges, true)) {
             return true;
@@ -107,8 +99,7 @@ trait HasTyroRoles
      * Check if the user can perform the given ability.
      * Checks privilege, then role, then falls back to Gate.
      */
-    public function can($ability, $arguments = []): bool
-    {
+    public function can($ability, $arguments = []): bool {
         if (is_string($ability) && $this->hasPrivilege($ability)) {
             return true;
         }
@@ -121,8 +112,7 @@ trait HasTyroRoles
     /**
      * Check if the user has a specific privilege.
      */
-    public function hasPrivilege(string $ability): bool
-    {
+    public function hasPrivilege(string $ability): bool {
         $userPrivileges = $this->tyroPrivilegeSlugs();
         return in_array($ability, $userPrivileges, true) || in_array('*', $userPrivileges, true);
     }
@@ -130,15 +120,14 @@ trait HasTyroRoles
     /**
      * Get all role slugs for the user (cached).
      */
-    public function tyroRoleSlugs(): array
-    {
+    public function tyroRoleSlugs(): array {
         $userId = $this->getKey();
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroRoleSlugsCache !== null && $this->tyroRoleSlugsVersion === $runtimeVersion) {
             return $this->tyroRoleSlugsCache;
         }
 
-        $slugs = $this->getHydraSlugsData($userId, 'roles');
+        $slugs = $this->getTyroSlugsData($userId, 'roles');
 
         $this->tyroRoleSlugsCache = $slugs;
         $this->tyroRoleSlugsVersion = $runtimeVersion;
@@ -148,15 +137,14 @@ trait HasTyroRoles
     /**
      * Get all privilege slugs for the user (cached).
      */
-    public function tyroPrivilegeSlugs(): array
-    {
+    public function tyroPrivilegeSlugs(): array {
         $userId = $this->getKey();
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroPrivilegeSlugsCache !== null && $this->tyroPrivilegeSlugsVersion === $runtimeVersion) {
             return $this->tyroPrivilegeSlugsCache;
         }
 
-        $slugs = $this->getHydraSlugsData($userId, 'privileges');
+        $slugs = $this->getTyroSlugsData($userId, 'privileges');
 
         $this->tyroPrivilegeSlugsCache = $slugs;
         $this->tyroPrivilegeSlugsVersion = $runtimeVersion;
@@ -166,8 +154,7 @@ trait HasTyroRoles
     /**
      * Get Tyro slugs data with optimized caching and relation handling.
      */
-    protected function getHydraSlugsData(int $userId, string $type): array
-    {
+    protected function getTyroSlugsData(int $userId, string $type): array {
         if ($type === 'roles') {
             // Handle role slugs
             if ($this->relationLoaded('roles')) {
@@ -179,9 +166,9 @@ trait HasTyroRoles
             }
         } else {
             // Handle privilege slugs
-            if ($this->relationLoaded('roles') && $this->roles->every(fn ($role) => $role->relationLoaded('privileges'))) {
+            if ($this->relationLoaded('roles') && $this->roles->every(fn($role) => $role->relationLoaded('privileges'))) {
                 $slugs = $this->roles
-                    ->flatMap(fn (Role $role) => $role->privileges)
+                    ->flatMap(fn(Role $role) => $role->privileges)
                     ->pluck('slug')
                     ->all();
             } else {
@@ -189,7 +176,7 @@ trait HasTyroRoles
                     return $this->roles()
                         ->with('privileges:id,slug')
                         ->get()
-                        ->flatMap(fn (Role $role) => $role->privileges)
+                        ->flatMap(fn(Role $role) => $role->privileges)
                         ->pluck('slug')
                         ->all();
                 });
@@ -203,8 +190,7 @@ trait HasTyroRoles
     /**
      * Flush the runtime cache for role and privilege slugs.
      */
-    protected function flushHydraRuntimeCache(): void
-    {
+    protected function flushTyroRuntimeCache(): void {
         $this->tyroRoleSlugsCache = null;
         $this->tyroPrivilegeSlugsCache = null;
         $this->tyroRoleSlugsVersion = null;
@@ -214,8 +200,7 @@ trait HasTyroRoles
     /**
      * Suspend the user and revoke all tokens.
      */
-    public function suspend(?string $reason = null): void
-    {
+    public function suspend(?string $reason = null): void {
         $this->suspended_at = now();
         $this->suspension_reason = $reason;
         $this->save();
@@ -226,8 +211,7 @@ trait HasTyroRoles
     /**
      * Unsuspend the user.
      */
-    public function unsuspend(): void
-    {
+    public function unsuspend(): void {
         $this->suspended_at = null;
         $this->suspension_reason = null;
         $this->save();
@@ -236,16 +220,14 @@ trait HasTyroRoles
     /**
      * Check if the user is suspended.
      */
-    public function isSuspended(): bool
-    {
+    public function isSuspended(): bool {
         return (bool) ($this->suspended_at ?? false);
     }
 
     /**
      * Get the suspension reason for the user.
      */
-    public function getSuspensionReason(): ?string
-    {
+    public function getSuspensionReason(): ?string {
         $reason = $this->suspension_reason ?? null;
         return $reason !== null ? (string) $reason : null;
     }

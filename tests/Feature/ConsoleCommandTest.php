@@ -167,26 +167,26 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_login_command_displays_token(): void {
         $this->artisan('tyro:login', [
-            '--email' => 'admin@hydra.project',
-            '--password' => 'hydra',
+            '--email' => 'admin@tyro.project',
+            '--password' => 'tyro',
         ])->expectsOutputToContain('Token:')
             ->assertExitCode(0);
     }
 
     public function test_login_command_accepts_user_id(): void {
         $userClass = config('tyro.models.user');
-        $user = $userClass::where('email', 'admin@hydra.project')->first();
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
 
         $this->artisan('tyro:login', [
             '--user' => (string) $user->id,
-            '--password' => 'hydra',
+            '--password' => 'tyro',
         ])->expectsOutputToContain('Token:')
             ->assertExitCode(0);
     }
 
     public function test_list_users_command_outputs_admin(): void {
         $this->artisan('tyro:users')
-            ->expectsOutputToContain('admin@hydra.project')
+            ->expectsOutputToContain('admin@tyro.project')
             ->assertExitCode(0);
     }
 
@@ -197,7 +197,7 @@ class ConsoleCommandTest extends TestCase {
         $output = Artisan::output();
 
         $this->assertSame(0, $exitCode);
-        $this->assertStringContainsString('admin@hydra.project', $output);
+        $this->assertStringContainsString('admin@tyro.project', $output);
         $this->assertStringContainsString('#' . $adminRole->id, $output);
         $this->assertStringContainsString($adminRole->name, $output);
     }
@@ -224,7 +224,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_logout_command_revokes_single_token(): void {
         $userClass = config('tyro.models.user');
-        $user = $userClass::where('email', 'admin@hydra.project')->first();
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
         $token = $user->createToken('Test CLI Token', ['admin'])->plainTextToken;
 
         $this->artisan('tyro:logout', ['token' => $token])
@@ -518,7 +518,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_user_roles_command_lists_roles(): void {
         $userClass = config('tyro.models.user');
-        $user = $userClass::where('email', 'admin@hydra.project')->first();
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
         $adminRole = Role::where('slug', 'admin')->first();
 
         $exitCode = Artisan::call('tyro:user-roles', ['user' => $user->email]);
@@ -532,7 +532,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_user_privileges_command_lists_privileges(): void {
         $userClass = config('tyro.models.user');
-        $user = $userClass::where('email', 'admin@hydra.project')->first();
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
 
         $exitCode = Artisan::call('tyro:user-privileges', ['user' => $user->email]);
         $output = Artisan::output();
@@ -544,7 +544,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_logout_all_command_revokes_every_token(): void {
         $userClass = config('tyro.models.user');
-        $user = $userClass::where('email', 'admin@hydra.project')->first();
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
         $user->createToken('First', ['admin']);
         $user->createToken('Second', ['admin']);
 
@@ -574,7 +574,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_about_command_outputs_summary(): void {
         $this->artisan('tyro:about')
-            ->expectsOutputToContain('Hydra for Laravel')
+            ->expectsOutputToContain('Tyro for Laravel')
             ->assertExitCode(0);
     }
 
@@ -586,7 +586,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_postman_collection_command_can_print_url(): void {
         $this->artisan('tyro:postman-collection', ['--no-open' => true])
-            ->expectsOutputToContain('Hydra.postman_collection.json')
+            ->expectsOutputToContain('Tyro.postman_collection.json')
             ->assertExitCode(0);
     }
 
@@ -594,7 +594,7 @@ class ConsoleCommandTest extends TestCase {
         config(['tyro.version' => '1.4.0-test']);
 
         $this->artisan('tyro:version')
-            ->expectsOutput('Hydra v1.4.0-test')
+            ->expectsOutput('Tyro v1.4.0-test')
             ->assertExitCode(0);
     }
 
@@ -670,7 +670,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertDatabaseMissing($tempUser->getTable(), ['email' => 'temp@example.com']);
         $this->assertDatabaseMissing(config('tyro.tables.roles'), ['slug' => 'temp-role']);
-        $this->assertDatabaseHas('users', ['email' => 'admin@hydra.project']);
+        $this->assertDatabaseHas('users', ['email' => 'admin@tyro.project']);
         $this->assertSame(1, $userClass::count());
         $this->assertSame(6, Role::count());
         $this->assertSame(1, DB::table(config('tyro.tables.pivot'))->count());
@@ -702,7 +702,7 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_publish_migrations_command_runs_vendor_publish(): void {
         $this->artisan('tyro:publish-migrations', ['--force' => true])
-            ->expectsOutputToContain('Hydra migrations (roles, privileges, suspension) published')
+            ->expectsOutputToContain('Tyro migrations (roles, privileges, suspension) published')
             ->assertExitCode(0);
     }
 
@@ -731,7 +731,7 @@ PHP;
 
             $updated = file_get_contents($path);
             $this->assertStringContainsString('use Laravel\\Sanctum\\HasApiTokens;', $updated);
-            $this->assertStringContainsString('use HasinHayder\\Hydra\\Concerns\\HasTyroRoles;', $updated);
+            $this->assertStringContainsString('use HasinHayder\\Tyro\\Concerns\\HasTyroRoles;', $updated);
             $this->assertStringContainsString('use HasApiTokens, HasTyroRoles;', $updated);
 
             $this->artisan('tyro:prepare-user-model', ['--path' => $path])

@@ -6,17 +6,15 @@ use HasinHayder\Tyro\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UsersSeeder extends Seeder
-{
-    public function run(): void
-    {
+class UsersSeeder extends Seeder {
+    public function run(): void {
         $userClass = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
         /** @var \Illuminate\Database\Eloquent\Model $user */
         $user = $userClass::create([
-            'email' => 'admin@hydra.project',
-            'password' => Hash::make('hydra'),
-            'name' => 'Hydra Admin',
+            'email' => 'admin@tyro.project',
+            'password' => Hash::make('tyro'),
+            'name' => 'Tyro Admin',
         ]);
 
         $adminRole = Role::where('slug', 'admin')->first();

@@ -4,14 +4,12 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Illuminate\Support\Carbon;
 
-class ListUsersCommand extends BaseTyroCommand
-{
+class ListUsersCommand extends BaseTyroCommand {
     protected $signature = 'tyro:users';
 
-    protected $description = 'Display all users tracked by Hydra';
+    protected $description = 'Display all users tracked by Tyro';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $users = $this->newUserQuery()
             ->with('roles:id,name,slug')
             ->orderBy('id')
@@ -47,7 +45,7 @@ class ListUsersCommand extends BaseTyroCommand
                     $displayName ?: '—',
                     $user->email,
                     $roles ?: '—',
-                    $isSuspended ? trim('Yes '.($reason ? sprintf('(%s)', $reason) : '')) : 'No',
+                    $isSuspended ? trim('Yes ' . ($reason ? sprintf('(%s)', $reason) : '')) : 'No',
                     $this->formatTimestamp($user->created_at),
                     $this->formatTimestamp($user->updated_at),
                 ];
@@ -57,9 +55,8 @@ class ListUsersCommand extends BaseTyroCommand
         return self::SUCCESS;
     }
 
-    protected function formatTimestamp($value): string
-    {
-        if (! $value) {
+    protected function formatTimestamp($value): string {
+        if (!$value) {
             return 'N/A';
         }
 

@@ -5,7 +5,7 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Hydra">
+        <testsuite name="Tyro">
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>

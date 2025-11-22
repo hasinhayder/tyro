@@ -7,18 +7,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class CreateUserCommand extends BaseTyroCommand
-{
+class CreateUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:create-user {--name=} {--email=} {--password=}';
 
-    protected $description = 'Create a new user and attach Hydra\'s default role';
+    protected $description = 'Create a new user and attach Tyro\'s default role';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $name = $this->option('name') ?? $this->ask('Name (optional)', null);
         $email = $this->option('email') ?? $this->ask('Email');
 
-        if (! $email) {
+        if (!$email) {
             $this->error('Email is required.');
 
             return self::FAILURE;
@@ -47,7 +45,7 @@ class CreateUserCommand extends BaseTyroCommand
         $password = $this->option('password') ?? $this->secret('Password (leave blank to auto-generate)');
         $generatedPassword = false;
 
-        if (! $password) {
+        if (!$password) {
             $password = Str::random(16);
             $generatedPassword = true;
         }

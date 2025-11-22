@@ -2,18 +2,16 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class QuickTokenCommand extends BaseTyroCommand
-{
-    protected $signature = 'tyro:quick-token {user? : User ID or email} {--name=Hydra Quick Token : Token name}';
+class QuickTokenCommand extends BaseTyroCommand {
+    protected $signature = 'tyro:quick-token {user? : User ID or email} {--name=Tyro Quick Token : Token name}';
 
     protected $description = 'Mint a Sanctum token for a user without prompting for credentials';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->argument('user') ?? $this->ask('User ID or email');
-        $tokenName = $this->option('name') ?: 'Hydra Quick Token';
+        $tokenName = $this->option('name') ?: 'Tyro Quick Token';
 
-        if (! $identifier) {
+        if (!$identifier) {
             $this->error('A user identifier is required.');
 
             return self::FAILURE;
@@ -21,7 +19,7 @@ class QuickTokenCommand extends BaseTyroCommand
 
         $user = $this->findUser($identifier);
 
-        if (! $user) {
+        if (!$user) {
             $this->error('User not found.');
 
             return self::FAILURE;
@@ -38,7 +36,7 @@ class QuickTokenCommand extends BaseTyroCommand
 
             $message = 'User is suspended.';
             if ($reason) {
-                $message .= ' Reason: '.$reason;
+                $message .= ' Reason: ' . $reason;
             }
 
             $this->error($message);
@@ -52,7 +50,7 @@ class QuickTokenCommand extends BaseTyroCommand
 
         $token = $user->createToken($tokenName, $this->abilitiesForUser($user))->plainTextToken;
 
-        $this->info('Token: '.$token);
+        $this->info('Token: ' . $token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));
 
         return self::SUCCESS;

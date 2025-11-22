@@ -20,13 +20,13 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/hydra",
+              "raw": "{{base_url}}/api/tyro",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
-                "hydra"
+                "tyro"
               ]
             }
           },
@@ -43,13 +43,13 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/hydra/version",
+              "raw": "{{base_url}}/api/tyro/version",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
-                "hydra",
+                "tyro",
                 "version"
               ]
             }
@@ -122,7 +122,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"tester+{{timestamp}}@hydra.project\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"tester+{{timestamp}}@tyro.project\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/users",
@@ -253,7 +253,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated+{{timestamp}}@hydra.project\",\n  \"password\": \"hydra\",\n  \"password_confirmation\": \"hydra\"\n}"
+                  "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated+{{timestamp}}@tyro.project\",\n  \"password\": \"tyro\",\n  \"password_confirmation\": \"tyro\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/users/{{user_id}}",
@@ -895,11 +895,11 @@
     },
     {
       "key": "admin_email",
-      "value": "admin@hydra.project"
+      "value": "admin@tyro.project"
     },
     {
       "key": "admin_password",
-      "value": "hydra"
+      "value": "tyro"
     },
     {
       "key": "token",

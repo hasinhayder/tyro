@@ -4,25 +4,23 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Illuminate\Support\Facades\Hash;
 
-class LoginCommand extends BaseTyroCommand
-{
+class LoginCommand extends BaseTyroCommand {
     protected $signature = 'tyro:login
         {--user= : User ID or email address}
         {--email= : [Deprecated] Email address}
         {--password= : The plain text password}
-        {--name=Hydra CLI Token : Token name}';
+        {--name=Tyro CLI Token : Token name}';
 
     protected $description = 'Mint a Sanctum token for a user via the CLI';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user')
             ?? $this->option('email')
             ?? $this->ask('User ID or email');
         $password = $this->option('password') ?? $this->secret('Password');
-        $tokenName = $this->option('name') ?: 'Hydra CLI Token';
+        $tokenName = $this->option('name') ?: 'Tyro CLI Token';
 
-        if (! $identifier || ! $password) {
+        if (!$identifier || !$password) {
             $this->error('A user identifier and password are required.');
 
             return self::FAILURE;
@@ -30,7 +28,7 @@ class LoginCommand extends BaseTyroCommand
 
         $user = $this->findUser($identifier);
 
-        if (! $user || ! Hash::check($password, $user->password)) {
+        if (!$user || !Hash::check($password, $user->password)) {
             $this->error('Invalid credentials.');
 
             return self::FAILURE;
@@ -47,7 +45,7 @@ class LoginCommand extends BaseTyroCommand
 
             $message = 'User is suspended.';
             if ($reason) {
-                $message .= ' Reason: '.$reason;
+                $message .= ' Reason: ' . $reason;
             }
 
             $this->error($message);
@@ -60,9 +58,9 @@ class LoginCommand extends BaseTyroCommand
         }
 
         $abilities = $this->abilitiesForUser($user);
-        $token = $user->createToken($tokenName ?: 'Hydra CLI Token', $abilities)->plainTextToken;
+        $token = $user->createToken($tokenName ?: 'Tyro CLI Token', $abilities)->plainTextToken;
 
-        $this->info('Token: '.$token);
+        $this->info('Token: ' . $token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));
 
         return self::SUCCESS;

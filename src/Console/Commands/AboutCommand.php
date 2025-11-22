@@ -2,19 +2,17 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class AboutCommand extends BaseTyroCommand
-{
+class AboutCommand extends BaseTyroCommand {
     protected $signature = 'tyro:about';
 
-    protected $description = 'Show Hydra\'s mission, version, and author details';
+    protected $description = 'Show Tyro\'s mission, version, and author details';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $version = config('tyro.version', 'unknown');
 
-        $this->info('Hydra for Laravel');
+        $this->info('Tyro for Laravel');
         $this->line(str_repeat('-', 40));
-        $this->line('• Version: '.$version);
+        $this->line('• Version: ' . $version);
         $this->line('• Author: Hasin Hayder (@hasinhayder)');
         $this->line('• Description: Zero-config API boilerplate with Sanctum abilities, roles, suspensions, and artisan tooling.');
         $this->line('• GitHub: https://github.com/hasinhayder/tyro');

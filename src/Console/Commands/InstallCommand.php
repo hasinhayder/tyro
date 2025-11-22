@@ -10,7 +10,7 @@ class InstallCommand extends BaseTyroCommand {
         {--force : Pass the --force flag to migrate}
         {--dry-run : Print the steps without executing install:api or migrate}';
 
-    protected $description = 'Run install:api followed by migrate to bootstrap Hydra\'s requirements';
+    protected $description = 'Run install:api followed by migrate to bootstrap Tyro\'s requirements';
 
     public function handle(): int {
         if ($this->option('dry-run')) {
@@ -43,7 +43,7 @@ class InstallCommand extends BaseTyroCommand {
             }
         }
 
-        $this->info('Hydra install flow complete.');
+        $this->info('Tyro install flow complete.');
 
         return self::SUCCESS;
     }

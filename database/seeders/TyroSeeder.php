@@ -6,11 +6,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class TyroSeeder extends Seeder
-{
-    public function run(): void
-    {
-        $this->truncateHydraTables();
+class TyroSeeder extends Seeder {
+    public function run(): void {
+        $this->truncateTyroTables();
 
         $this->call([
             RoleSeeder::class,
@@ -19,8 +17,7 @@ class TyroSeeder extends Seeder
         ]);
     }
 
-    protected function truncateHydraTables(): void
-    {
+    protected function truncateTyroTables(): void {
         $userClass = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
         $userTable = (new $userClass)->getTable();
         $rolesTable = config('tyro.tables.roles', 'roles');
