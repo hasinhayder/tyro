@@ -1,8 +1,20 @@
-![Tyro](https://res.cloudinary.com/roxlox/image/upload/v1763790856/tyro/tyro-banner_cecuup.jpg)
+<div style="position:relative;width:100%;max-width:900px;margin:auto;">
+  <div style="padding-top:56.25%;position:relative;">
+    <iframe 
+      src="https://www.youtube.com/embed/gDgvNl28er8?si=1D3UFrtwCZY2HjyV"
+      title="YouTube video player"
+      style="position:absolute;top:0;left:0;width:100%;height:100%;"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
 
 # Tyro Package
 
-**Tyro** is the zero-config API boilerplate from the original Tyro application, now extracted into a reusable Laravel 12 Composer package. It ships Sanctum authentication, role/ability management, ready-made routes, seeders, factories, middleware logging, and an extensible configuration layer so any Laravel app can install the same battle-tested API surface in minutes.
+**Tyro** is the zero-config API boilerplate for Laravel 12. It ships Sanctum authentication, role/ability management, ready-made routes, seeders, factories, middleware logging, and an extensible configuration layer so any Laravel app can install the same battle-tested API surface in minutes.
 
 ## Why Tyro?
 
