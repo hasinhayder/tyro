@@ -5,7 +5,7 @@ use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\Models\UserRole;
 
 return [
-    'version' => env('TYRO_VERSION', '1.0.0'),
+    'version' => env('TYRO_VERSION', '1.0.1'),
 
     'disable_commands' => env('TYRO_DISABLE_COMMANDS', false),
 
