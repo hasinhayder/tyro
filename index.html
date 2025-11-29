@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyro - Zero-Config API Boilerplate for Laravel 12</title>
-    <meta name="description" content="Production-ready Laravel API in minutes. Tyro ships Sanctum authentication, role/ability management, ready-made routes, and 40+ artisan commands with zero configuration.">
+    <title>Tyro - Authentication, Authorization & Role Management for Laravel 12</title>
+    <meta name="description" content="The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Complete RBAC, 40+ CLI commands, Blade directives, and optional REST API. Works for APIs, web apps, and hybrid applications.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
@@ -48,14 +48,14 @@
                 </div>
 
                 <h1 class="hero-title">
-                    Production-Ready<br>
-                    <span class="gradient-text">Laravel APIs</span>
-                    in Minutes
+                    The Ultimate<br>
+                    <span class="gradient-text">Auth, Roles & Privileges</span>
+                    for Laravel 12
                 </h1>
 
                 <p class="hero-description">
-                    Zero-config API Package for authentication, authorization, privilege management,
-                    40+ artisan commands, and battle-tested security. Everything you need to ship secure APIs fast.
+                    Complete Authentication, Authorization, and Role & Privilege Management.
+                    40+ CLI commands, Blade directives, middleware, and optional REST API. Your Swiss Army knife for Laravel security.
                 </p>
 
                 <div class="hero-cta">
@@ -83,11 +83,11 @@
                 <div class="hero-stats">
                     <div class="stat">
                         <div class="stat-value">40+</div>
-                        <div class="stat-label">Artisan Commands</div>
+                        <div class="stat-label">CLI Commands</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">Zero</div>
-                        <div class="stat-label">Configuration</div>
+                        <div class="stat-value">API + Web</div>
+                        <div class="stat-label">Works Everywhere</div>
                     </div>
                     <div class="stat">
                         <div class="stat-value">100%</div>
@@ -103,7 +103,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Why Choose Tyro</h2>
-                <p class="section-description">Everything you need to build secure, scalable APIs in minutes.</p>
+                <p class="section-description">The complete auth & access control toolkit for Laravel applications.</p>
             </div>
 
             <div class="features-grid">
@@ -114,8 +114,8 @@
                             <polyline points="8 6 2 12 8 18"></polyline>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Zero Configuration</h3>
-                    <p class="feature-description">Install once and inherit login, registration, profile, role, privilege, and audit endpoints with sensible defaults.</p>
+                    <h3 class="feature-title">Complete Auth System</h3>
+                    <p class="feature-description">Full authentication with Sanctum, role-based access control, fine-grained privileges, and Laravel Gate integration out of the box.</p>
                 </div>
 
                 <div class="feature-card">
@@ -151,7 +151,7 @@
                         </svg>
                     </div>
                     <h3 class="feature-title">40+ CLI Commands</h3>
-                    <p class="feature-description">Seed roles, attach privileges, rotate tokens, suspend users, inspect collections - incident response without raw SQL.</p>
+                    <p class="feature-description">Manage users, roles, privileges, and tokens from the terminal. Perfect for automation, CI/CD, and incident response.</p>
                 </div>
 
                 <div class="feature-card">
@@ -161,8 +161,8 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Production Ready</h3>
-                    <p class="feature-description">Ships with factories, seeders, tests, and official Postman collection. Teams can experiment or automate immediately.</p>
+                    <h3 class="feature-title">Blade Directives</h3>
+                    <p class="feature-description">Use @hasrole, @hasprivilege, @hasanyrole in your views. Clean, readable templates without PHP logic clutter.</p>
                 </div>
 
                 <div class="feature-card">
@@ -172,8 +172,8 @@
                             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Fully Extensible</h3>
-                    <p class="feature-description">Publish config, migrations, factories, or disable route auto-loading when you want to override Tyro internals.</p>
+                    <h3 class="feature-title">Optional REST API</h3>
+                    <p class="feature-description">Need API endpoints? They're included. Don't need them? Disable with one config flag. Tyro adapts to your needs.</p>
                 </div>
             </div>
         </div>
@@ -211,7 +211,7 @@
             </div>
 
             <div class="quick-start-cta">
-                <p>That's it! Your API is ready with authentication, authorization, roles, privileges, middleware and 40+ commands.</p>
+                <p>That's it! You now have complete authentication, authorization, roles, privileges, Blade directives, middleware, and 40+ CLI commands.</p>
                 <a href="doc.html" class="btn btn-primary">Read Full Documentation</a>
             </div>
         </div>
@@ -635,7 +635,7 @@ if ($user->isSuspended()) {
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Tyro is a zero-config API boilerplate for Laravel 12 that provides everything you need to build secure APIs: Sanctum authentication, role/ability management, 40+ artisan commands, ready-made routes, and battle-tested security. Instead of spending days setting up authentication and authorization, you get a production-ready API surface in minutes.</p>
+                        <p>Tyro is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. It provides complete RBAC, user suspension workflows, 40+ CLI commands, Blade directives, middleware for route protection, and optional REST API endpoints. It works for APIs, traditional web apps, and hybrid applications—saving you weeks of development time.</p>
                     </div>
                 </div>
 
@@ -742,8 +742,8 @@ if ($user->isSuspended()) {
     <section class="cta">
         <div class="container">
             <div class="cta-content">
-                <h2 class="cta-title">Ready to Build Your API?</h2>
-                <p class="cta-description">Join developers who ship secure Laravel APIs faster with Tyro</p>
+                <h2 class="cta-title">Ready to Secure Your Laravel App?</h2>
+                <p class="cta-description">Join developers who save weeks on authentication and authorization with Tyro</p>
 
                 <div class="install-command large">
                     <code>composer require hasinhayder/tyro</code>
@@ -772,7 +772,7 @@ if ($user->isSuspended()) {
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>Tyro</h3>
-                    <p>Zero-config API boilerplate for Laravel 12</p>
+                    <p>Authentication, Authorization & RBAC for Laravel 12</p>
                 </div>
 
                 <div class="footer-links">

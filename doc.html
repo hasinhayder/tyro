@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyro Documentation - Complete Guide</title>
-    <meta name="description" content="Complete documentation for Tyro - Zero-Config API Boilerplate for Laravel 12. Installation guides, command references, code examples, and more.">
+    <title>Tyro Documentation - Authentication, Authorization & RBAC for Laravel</title>
+    <meta name="description" content="Complete documentation for Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Installation guides, command references, code examples, and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
@@ -408,21 +408,21 @@
 
             <header class="doc-header">
                 <h1 class="doc-title">Tyro Documentation</h1>
-                <p class="doc-subtitle">Complete guide to building production-ready Laravel APIs with zero configuration</p>
+                <p class="doc-subtitle">Complete guide to Authentication, Authorization, and Role & Privilege Management for Laravel 12</p>
             </header>
 
             <!-- Introduction -->
             <section id="introduction" class="doc-section">
                 <h2 class="doc-section-title">Introduction</h2>
                 <p class="doc-text">
-                    <strong>Tyro</strong> is a zero-config API boilerplate for Laravel 12 that provides everything you need to build secure, scalable APIs in minutes. It ships with Sanctum authentication, role/ability management, ready-made routes, seeders, factories, middleware logging, and an extensible configuration layer.
+                    <strong>Tyro</strong> is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both.
                 </p>
                 <p class="doc-text">
-                    Instead of spending days setting up authentication, authorization, and user management, Tyro gives you a production-ready API surface with sensible defaults that you can customize as needed.
+                    With Sanctum integration, 40+ powerful CLI commands, Blade directives, ready-made middleware, and optional REST API endpoints, Tyro saves you weeks of development time while providing enterprise-grade security features.
                 </p>
 
                 <div class="doc-alert doc-alert-success">
-                    <strong>✓ Production Ready:</strong> Tyro is battle-tested and ships with the same security hardening, middleware stack, and authorization logic used in production applications.
+                    <strong>✓ Works Everywhere:</strong> Tyro works seamlessly for APIs, web apps, and hybrid applications. Use the features you need, disable the ones you don't.
                 </div>
             </section>
 
@@ -430,7 +430,7 @@
             <section id="benefits" class="doc-section">
                 <h2 class="doc-section-title">Why Choose Tyro?</h2>
                 <p class="doc-text">
-                    Tyro isn't just a boilerplate; it's a productivity multiplier. Here is why developers choose Tyro for their next project:
+                    Tyro isn't just a package; it's a complete auth and access control toolkit. Here is why developers choose Tyro:
                 </p>
 
                 <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
@@ -442,9 +442,9 @@
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
                             </svg>
                         </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Zero Configuration</h3>
+                        <h3 class="feature-title" style="font-size: 1.25rem;">Complete Auth System</h3>
                         <p class="feature-description" style="font-size: 0.95rem;">
-                            Stop fighting with setup. Tyro installs in seconds with sensible defaults, so you can start writing business logic immediately.
+                            Full authentication with Sanctum, role-based access control, privileges, and Laravel Gate integration. Works for APIs and web apps.
                         </p>
                     </div>
 
@@ -469,9 +469,9 @@
                                 <line x1="12" y1="19" x2="20" y2="19"></line>
                             </svg>
                         </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Developer Experience</h3>
+                        <h3 class="feature-title" style="font-size: 1.25rem;">40+ CLI Commands</h3>
                         <p class="feature-description" style="font-size: 0.95rem;">
-                            With 40+ Artisan commands, you can manage your entire API from the terminal. No more manual database tinkering.
+                            Manage users, roles, privileges, and tokens from the terminal. Perfect for automation, CI/CD, and incident response.
                         </p>
                     </div>
 
@@ -499,9 +499,9 @@
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg>
                         </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Ready-to-Use API</h3>
+                        <h3 class="feature-title" style="font-size: 1.25rem;">Blade Directives</h3>
                         <p class="feature-description" style="font-size: 0.95rem;">
-                            Authentication, registration, and user management endpoints are pre-built. Just consume them in your frontend.
+                            Use @hasrole, @hasprivilege, and more in your Blade templates. Clean, readable views without PHP logic clutter.
                         </p>
                     </div>
 
@@ -513,9 +513,9 @@
                                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                             </svg>
                         </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Fully Customizable</h3>
+                        <h3 class="feature-title" style="font-size: 1.25rem;">Optional REST API</h3>
                         <p class="feature-description" style="font-size: 0.95rem;">
-                            It's not a black box. Publish the configuration and migrations to tweak every aspect of the system to your needs.
+                            Need API endpoints? They're included. Don't need them? Disable with one config flag. Zero lock-in.
                         </p>
                     </div>
 
