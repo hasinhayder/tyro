@@ -1009,6 +1009,202 @@ section {
     border: 1px solid var(--color-border);
 }
 
+/* ===========================
+   Middleware Section
+   =========================== */
+
+.middleware-section {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-3xl) 0;
+}
+
+.middleware-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.middleware-nav {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.middleware-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: left;
+    min-width: 280px;
+}
+
+.middleware-tab:hover {
+    border-color: var(--color-primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+.middleware-tab.active {
+    border-color: var(--color-primary);
+    background: var(--color-bg);
+    box-shadow: 0 8px 24px var(--color-shadow);
+}
+
+.middleware-tab.active .middleware-tab-icon {
+    background: var(--gradient-primary);
+}
+
+.middleware-tab.active .middleware-tab-icon svg {
+    color: white;
+}
+
+.middleware-tab-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-base);
+}
+
+.middleware-tab-icon svg {
+    color: var(--color-text-secondary);
+    transition: all var(--transition-base);
+}
+
+.middleware-tab:hover .middleware-tab-icon {
+    background: var(--color-primary-light);
+}
+
+.middleware-tab:hover .middleware-tab-icon svg {
+    color: white;
+}
+
+.middleware-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.middleware-tab-name {
+    font-family: "SF Mono", "Monaco", "Consolas", monospace;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.middleware-tab-desc {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+}
+
+.middleware-content {
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.middleware-panel {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.middleware-panel.active {
+    display: block;
+}
+
+.middleware-info {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.middleware-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.middleware-info > p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0 0 var(--spacing-md) 0;
+}
+
+.middleware-info .feature-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.middleware-info .feature-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) 0;
+    color: var(--color-text-secondary);
+}
+
+.middleware-info .feature-list li svg {
+    color: var(--color-success);
+    flex-shrink: 0;
+}
+
+.middleware-info .feature-list li code {
+    background: var(--color-bg-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: "SF Mono", "Monaco", "Consolas", monospace;
+    font-size: 0.875rem;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+}
+
+.middleware-panel .code-window {
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .middleware-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .middleware-tab {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .middleware-tab {
+        min-width: unset;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .middleware-tab-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .middleware-info {
+        padding: var(--spacing-md);
+    }
+}
+
 @media (max-width: 1024px) {
     .directives-showcase {
         grid-template-columns: 1fr;

@@ -369,6 +369,48 @@ directiveTabs.forEach(tab => {
     });
 });
 
+// ===========================
+// Middleware Tabs
+// ===========================
+
+const middlewareTabs = document.querySelectorAll('.middleware-tab');
+const middlewarePanels = document.querySelectorAll('.middleware-panel');
+
+middlewareTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const middleware = tab.getAttribute('data-middleware');
+
+        // Remove active class from all tabs
+        middlewareTabs.forEach(t => t.classList.remove('active'));
+
+        // Remove active class from all panels
+        middlewarePanels.forEach(p => p.classList.remove('active'));
+
+        // Add active class to clicked tab
+        tab.classList.add('active');
+
+        // Show corresponding panel
+        const panel = document.getElementById(`middleware-${middleware}`);
+        if (panel) {
+            panel.classList.add('active');
+            // Re-highlight code blocks in the newly visible panel
+            panel.querySelectorAll('pre code').forEach(block => {
+                if (window.hljs) {
+                    window.hljs.highlightElement(block);
+                }
+            });
+        }
+    });
+
+    // Keyboard navigation
+    tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            tab.click();
+        }
+    });
+});
+
 
 
 // ===========================

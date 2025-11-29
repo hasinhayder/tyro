@@ -49,7 +49,7 @@
                 </div>
 
                 <h1 class="hero-title">
-                    The Ultimate<br>
+                    The Powerful<br>
                     <span class="gradient-text">Auth, Roles & Privileges</span>
                     for Laravel 12
                 </h1>
@@ -399,8 +399,239 @@ $user->unsuspend();
         </div>
     </section>
 
+    <!-- Protecting Routes Section -->
+    <section id="protecting-routes" class="middleware-section" style="background: var(--color-bg-primary);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Protecting Routes with Middleware</h2>
+                <p class="section-description">Use powerful middleware to protect your routes based on roles, privileges, and abilities</p>
+            </div>
+
+            <div class="middleware-showcase">
+                <div class="middleware-nav">
+                    <button class="middleware-tab active" data-middleware="roles">
+                        <div class="middleware-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="middleware-tab-content">
+                            <span class="middleware-tab-name">role: / roles:</span>
+                            <span class="middleware-tab-desc">Role-based route protection</span>
+                        </div>
+                    </button>
+                    <button class="middleware-tab" data-middleware="privileges">
+                        <div class="middleware-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <div class="middleware-tab-content">
+                            <span class="middleware-tab-name">privilege: / privileges:</span>
+                            <span class="middleware-tab-desc">Privilege-based route protection</span>
+                        </div>
+                    </button>
+                    <button class="middleware-tab" data-middleware="abilities">
+                        <div class="middleware-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <polyline points="9 12 11 14 15 10"></polyline>
+                            </svg>
+                        </div>
+                        <div class="middleware-tab-content">
+                            <span class="middleware-tab-name">ability: / abilities:</span>
+                            <span class="middleware-tab-desc">Sanctum token ability checks</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="middleware-content" >
+                    <!-- Role-based protection -->
+                    <div class="middleware-panel active" id="middleware-roles">
+                        <div class="middleware-info">
+                            <h3>Role-Based Protection</h3>
+                            <p>Restrict routes to users with specific roles using <code>role:</code> for a single role or <code>roles:</code> for multiple roles.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>role:admin</code> - Require single role
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>roles:admin,editor</code> - Require any of multiple roles
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    Returns 403 Forbidden for unauthorized access
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">routes/api.php</div>
+                            </div>
+                            <pre><code class="language-php">use Illuminate\Support\Facades\Route;
+
+// Single role protection
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/admin/settings', [AdminController::class, 'settings']);
+});
+
+// Multiple roles - user needs ANY of these roles
+Route::middleware(['auth:sanctum', 'roles:admin,editor,moderator'])->group(function () {
+    Route::get('/manage/posts', [PostController::class, 'index']);
+    Route::post('/manage/posts', [PostController::class, 'store']);
+});
+
+// Single route with role middleware
+Route::get('/super-admin/logs', [LogController::class, 'index'])
+    ->middleware(['auth:sanctum', 'role:super-admin']);</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Privilege-based protection -->
+                    <div class="middleware-panel" id="middleware-privileges">
+                        <div class="middleware-info">
+                            <h3>Privilege-Based Protection</h3>
+                            <p>Protect routes based on specific privileges using <code>privilege:</code> for a single privilege or <code>privileges:</code> for multiple privileges.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>privilege:reports.view</code> - Require single privilege
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>privileges:billing.view,invoices.create</code> - Require any privilege
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    Fine-grained access control beyond roles
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">routes/api.php</div>
+                            </div>
+                            <pre><code class="language-php">use Illuminate\Support\Facades\Route;
+
+// Single privilege protection
+Route::middleware(['auth:sanctum', 'privilege:reports.view'])->group(function () {
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/{id}', [ReportController::class, 'show']);
+});
+
+// Multiple privileges - user needs ANY of these privileges
+Route::middleware(['auth:sanctum', 'privileges:billing.view,billing.edit'])->group(function () {
+    Route::get('/billing', [BillingController::class, 'index']);
+    Route::put('/billing/{id}', [BillingController::class, 'update']);
+});
+
+// Protect sensitive operations
+Route::delete('/users/{id}', [UserController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'privilege:users.delete']);</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Ability-based protection -->
+                    <div class="middleware-panel" id="middleware-abilities">
+                        <div class="middleware-info">
+                            <h3>Ability-Based Protection</h3>
+                            <p>Use Laravel Sanctum's built-in <code>ability:</code> and <code>abilities:</code> middleware for token-based ability checks.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>ability:admin</code> - Check single token ability
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <code>abilities:posts.create,posts.edit</code> - Require ALL abilities
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    Tyro tokens include role + privilege slugs as abilities
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">routes/api.php</div>
+                            </div>
+                            <pre><code class="language-php">use Illuminate\Support\Facades\Route;
+
+// Single ability check (role or privilege slug)
+Route::middleware(['auth:sanctum', 'ability:admin'])->group(function () {
+    Route::get('/admin/stats', [StatsController::class, 'index']);
+});
+
+// Multiple abilities - user token must have ALL specified abilities
+Route::middleware(['auth:sanctum', 'abilities:posts.create,posts.publish'])->group(function () {
+    Route::post('/posts', [PostController::class, 'store']);
+    Route::post('/posts/{id}/publish', [PostController::class, 'publish']);
+});
+
+// Combine with other middleware
+Route::middleware([
+    'auth:sanctum',
+    'ability:reports.run',
+    'throttle:60,1'
+])->get('/reports/generate', [ReportController::class, 'generate']);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="directives-note">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <p><strong>Tip:</strong> When using Tyro, Sanctum tokens automatically include all role slugs and privilege slugs as abilities. This means <code>ability:admin</code> works just like <code>role:admin</code> for API token authentication.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Blade Directives Interactive Section -->
-    <section id="blade-directives" class="blade-directives-section">
+    <section id="blade-directives" class="blade-directives-section" style="background: var(--color-bg-secondary);">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">7 Blade Directives</h2>
@@ -1061,7 +1292,7 @@ $user->unsuspend();
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="faq">
+    <section id="faq" class="faq" style="background: var(--color-bg-secondary);">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Frequently Asked Questions</h2>
