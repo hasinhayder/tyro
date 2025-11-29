@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -290,38 +291,74 @@ if ($user->isSuspended()) {
         </div>
     </section>
 
-    <!-- Blade Directives Showcase Section -->
+    <!-- Social Proof CTA Section -->
+    <section class="social-cta">
+        <div class="container">
+            <div class="social-cta-content">
+                <div class="social-cta-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <h2 class="social-cta-title">Convinced Enough?</h2>
+                <p class="social-cta-description">If Tyro is saving you time and headaches, help us spread the word!</p>
+
+                <div class="social-cta-buttons">
+                    <a href="https://github.com/hasinhayder/tyro" class="social-btn star-btn" target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        Star on GitHub
+                    </a>
+                    <button class="social-btn share-btn" onclick="shareOnTwitter()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                        Share on X
+                    </button>
+                    <button class="social-btn share-btn" onclick="shareOnLinkedIn()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                        Share on LinkedIn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Suspension Section -->
     <section class="code-example" style="background: var(--color-bg-secondary);">
         <div class="container">
             <div class="code-showcase">
                 <div class="code-showcase-content">
-                    <h2 class="section-title">7 Blade Directives</h2>
-                    <p class="section-description">Conditionally render content based on user permissions with clean, readable syntax</p>
+                    <h2 class="section-title">User Suspension Workflows</h2>
+                    <p class="section-description">Freeze accounts instantly, revoke tokens, and manage suspensions with a clean API</p>
 
                     <ul class="feature-list">
                         <li>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            @usercan - Check role or privilege via can()
+                            Instant account suspension with optional reason
                         </li>
                         <li>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            @hasrole / @hasanyrole / @hasroles
+                            Automatic Sanctum token revocation
                         </li>
                         <li>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            @hasprivilege / @hasanyprivilege / @hasprivileges
+                            CLI commands for suspension management
                         </li>
                         <li>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            Auto returns false when unauthenticated
+                            REST API endpoints for automation
                         </li>
                     </ul>
                 </div>
@@ -334,32 +371,363 @@ if ($user->isSuspended()) {
                                 <span></span>
                                 <span></span>
                             </div>
-                            <div class="code-window-title">resources/views/dashboard.blade.php</div>
+                            <div class="code-window-title">app/Http/Controllers/AdminController.php</div>
                         </div>
-                        <pre><code class="language-php">@hasrole('admin')
-    &lt;div class="admin-section"&gt;
-        &lt;h2&gt;Admin Controls&lt;/h2&gt;
-        @hasprivilege('manage-users')
-            &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
-        @endhasprivilege
+                        <pre><code class="language-php">// Suspend a user with reason
+$user->suspend('Policy violation');
+
+// All tokens are automatically revoked
+// User cannot access protected routes
+
+// Check suspension status
+if ($user->isSuspended()) {
+    $reason = $user->getSuspensionReason();
+    return response()->json([
+        'error' => 'Account suspended',
+        'reason' => $reason
+    ], 423);
+}
+
+// Unsuspend when ready
+$user->unsuspend();
+
+// CLI: php artisan tyro:suspend-user --user=1
+// CLI: php artisan tyro:unsuspend-user --user=1</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blade Directives Interactive Section -->
+    <section id="blade-directives" class="blade-directives-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">7 Blade Directives</h2>
+                <p class="section-description">Conditionally render content based on user permissions with clean, readable syntax</p>
+            </div>
+
+            <div class="directives-showcase">
+                <div class="directives-nav">
+                    <button class="directive-tab active" data-directive="usercan">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@usercan</span>
+                            <span class="directive-tab-desc">Check role or privilege via can()</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasrole">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasrole</span>
+                            <span class="directive-tab-desc">Check for a specific role</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasanyrole">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasanyrole</span>
+                            <span class="directive-tab-desc">Check for any of multiple roles</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasroles">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasroles</span>
+                            <span class="directive-tab-desc">Require ALL specified roles</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasprivilege">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasprivilege</span>
+                            <span class="directive-tab-desc">Check for a specific privilege</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasanyprivilege">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasanyprivilege</span>
+                            <span class="directive-tab-desc">Check for any of multiple privileges</span>
+                        </div>
+                    </button>
+                    <button class="directive-tab" data-directive="hasprivileges">
+                        <div class="directive-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <polyline points="9 12 11 14 15 10"></polyline>
+                            </svg>
+                        </div>
+                        <div class="directive-tab-content">
+                            <span class="directive-tab-name">@hasprivileges</span>
+                            <span class="directive-tab-desc">Require ALL specified privileges</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="directives-content">
+                    <!-- @usercan -->
+                    <div class="directive-panel active" id="directive-usercan">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@usercan directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Check if user can perform action via can() --}}
+@usercan('admin')
+    &lt;div class="admin-panel"&gt;
+        &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
+        &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
     &lt;/div&gt;
+@endusercan
+
+@usercan('edit-posts')
+    &lt;button class="btn btn-primary"&gt;
+        Edit Post
+    &lt;/button&gt;
+@endusercan</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Uses the <code>can()</code> method to check if user has a role or privilege. Works with both role slugs and privilege slugs.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasrole -->
+                    <div class="directive-panel" id="directive-hasrole">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasrole directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Check if user has a specific role --}}
+@hasrole('admin')
+    &lt;p&gt;Welcome, Admin!&lt;/p&gt;
+    &lt;a href="/admin/settings"&gt;Settings&lt;/a&gt;
 @endhasrole
 
-@hasanyrole('editor', 'author')
-    &lt;div class="content-tools"&gt;
-        @hasprivilege('publish-posts')
-            &lt;button&gt;Publish&lt;/button&gt;
-        @else
-            &lt;button disabled&gt;Requires approval&lt;/button&gt;
-        @endhasprivilege
+@hasrole('editor')
+    &lt;a href="/dashboard/editor" class="nav-link"&gt;
+        Editor Dashboard
+    &lt;/a&gt;
+@endhasrole
+
+@hasrole('super-admin')
+    &lt;button class="btn-danger"&gt;
+        Critical Actions
+    &lt;/button&gt;
+@endhasrole</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Checks if the authenticated user has a specific role by its slug. Returns false if not authenticated.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasanyrole -->
+                    <div class="directive-panel" id="directive-hasanyrole">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasanyrole directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Check if user has ANY of the roles --}}
+@hasanyrole('admin', 'editor', 'moderator')
+    &lt;div class="management-tools"&gt;
+        &lt;h3&gt;Management Tools&lt;/h3&gt;
+        &lt;p&gt;You have access to management features&lt;/p&gt;
+        &lt;a href="/manage"&gt;Open Dashboard&lt;/a&gt;
     &lt;/div&gt;
 @endhasanyrole
 
+@hasanyrole('author', 'contributor')
+    &lt;div class="content-section"&gt;
+        &lt;button&gt;Create New Post&lt;/button&gt;
+    &lt;/div&gt;
+@endhasanyrole</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Renders content if the user has <strong>at least one</strong> of the specified roles. Great for showing shared features across multiple roles.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasroles -->
+                    <div class="directive-panel" id="directive-hasroles">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasroles directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Require ALL specified roles --}}
+@hasroles('admin', 'super-admin')
+    &lt;div class="super-admin-panel"&gt;
+        &lt;h2&gt;Super Admin Controls&lt;/h2&gt;
+        &lt;p&gt;You have both admin and super-admin roles&lt;/p&gt;
+        &lt;button class="btn-danger"&gt;
+            System Configuration
+        &lt;/button&gt;
+        &lt;button class="btn-warning"&gt;
+            Delete All Data
+        &lt;/button&gt;
+    &lt;/div&gt;
+@endhasroles</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Renders content only if the user has <strong>ALL</strong> of the specified roles. Use for features requiring multiple role assignments.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasprivilege -->
+                    <div class="directive-panel" id="directive-hasprivilege">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasprivilege directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Check for a specific privilege --}}
+@hasprivilege('delete-users')
+    &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
+        Delete User
+    &lt;/button&gt;
+@endhasprivilege
+
+@hasprivilege('view-reports')
+    &lt;a href="/reports" class="nav-link"&gt;
+        &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
+    &lt;/a&gt;
+@endhasprivilege
+
+@hasprivilege('manage-settings')
+    &lt;a href="/settings"&gt;System Settings&lt;/a&gt;
+@endhasprivilege</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Checks if the user has a specific privilege through any of their assigned roles. More granular than role checks.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasanyprivilege -->
+                    <div class="directive-panel" id="directive-hasanyprivilege">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasanyprivilege directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Check for ANY of the privileges --}}
+@hasanyprivilege('edit-posts', 'delete-posts', 'publish-posts')
+    &lt;div class="post-actions"&gt;
+        &lt;h4&gt;Post Management&lt;/h4&gt;
+        @hasprivilege('edit-posts')
+            &lt;button&gt;Edit&lt;/button&gt;
+        @endhasprivilege
+        @hasprivilege('delete-posts')
+            &lt;button&gt;Delete&lt;/button&gt;
+        @endhasprivilege
+        @hasprivilege('publish-posts')
+            &lt;button&gt;Publish&lt;/button&gt;
+        @endhasprivilege
+    &lt;/div&gt;
+@endhasanyprivilege</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Shows content if user has <strong>at least one</strong> of the listed privileges. Perfect for showing action panels with conditional buttons.</p>
+                        </div>
+                    </div>
+
+                    <!-- @hasprivileges -->
+                    <div class="directive-panel" id="directive-hasprivileges">
+                        <div class="code-window">
+                            <div class="code-window-header">
+                                <div class="code-window-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="code-window-title">@hasprivileges directive</div>
+                            </div>
+                            <pre><code class="language-blade">{{-- Require ALL specified privileges --}}
 @hasprivileges('create-invoices', 'approve-invoices')
-    &lt;button&gt;Create and Approve Invoice&lt;/button&gt;
+    &lt;button class="btn btn-success"&gt;
+        Create and Approve Invoice
+    &lt;/button&gt;
+@endhasprivileges
+
+@hasprivileges('view-reports', 'export-reports')
+    &lt;div class="reports-section"&gt;
+        &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
+        &lt;button onclick="exportReport()"&gt;
+            Export to PDF
+        &lt;/button&gt;
+    &lt;/div&gt;
 @endhasprivileges</code></pre>
+                        </div>
+                        <div class="directive-info">
+                            <p>Renders content only if the user has <strong>ALL</strong> specified privileges. Use for actions requiring multiple permissions.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="directives-note">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <p>All directives automatically return <code>false</code> when no user is authenticated. They're registered automatically when Tyro is loaded.</p>
             </div>
         </div>
     </section>
@@ -878,6 +1246,8 @@ if ($user->isSuspended()) {
     </footer>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/highlightjs-blade/dist/blade.min.js"></script>
     <script src="script.js"></script>
 </body>
 

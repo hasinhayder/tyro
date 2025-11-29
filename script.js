@@ -319,86 +319,66 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ===========================
-// Custom Syntax Highlighting
+// Social Share Functions
 // ===========================
 
-function highlightPHP(code) {
-    // Split into lines to process each line
-    const lines = code.split('\n');
+function shareOnTwitter() {
+    const text = "🔐 Just discovered Tyro - the ultimate Auth, Roles & Privileges package for Laravel 12! 40+ CLI commands, 7 Blade directives, and complete RBAC out of the box. Check it out! #Laravel #PHP #WebDev";
+    const url = "https://github.com/hasinhayder/tyro";
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=550,height=420');
+}
 
-    const highlightedLines = lines.map(line => {
-        let highlighted = line;
+function shareOnLinkedIn() {
+    const url = "https://github.com/hasinhayder/tyro";
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'width=550,height=420');
+}
 
-        // Skip if line is empty
-        if (!highlighted.trim()) return highlighted;
+// ===========================
+// Blade Directives Tabs
+// ===========================
 
-        // Comments - handle first to protect from other replacements
-        if (highlighted.includes('//')) {
-            const commentIndex = highlighted.indexOf('//');
-            const beforeComment = highlighted.substring(0, commentIndex);
-            const comment = highlighted.substring(commentIndex);
-            return highlightLine(beforeComment) + `<span style="color: #64748b; font-style: italic;">${comment}</span>`;
+const directiveTabs = document.querySelectorAll('.directive-tab');
+const directivePanels = document.querySelectorAll('.directive-panel');
+
+directiveTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const directive = tab.getAttribute('data-directive');
+
+        // Remove active class from all tabs
+        directiveTabs.forEach(t => t.classList.remove('active'));
+
+        // Remove active class from all panels
+        directivePanels.forEach(p => p.classList.remove('active'));
+
+        // Add active class to clicked tab
+        tab.classList.add('active');
+
+        // Show corresponding panel
+        const panel = document.getElementById(`directive-${directive}`);
+        if (panel) {
+            panel.classList.add('active');
         }
-
-        return highlightLine(highlighted);
     });
 
-    return highlightedLines.join('\n');
-}
-
-function highlightLine(line) {
-    let result = line;
-
-    // Strings - protect them first
-    const stringMatches = [];
-    result = result.replace(/('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")/g, (match) => {
-        const index = stringMatches.length;
-        stringMatches.push(`<span style="color: #86efac;">${match}</span>`);
-        return `__STRING_${index}__`;
+    // Keyboard navigation
+    tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            tab.click();
+        }
     });
+});
 
-    // Numbers - do this BEFORE keywords to avoid matching numbers in style attributes
-    const numberMatches = [];
-    result = result.replace(/\b(\d+)\b/g, (match) => {
-        const index = numberMatches.length;
-        numberMatches.push(`<span style="color: #f472b6;">${match}</span>`);
-        return `__NUMBER_${index}__`;
-    });
 
-    // Keywords
-    result = result.replace(/\b(if|else|return|function|class|public|private|protected|static|const|new|extends|implements)\b/g,
-        '<span style="color: #a78bfa; font-weight: 600;">$1</span>');
 
-    // Function calls (word followed by opening parenthesis)
-    result = result.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()/g,
-        '<span style="color: #60a5fa;">$1</span>');
+// ===========================
+// Syntax Highlighting (highlight.js)
+// ===========================
 
-    // Variables
-    result = result.replace(/(\$[a-zA-Z_][a-zA-Z0-9_]*)/g,
-        '<span style="color: #fb923c;">$1</span>');
-
-    // Operators (-> and =>)
-    result = result.replace(/(->|=>)/g,
-        '<span style="color: #fbbf24;">$1</span>');
-
-    // Restore numbers
-    numberMatches.forEach((num, index) => {
-        result = result.replace(`__NUMBER_${index}__`, num);
-    });
-
-    // Restore strings
-    stringMatches.forEach((str, index) => {
-        result = result.replace(`__STRING_${index}__`, str);
-    });
-
-    return result;
-}
-
-// Apply syntax highlighting to code blocks
 document.addEventListener('DOMContentLoaded', () => {
-    const codeBlocks = document.querySelectorAll('.code-window code.language-php');
-    codeBlocks.forEach(block => {
-        const code = block.textContent;
-        block.innerHTML = highlightPHP(code);
+    document.querySelectorAll('pre code').forEach(block => {
+        if (window.hljs) {
+            window.hljs.highlightElement(block);
+        }
     });
 });
