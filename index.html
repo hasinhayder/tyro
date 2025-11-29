@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyro - Authentication, Authorization & Role Management for Laravel 12</title>
-    <meta name="description" content="The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Complete RBAC, 40+ CLI commands, Blade directives, and optional REST API. Works for APIs, web apps, and hybrid applications.">
+    <meta name="description" content="The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Complete RBAC, 40+ CLI commands, 7 Blade directives, and optional REST API. Works for APIs, web apps, and hybrid applications.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
 
                 <p class="hero-description">
                     Complete Authentication, Authorization, and Role & Privilege Management.
-                    40+ CLI commands, Blade directives, middleware, and optional REST API. Your Swiss Army knife for Laravel security.
+                    40+ CLI commands, 7 Blade directives, middleware, and optional REST API. Your Swiss Army knife for Laravel security.
                 </p>
 
                 <div class="hero-cta">
@@ -86,12 +86,12 @@
                         <div class="stat-label">CLI Commands</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">API + Web</div>
-                        <div class="stat-label">Works Everywhere</div>
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Blade Directives</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">100%</div>
-                        <div class="stat-label">Battle-Tested</div>
+                        <div class="stat-value">API + Web</div>
+                        <div class="stat-label">Works Everywhere</div>
                     </div>
                 </div>
             </div>
@@ -161,8 +161,8 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Blade Directives</h3>
-                    <p class="feature-description">Use @hasrole, @hasprivilege, @hasanyrole in your views. Clean, readable templates without PHP logic clutter.</p>
+                    <h3 class="feature-title">7 Blade Directives</h3>
+                    <p class="feature-description">Use @usercan, @hasrole, @hasanyrole, @hasroles, @hasprivilege, @hasanyprivilege, @hasprivileges in your views. Clean, readable templates.</p>
                 </div>
 
                 <div class="feature-card">
@@ -211,7 +211,7 @@
             </div>
 
             <div class="quick-start-cta">
-                <p>That's it! You now have complete authentication, authorization, roles, privileges, Blade directives, middleware, and 40+ CLI commands.</p>
+                <p>That's it! You now have complete authentication, authorization, roles, privileges, 7 Blade directives, middleware, and 40+ CLI commands.</p>
                 <a href="doc.html" class="btn btn-primary">Read Full Documentation</a>
             </div>
         </div>
@@ -284,6 +284,80 @@ if ($user->isSuspended()) {
         'error' => $user->getSuspensionReason()
     ], 423);
 }</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blade Directives Showcase Section -->
+    <section class="code-example" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="code-showcase">
+                <div class="code-showcase-content">
+                    <h2 class="section-title">7 Blade Directives</h2>
+                    <p class="section-description">Conditionally render content based on user permissions with clean, readable syntax</p>
+
+                    <ul class="feature-list">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            @usercan - Check role or privilege via can()
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            @hasrole / @hasanyrole / @hasroles
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            @hasprivilege / @hasanyprivilege / @hasprivileges
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Auto returns false when unauthenticated
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="code-showcase-code">
+                    <div class="code-window">
+                        <div class="code-window-header">
+                            <div class="code-window-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="code-window-title">resources/views/dashboard.blade.php</div>
+                        </div>
+                        <pre><code class="language-php">@hasrole('admin')
+    &lt;div class="admin-section"&gt;
+        &lt;h2&gt;Admin Controls&lt;/h2&gt;
+        @hasprivilege('manage-users')
+            &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
+        @endhasprivilege
+    &lt;/div&gt;
+@endhasrole
+
+@hasanyrole('editor', 'author')
+    &lt;div class="content-tools"&gt;
+        @hasprivilege('publish-posts')
+            &lt;button&gt;Publish&lt;/button&gt;
+        @else
+            &lt;button disabled&gt;Requires approval&lt;/button&gt;
+        @endhasprivilege
+    &lt;/div&gt;
+@endhasanyrole
+
+@hasprivileges('create-invoices', 'approve-invoices')
+    &lt;button&gt;Create and Approve Invoice&lt;/button&gt;
+@endhasprivileges</code></pre>
                     </div>
                 </div>
             </div>
@@ -635,7 +709,7 @@ if ($user->isSuspended()) {
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Tyro is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. It provides complete RBAC, user suspension workflows, 40+ CLI commands, Blade directives, middleware for route protection, and optional REST API endpoints. It works for APIs, traditional web apps, and hybrid applications—saving you weeks of development time.</p>
+                        <p>Tyro is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. It provides complete RBAC, user suspension workflows, 40+ CLI commands, 7 Blade directives (@usercan, @hasrole, @hasanyrole, @hasroles, @hasprivilege, @hasanyprivilege, @hasprivileges), middleware for route protection, and optional REST API endpoints. It works for APIs, traditional web apps, and hybrid applications—saving you weeks of development time.</p>
                     </div>
                 </div>
 

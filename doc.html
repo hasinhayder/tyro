@@ -355,6 +355,7 @@
                         <li><a href="#roles-privileges" class="doc-nav-link">Roles & Privileges</a></li>
                         <li><a href="#authentication" class="doc-nav-link">Authentication</a></li>
                         <li><a href="#middleware" class="doc-nav-link">Middleware</a></li>
+                        <li><a href="#blade-directives" class="doc-nav-link">Blade Directives</a></li>
                         <li><a href="#user-suspension" class="doc-nav-link">User Suspension</a></li>
                     </ul>
                 </div>
@@ -374,6 +375,7 @@
                     <ul class="doc-nav-list">
                         <li><a href="#checking-permissions" class="doc-nav-link">Checking Permissions</a></li>
                         <li><a href="#managing-roles" class="doc-nav-link">Managing Roles</a></li>
+                        <li><a href="#trait-reference" class="doc-nav-link">Trait Reference</a></li>
                         <li><a href="#api-routes" class="doc-nav-link">API Routes</a></li>
                     </ul>
                 </div>
@@ -571,7 +573,7 @@
             <!-- Quick Start -->
             <section id="quick-start" class="doc-section">
                 <h2 class="doc-section-title">Quick Start</h2>
-                <p class="doc-text">After installation, you can immediately start using Tyro's API endpoints:</p>
+                <p class="doc-text">After installation, you have a complete authentication and authorization system. Here's what you can do immediately:</p>
 
                 <h3 class="doc-section-subtitle">1. Login with Default Admin</h3>
                 <div class="doc-code-block">
@@ -588,15 +590,41 @@
   -H "Authorization: Bearer YOUR_TOKEN_HERE"</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">3. Explore Available Endpoints</h3>
-                <p class="doc-text">Tyro provides these ready-to-use endpoints:</p>
-                <ul class="doc-list">
-                    <li><code class="doc-inline-code">POST /api/login</code> - Authenticate users</li>
-                    <li><code class="doc-inline-code">POST /api/users</code> - Register new users</li>
-                    <li><code class="doc-inline-code">GET /api/me</code> - Get authenticated user</li>
-                    <li><code class="doc-inline-code">GET /api/roles</code> - List all roles (admin only)</li>
-                    <li><code class="doc-inline-code">GET /api/privileges</code> - List all privileges (admin only)</li>
-                </ul>
+                <h3 class="doc-section-subtitle">3. Check Permissions in Code</h3>
+                <p class="doc-text">Use Tyro's intuitive API anywhere in your application:</p>
+                <div class="doc-code-block">
+                    <code>// Check roles
+if ($user->hasRole('admin')) { ... }
+
+// Check privileges
+if ($user->can('reports.run')) { ... }
+
+// Get all role slugs
+$roles = $user->tyroRoleSlugs(); // ['admin', 'editor']</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">4. Use Blade Directives</h3>
+                <p class="doc-text">Conditionally render content in your views:</p>
+                <div class="doc-code-block">
+                    <code>@hasrole('admin')
+    &lt;p&gt;Welcome, Admin!&lt;/p&gt;
+@endhasrole
+
+@hasprivilege('edit-posts')
+    &lt;button&gt;Edit Post&lt;/button&gt;
+@endhasprivilege</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">5. Protect Routes</h3>
+                <p class="doc-text">Use middleware to protect your routes:</p>
+                <div class="doc-code-block">
+                    <code>Route::middleware(['auth:sanctum', 'role:admin'])
+    ->get('/admin/dashboard', DashboardController::class);</code>
+                </div>
+
+                <div class="doc-alert doc-alert-success">
+                    <strong>✓ You're Ready!</strong> With just 2 commands, you now have complete authentication, authorization, roles, privileges, 7 Blade directives, middleware, and 40+ CLI commands.
+                </div>
             </section>
 
             <!-- Roles & Privileges -->
@@ -724,6 +752,11 @@ php artisan tyro:quick-token --user=1</code>
                             <td><code class="doc-inline-code">privileges:billing.view</code></td>
                             <td>Allow ANY of the listed privileges</td>
                         </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">tyro.log</code></td>
+                            <td><code class="doc-inline-code">tyro.log</code></td>
+                            <td>Log request/response pairs for auditing</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -742,6 +775,144 @@ Route::middleware(['auth:sanctum', 'roles:admin,editor'])
 // Require specific privilege
 Route::middleware(['auth:sanctum', 'privilege:reports.run'])
     ->get('/reports', ReportController::class);</code>
+                </div>
+            </section>
+
+            <!-- Blade Directives -->
+            <section id="blade-directives" class="doc-section">
+                <h2 class="doc-section-title">Blade Directives</h2>
+                <p class="doc-text">
+                    Tyro provides custom Blade directives for checking user roles and privileges directly in your views. All directives automatically return <code class="doc-inline-code">false</code> if no user is authenticated.
+                </p>
+
+                <h3 class="doc-section-subtitle">@usercan</h3>
+                <p class="doc-text">Checks if the current user has a specific role or privilege (uses the <code class="doc-inline-code">can()</code> method):</p>
+                <div class="doc-code-block">
+                    <code>@usercan('admin')
+    &lt;div class="admin-panel"&gt;
+        &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
+        &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
+    &lt;/div&gt;
+@endusercan
+
+@usercan('edit-posts')
+    &lt;button class="btn btn-primary"&gt;Edit Post&lt;/button&gt;
+@endusercan</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasrole</h3>
+                <p class="doc-text">Checks if the current user has a specific role:</p>
+                <div class="doc-code-block">
+                    <code>@hasrole('admin')
+    &lt;p&gt;Welcome, Admin!&lt;/p&gt;
+@endhasrole
+
+@hasrole('editor')
+    &lt;a href="/dashboard/editor" class="nav-link"&gt;Editor Dashboard&lt;/a&gt;
+@endhasrole</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasanyrole</h3>
+                <p class="doc-text">Checks if the current user has any of the provided roles:</p>
+                <div class="doc-code-block">
+                    <code>@hasanyrole('admin', 'editor', 'moderator')
+    &lt;div class="management-tools"&gt;
+        &lt;h3&gt;Management Tools&lt;/h3&gt;
+        &lt;p&gt;You have access to management features&lt;/p&gt;
+    &lt;/div&gt;
+@endhasanyrole</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasroles</h3>
+                <p class="doc-text">Checks if the current user has all of the provided roles:</p>
+                <div class="doc-code-block">
+                    <code>@hasroles('admin', 'super-admin')
+    &lt;div class="super-admin-panel"&gt;
+        &lt;p&gt;You have both admin and super-admin privileges&lt;/p&gt;
+        &lt;button class="btn-danger"&gt;Critical Actions&lt;/button&gt;
+    &lt;/div&gt;
+@endhasroles</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasprivilege</h3>
+                <p class="doc-text">Checks if the current user has a specific privilege:</p>
+                <div class="doc-code-block">
+                    <code>@hasprivilege('delete-users')
+    &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
+        Delete User
+    &lt;/button&gt;
+@endhasprivilege
+
+@hasprivilege('view-reports')
+    &lt;a href="/reports" class="nav-link"&gt;
+        &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
+    &lt;/a&gt;
+@endhasprivilege</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasanyprivilege</h3>
+                <p class="doc-text">Checks if the current user has any of the provided privileges:</p>
+                <div class="doc-code-block">
+                    <code>@hasanyprivilege('edit-posts', 'delete-posts', 'publish-posts')
+    &lt;div class="post-actions"&gt;
+        &lt;h4&gt;Post Management&lt;/h4&gt;
+        @hasprivilege('edit-posts')
+            &lt;button&gt;Edit&lt;/button&gt;
+        @endhasprivilege
+        @hasprivilege('delete-posts')
+            &lt;button&gt;Delete&lt;/button&gt;
+        @endhasprivilege
+    &lt;/div&gt;
+@endhasanyprivilege</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">@hasprivileges</h3>
+                <p class="doc-text">Checks if the current user has all of the provided privileges:</p>
+                <div class="doc-code-block">
+                    <code>@hasprivileges('create-invoices', 'approve-invoices')
+    &lt;button class="btn btn-success" onclick="createAndApproveInvoice()"&gt;
+        Create and Approve Invoice
+    &lt;/button&gt;
+@endhasprivileges
+
+@hasprivileges('view-reports', 'export-reports')
+    &lt;div class="reports-section"&gt;
+        &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
+        &lt;button onclick="exportReport()"&gt;Export&lt;/button&gt;
+    &lt;/div&gt;
+@endhasprivileges</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">Combining Directives</h3>
+                <p class="doc-text">You can nest and combine directives for complex authorization logic:</p>
+                <div class="doc-code-block">
+                    <code>@hasrole('admin')
+    &lt;div class="admin-section"&gt;
+        &lt;h2&gt;Admin Controls&lt;/h2&gt;
+
+        @hasprivilege('manage-users')
+            &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
+        @endhasprivilege
+
+        @hasanyprivilege('view-reports', 'export-data')
+            &lt;a href="/admin/reports"&gt;Reports&lt;/a&gt;
+        @endhasanyprivilege
+    &lt;/div&gt;
+@endhasrole
+
+@hasanyrole('editor', 'author')
+    &lt;div class="content-tools"&gt;
+        @hasprivilege('publish-posts')
+            &lt;button&gt;Publish&lt;/button&gt;
+        @else
+            &lt;button disabled&gt;Publish (requires approval)&lt;/button&gt;
+        @endhasprivilege
+    &lt;/div&gt;
+@endhasanyrole</code>
+                </div>
+
+                <div class="doc-alert doc-alert-success">
+                    <strong>✓ Auto-Registered:</strong> All directives are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions.
                 </div>
             </section>
 
@@ -780,6 +951,114 @@ $user->unsuspend();</code>
 
                 <div class="doc-alert doc-alert-warning">
                     <strong>⚠️ Important:</strong> Suspending a user automatically revokes all their Sanctum tokens and prevents login.
+                </div>
+            </section>
+
+            <!-- HasTyroRoles Trait Reference -->
+            <section id="trait-reference" class="doc-section">
+                <h2 class="doc-section-title">HasTyroRoles Trait Reference</h2>
+                <p class="doc-text">
+                    The <code class="doc-inline-code">HasTyroRoles</code> trait gives your User model a complete API for roles, privileges, and suspensions. These methods are the same ones used by Tyro's routes and CLI commands.
+                </p>
+
+                <h3 class="doc-section-subtitle">Role Methods</h3>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="doc-inline-code">roles(): BelongsToMany</code></td>
+                            <td>Returns the eager-loadable relationship for roles</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">assignRole(Role $role): void</code></td>
+                            <td>Attaches a role without detaching existing ones</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">removeRole(Role $role): void</code></td>
+                            <td>Detaches the given role from the user</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">hasRole(string $role): bool</code></td>
+                            <td>Checks if user has the specified role slug (supports wildcard *)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">hasRoles(array $roles): bool</code></td>
+                            <td>Returns true only if user holds every role in the array</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">tyroRoleSlugs(): array</code></td>
+                            <td>Returns array of all role slugs for the user (cached)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="doc-section-subtitle">Privilege Methods</h3>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="doc-inline-code">privileges(): Collection</code></td>
+                            <td>Returns all unique privileges inherited through user's roles</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">hasPrivilege(string $privilege): bool</code></td>
+                            <td>Checks if user has a specific privilege</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">hasPrivileges(array $privileges): bool</code></td>
+                            <td>Returns true only if user has all specified privileges</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">tyroPrivilegeSlugs(): array</code></td>
+                            <td>Returns array of all privilege slugs for the user (cached)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">can($ability, $args = []): bool</code></td>
+                            <td>Checks privilege, then role, then falls back to Laravel Gate</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="doc-section-subtitle">Suspension Methods</h3>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="doc-inline-code">suspend(?string $reason = null): void</code></td>
+                            <td>Suspends user, stores optional reason, revokes all tokens</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">unsuspend(): void</code></td>
+                            <td>Clears suspension without touching roles or privileges</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">isSuspended(): bool</code></td>
+                            <td>Returns true if user is currently suspended</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">getSuspensionReason(): ?string</code></td>
+                            <td>Returns the stored suspension reason (or null)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="doc-alert doc-alert-info">
+                    <strong>💡 Performance:</strong> Tyro caches role and privilege slugs per user so authorization checks never hit the database on every request. The cache respects your <code class="doc-inline-code">config/tyro.php</code> settings.
                 </div>
             </section>
 
