@@ -30,7 +30,8 @@
     "autoload": {
         "psr-4": {
             "HasinHayder\\Tyro\\": "src/",
-            "HasinHayder\\Tyro\\Database\\": "database/"
+            "HasinHayder\\Tyro\\Database\\Factories\\": "database/factories/",
+            "HasinHayder\\Tyro\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
