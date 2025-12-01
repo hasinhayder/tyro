@@ -29,10 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "HasinHayder\\Tyro\\": "src/",
-            "HasinHayder\\Tyro\\Database\\Factories\\": "database/factories/",
-            "HasinHayder\\Tyro\\Database\\Seeders\\": "database/seeders/"
-        }
+            "HasinHayder\\Tyro\\": "src/"
+        },
+        "classmap": [
+            "database/seeders",
+            "database/factories"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
