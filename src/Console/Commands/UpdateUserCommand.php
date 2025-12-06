@@ -2,20 +2,19 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\PasswordRules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateUserCommand extends BaseTyroCommand
-{
+class UpdateUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:update-user {--user=} {--name=} {--email=} {--password=}';
 
     protected $description = "Update a user's name, email and password";
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
 
-        if (! $identifier) {
+        if (!$identifier) {
             $this->error('A user identifier is required.');
 
             return self::FAILURE;
@@ -23,7 +22,7 @@ class UpdateUserCommand extends BaseTyroCommand
 
         $user = $this->findUser($identifier);
 
-        if (! $user) {
+        if (!$user) {
             $this->error('User not found.');
 
             return self::FAILURE;
@@ -53,7 +52,7 @@ class UpdateUserCommand extends BaseTyroCommand
         $validator = Validator::make([
             'email' => $email,
         ], [
-            'email' => 'required|email|unique:'.$user->getTable().',email,'.$user->id,
+            'email' => 'required|email|unique:' . $user->getTable() . ',email,' . $user->id,
         ]);
 
         if ($validator->fails()) {
@@ -62,14 +61,38 @@ class UpdateUserCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $passwordInput = $this->option('password');
+        while (true) {
+            $passwordInput = $this->option('password');
 
-        if ($passwordInput === null && $this->input->isInteractive() && ! app()->runningUnitTests()) {
-            $passwordInput = $this->secret('Password (leave blank to keep current)');
+            if ($passwordInput === null && $this->input->isInteractive() && !app()->runningUnitTests()) {
+                $passwordInput = $this->secret('Password (leave blank to keep current)');
+            }
+
+            $passwordInput = $passwordInput !== null ? trim($passwordInput) : '';
+            $password = $passwordInput === '' ? null : $passwordInput;
+
+            if ($password === null) {
+                break;
+            }
+
+            $pwValidator = Validator::make(['password' => $password], [
+                'password' => PasswordRules::get(['name' => $name, 'email' => $email]),
+            ]);
+
+            if ($pwValidator->passes()) {
+                break;
+            }
+
+            foreach ($pwValidator->errors()->all() as $error) {
+                $this->error($error);
+            }
+
+            if ($this->option('password') !== null || !$this->input->isInteractive()) {
+                return self::FAILURE;
+            }
+
+            $this->info('Please try again.');
         }
-
-        $passwordInput = $passwordInput !== null ? trim($passwordInput) : '';
-        $password = $passwordInput === '' ? null : $passwordInput;
 
         if ($name === (string) ($user->name ?? '') && $email === $user->email && $password === null) {
             $this->info('No changes detected.');
