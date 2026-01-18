@@ -37,7 +37,7 @@ class InstallCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if ($this->isInteractive() && $this->confirm('Seed Tyro roles, privileges, and the bootstrap admin user now?', true)) {
+        if ($this->input->isInteractive() && $this->confirm('Seed Tyro roles, privileges, and the bootstrap admin user now?', true)) {
             if (!$this->runRequiredCommand('tyro:seed', ['--force' => true])) {
                 return self::FAILURE;
             }
