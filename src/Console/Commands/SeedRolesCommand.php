@@ -7,13 +7,13 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedRolesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:seed-roles {--force : Skip confirmation even though this truncates the roles table}';
+    protected $signature = 'tyro:seed-roles {--force : Skip confirmation}';
 
-    protected $description = 'Re-seed the Tyro roles list (truncates the roles table)';
+    protected $description = 'Seed default role definitions';
 
     public function handle(): int
     {
-        if (! $this->option('force') && ! $this->confirm('This will truncate the roles table before re-seeding. Continue?', false)) {
+        if (! $this->option('force') && ! $this->confirm('This will seed the roles. Are you sure to continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class TyroSeeder extends Seeder {
     public function run(): void {
-        $this->truncateTyroTables();
-
+        // $this->truncateTyroTables();
         $this->call([
             RoleSeeder::class,
             PrivilegeSeeder::class,

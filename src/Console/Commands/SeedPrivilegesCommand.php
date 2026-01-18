@@ -6,12 +6,12 @@ use HasinHayder\Tyro\Database\Seeders\PrivilegeSeeder;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedPrivilegesCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:seed-privileges {--force : Skip confirmation even though this overwrites privileges and role mappings}';
+    protected $signature = 'tyro:seed-privileges {--force : Skip confirmation}';
 
-    protected $description = 'Re-seed Tyro\'s default privilege definitions and role assignments';
+    protected $description = 'Seed default privilege definitions and role assignments';
 
     public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('This will overwrite existing privilege definitions and role mappings. Continue?', false)) {
+        if (!$this->option('force') && !$this->confirm('This will seed the privileges and role mappings. Are you sure to continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

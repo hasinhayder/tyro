@@ -6,12 +6,12 @@ use HasinHayder\Tyro\Database\Seeders\TyroSeeder;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:seed {--force : Run without confirmation (will truncate users and roles tables)}';
+    protected $signature = 'tyro:seed {--force : Run without confirmation}';
 
-    protected $description = 'Run the TyroSeeder to recreate default roles and the bootstrap admin user';
+    protected $description = 'Seed default roles, privileges, and bootstrap admin user';
 
     public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('TyroSeeder truncates your users/roles/privileges tables before seeding. Continue?', false)) {
+        if (!$this->option('force') && !$this->confirm('This will seed roles, privileges, and the admin user. Are you sure to continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

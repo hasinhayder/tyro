@@ -11,11 +11,13 @@ class UsersSeeder extends Seeder {
         $userClass = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
         /** @var \Illuminate\Database\Eloquent\Model $user */
-        $user = $userClass::create([
-            'email' => 'admin@tyro.project',
-            'password' => Hash::make('tyro'),
-            'name' => 'Tyro Admin',
-        ]);
+        $user = $userClass::updateOrCreate(
+            ['email' => 'admin@tyro.project'],
+            [
+                'password' => Hash::make('tyro'),
+                'name' => 'Tyro Admin',
+            ]
+        );
 
         $adminRole = Role::where('slug', 'admin')->first();
         if ($adminRole) {
