@@ -10,7 +10,7 @@ class UserHasAnyPrivilegeDirective {
      * Checks if the current user has any of the provided privileges.
      */
     public static function register(): void {
-        Blade::if('hasanyprivilege', function (...$privileges) {
+        $handler = function (...$privileges) {
             $user = auth()->user();
 
             if (!$user || !method_exists($user, 'hasPrivilege')) {
@@ -24,6 +24,9 @@ class UserHasAnyPrivilegeDirective {
             }
 
             return false;
-        });
+        };
+
+        Blade::if('hasanyprivilege', $handler);
+        Blade::if('hasAnyPrivilege', $handler);
     }
 }

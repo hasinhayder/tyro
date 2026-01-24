@@ -10,7 +10,7 @@ class UserHasRolesDirective {
      * Checks if the current user has all of the provided roles.
      */
     public static function register(): void {
-        Blade::if('hasroles', function (...$roles) {
+        $handler = function (...$roles) {
             $user = auth()->user();
 
             if (!$user || !method_exists($user, 'hasRoles')) {
@@ -18,6 +18,9 @@ class UserHasRolesDirective {
             }
 
             return $user->hasRoles($roles);
-        });
+        };
+
+        Blade::if('hasroles', $handler);
+        Blade::if('hasAllRoles', $handler);
     }
 }
