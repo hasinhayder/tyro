@@ -9,7 +9,7 @@ Tyro is the complete auth and access control toolkit that works everywhere in yo
 -   **Complete Authentication & Authorization.** Out-of-the-box user authentication with Sanctum, role-based access control, fine-grained privilege management, and Laravel Gate integration. Works seamlessly for APIs, web apps, and hybrid applications.
 -   **Powerful Role & Privilege System.** Create unlimited roles with granular privileges. Check permissions in controllers, middleware, Blade templates, or anywhere in your code with intuitive helpers like `$user->hasRole()`, `$user->can()`, and `$user->hasPrivileges()`.
 -   **40+ Artisan Commands.** Manage users, roles, privileges, and tokens entirely from the CLI. Seed data, suspend users, rotate tokens, audit permissions—all without touching the database directly. Perfect for automation, CI/CD, and incident response.
--   **Blade Directives for Views.** Use `@hasrole`, `@hasprivilege`, `@hasanyrole`, and more to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter.
+-   **Blade Directives for Views.** Use `@hasRole`, `@hasPrivilege`, `@hasAnyRole`, and more to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter (camelCase and legacy lowercase/snake_case supported).
 -   **User Suspension Workflows.** Freeze accounts instantly with optional reasons, automatically revoke all active tokens, and manage suspensions via CLI or REST endpoints.
 -   **Optional API Surface.** Need REST endpoints? Tyro ships production-ready routes for login, registration, user management, role CRUD, and privilege management. Don't need them? Disable with one config flag.
 -   **Security Hardened.** Sanctum tokens automatically include role and privilege abilities, suspension workflows revoke tokens instantly, and protected role slugs prevent accidental deletion.
@@ -316,119 +316,119 @@ TYRO_PASSWORD_DISALLOW_USER_INFO=true
 
 Tyro provides custom Blade directives for checking user roles and privileges directly in your views. All directives automatically return `false` if no user is authenticated.
 
-### @usercan
+### @userCan / @usercan
 
 Checks if the current user has a specific role or privilege (uses the `can()` method):
 
 ```blade
-@usercan('admin')
+@userCan('admin')
     <div class="admin-panel">
         <h2>Admin Dashboard</h2>
         <p>Welcome to the admin area!</p>
     </div>
-@endusercan
+@enduserCan
 
-@usercan('edit-posts')
+@userCan('edit-posts')
     <button class="btn btn-primary">Edit Post</button>
-@endusercan
+@enduserCan
 ```
 
-### @hasrole
+### @hasRole / @hasrole
 
 Checks if the current user has a specific role:
 
 ```blade
-@hasrole('admin')
+@hasRole('admin')
     <p>Welcome, Admin!</p>
-@endhasrole
+@endhasRole
 
-@hasrole('editor')
+@hasRole('editor')
     <a href="/dashboard/editor" class="nav-link">Editor Dashboard</a>
-@endhasrole
+@endhasRole
 ```
 
-### @hasanyrole
+### @hasAnyRole / @hasanyrole
 
 Checks if the current user has any of the provided roles:
 
 ```blade
-@hasanyrole('admin', 'editor', 'moderator')
+@hasAnyRole('admin', 'editor', 'moderator')
     <div class="management-tools">
         <h3>Management Tools</h3>
         <p>You have access to management features</p>
     </div>
-@endhasanyrole
+@endhasAnyRole
 ```
 
-### @hasroles
+### @hasAllRoles / @hasroles
 
 Checks if the current user has all of the provided roles:
 
 ```blade
-@hasroles('admin', 'super-admin')
+@hasAllRoles('admin', 'super-admin')
     <div class="super-admin-panel">
         <p>You have both admin and super-admin privileges</p>
         <button class="btn-danger">Critical Actions</button>
     </div>
-@endhasroles
+@endhasAllRoles
 ```
 
-### @hasprivilege
+### @hasPrivilege / @hasprivilege
 
 Checks if the current user has a specific privilege:
 
 ```blade
-@hasprivilege('delete-users')
+@hasPrivilege('delete-users')
     <button class="btn btn-danger" onclick="deleteUser()">
         Delete User
     </button>
-@endhasprivilege
+@endhasPrivilege
 
-@hasprivilege('view-reports')
+@hasPrivilege('view-reports')
     <a href="/reports" class="nav-link">
         <i class="icon-reports"></i> View Reports
     </a>
-@endhasprivilege
+@endhasPrivilege
 ```
 
-### @hasanyprivilege
+### @hasAnyPrivilege / @hasanyprivilege
 
 Checks if the current user has any of the provided privileges:
 
 ```blade
-@hasanyprivilege('edit-posts', 'delete-posts', 'publish-posts')
+@hasAnyPrivilege('edit-posts', 'delete-posts', 'publish-posts')
     <div class="post-actions">
         <h4>Post Management</h4>
-        @hasprivilege('edit-posts')
+        @hasPrivilege('edit-posts')
             <button>Edit</button>
-        @endhasprivilege
-        @hasprivilege('delete-posts')
+        @endhasPrivilege
+        @hasPrivilege('delete-posts')
             <button>Delete</button>
-        @endhasprivilege
-        @hasprivilege('publish-posts')
+        @endhasPrivilege
+        @hasPrivilege('publish-posts')
             <button>Publish</button>
-        @endhasprivilege
+        @endhasPrivilege
     </div>
-@endhasanyprivilege
+@endhasAnyPrivilege
 ```
 
-### @hasprivileges
+### @hasAllPrivileges / @hasprivileges
 
 Checks if the current user has all of the provided privileges:
 
 ```blade
-@hasprivileges('create-invoices', 'approve-invoices')
+@hasAllPrivileges('create-invoices', 'approve-invoices')
     <button class="btn btn-success" onclick="createAndApproveInvoice()">
         Create and Approve Invoice
     </button>
-@endhasprivileges
+@endhasAllPrivileges
 
-@hasprivileges('view-reports', 'export-reports')
+@hasAllPrivileges('view-reports', 'export-reports')
     <div class="reports-section">
         <a href="/reports">View Reports</a>
         <button onclick="exportReport()">Export</button>
     </div>
-@endhasprivileges
+@endAllPrivileges
 ```
 
 ### Combining Directives
@@ -436,32 +436,32 @@ Checks if the current user has all of the provided privileges:
 You can nest and combine directives for complex authorization logic:
 
 ```blade
-@hasrole('admin')
+@hasRole('admin')
     <div class="admin-section">
         <h2>Admin Controls</h2>
 
-        @hasprivilege('manage-users')
+        @hasPrivilege('manage-users')
             <a href="/admin/users">Manage Users</a>
-        @endhasprivilege
+        @endhasPrivilege
 
-        @hasanyprivilege('view-reports', 'export-data')
+        @hasAnyPrivilege('view-reports', 'export-data')
             <a href="/admin/reports">Reports</a>
-        @endhasanyprivilege
+        @endhasAnyPrivilege
     </div>
-@endhasrole
+@endhasRole
 
-@hasanyrole('editor', 'author')
+@hasAnyRole('editor', 'author')
     <div class="content-tools">
-        @hasprivilege('publish-posts')
+        @hasPrivilege('publish-posts')
             <button>Publish</button>
         @else
             <button disabled>Publish (requires approval)</button>
-        @endhasprivilege
+        @endhasPrivilege
     </div>
-@endhasanyrole
+@endhasAnyRole
 ```
 
-All directives leverage the methods from the `HasTyroRoles` trait and are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions without cluttering your Blade templates with PHP logic.
+All directives leverage the methods from the `HasTyroRoles` trait and are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions without cluttering your Blade templates with PHP logic. Tyro supports both canonical camelCase names (e.g., `@hasRole`, `@hasAnyPrivilege`, `@hasAllRoles`) and their legacy counterparts (e.g., `@hasrole`, `@hasanyprivilege`, `@hasroles`) for full backward compatibility.
 
 ## Middleware for Route Protection
 
