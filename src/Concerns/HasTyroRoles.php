@@ -122,6 +122,12 @@ trait HasTyroRoles {
      */
     public function tyroRoleSlugs(): array {
         $userId = $this->getKey();
+        
+        // Return empty array if user doesn't have an ID yet (e.g., during model introspection)
+        if ($userId === null) {
+            return [];
+        }
+        
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroRoleSlugsCache !== null && $this->tyroRoleSlugsVersion === $runtimeVersion) {
             return $this->tyroRoleSlugsCache;
@@ -139,6 +145,12 @@ trait HasTyroRoles {
      */
     public function tyroPrivilegeSlugs(): array {
         $userId = $this->getKey();
+        
+        // Return empty array if user doesn't have an ID yet (e.g., during model introspection)
+        if ($userId === null) {
+            return [];
+        }
+        
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroPrivilegeSlugsCache !== null && $this->tyroPrivilegeSlugsVersion === $runtimeVersion) {
             return $this->tyroPrivilegeSlugsCache;
