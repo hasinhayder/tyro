@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = "1.2.3";
+        $version = "1.2.4";
         
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
