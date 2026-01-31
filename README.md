@@ -2,8 +2,9 @@
 
 **Tyro** is the a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
 
-### Related Packages
+### Related Resources
 
+- [**Tyro Labs**](https://tyrolabs.dev/) – Complete Auth & Admin Platform for Laravel.
 - [**tyro-login**](https://github.com/hasinhayder/tyro-login) – A sleek, production-ready login UI component powered by Tyro's authentication system with OTP, TOTP, Multiple Layouts, Magic Login, Authenticator, Social Login, Password Reset, Nice Email Templates.
 - [**tyro-dashboard**](https://github.com/hasinhayder/tyro-dashboard) – A comprehensive admin dashboard (admin/user) for instant crud, managing roles, privileges, users, and permissions with ease.
 
