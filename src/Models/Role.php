@@ -35,6 +35,11 @@ class Role extends Model {
      * @return bool
      */
     public function hasPrivilege(string $privilegeSlug): bool {
+        // Use eager-loaded data if available to avoid N+1 queries
+        if ($this->relationLoaded('privileges')) {
+            return $this->privileges->contains('slug', $privilegeSlug);
+        }
+        
         return $this->privileges()->where('slug', $privilegeSlug)->exists();
     }
 
