@@ -69,7 +69,7 @@ class EnsureTyroRole
         }
 
         if (method_exists($user, 'roles')) {
-            $slugs = $user->roles()->pluck('slug')->filter()->unique()->values();
+            $slugs = $user->roles()->select('slug')->pluck('slug')->filter()->unique()->values();
             $request->attributes->set('tyro.role_slugs', $slugs);
 
             return $slugs;
