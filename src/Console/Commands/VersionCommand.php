@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = "1.2.4";
+        $version = "1.2.5"; //merged PR 5 to avoid N+1 query issue
         
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -30,3 +30,5 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+
+//1.2.5 - merged PR 5 to avoid N+1 query issue
