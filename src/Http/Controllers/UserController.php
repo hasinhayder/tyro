@@ -89,7 +89,6 @@ class UserController extends Controller {
         $user->name = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
         $user->password = $request->password ? Hash::make($request->password) : $user->password;
-        $user->email_verified_at = $request->email_verified_at ?? $user->email_verified_at;
 
         $loggedInUser = $request->user();
         if ($loggedInUser->id === $user->id) {
