@@ -38,13 +38,12 @@ class ListAuditLogsCommand extends BaseTyroCommand
         }
 
         $this->table(
-            ['ID', 'Date', 'User ID', 'Event', 'Target', 'IP'],
+            ['ID', 'Date', 'Actor', 'Summary', 'IP'],
             $logs->map(fn ($log) => [
                 $log->id,
                 $log->created_at->format('Y-m-d H:i:s'),
-                $log->user_id ?? 'System',
-                $log->event,
-                $log->auditable_type ? basename($log->auditable_type) . ':' . $log->auditable_id : 'N/A',
+                $log->user_id ? "User:{$log->user_id}" : 'System',
+                $log->summary,
                 $log->metadata['ip'] ?? 'N/A',
             ])->toArray()
         );

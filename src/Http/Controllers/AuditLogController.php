@@ -29,6 +29,11 @@ class AuditLogController extends TyroController
 
         $logs = $query->paginate($request->get('per_page', 20));
 
+        $logs->getCollection()->transform(function ($log) {
+            $log->summary = $log->summary;
+            return $log;
+        });
+
         return response()->json($logs);
     }
 }
