@@ -7,7 +7,9 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class LogoutCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:logout {token?} {--token=}';
+    protected $signature = 'tyro:auth-logout {token?} {--token=}';
+
+    protected $aliases = ['tyro:logout'];
 
     protected $description = 'Delete a single Sanctum token (log out the corresponding user session)';
 

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateUserCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:update-user {--user=} {--name=} {--email=} {--password=}';
+    protected $signature = 'tyro:user-update {--user=} {--name=} {--email=} {--password=}';
+
+    protected $aliases = ['tyro:update-user'];
 
     protected $description = "Update a user's name, email and password";
 

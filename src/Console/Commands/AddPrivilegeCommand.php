@@ -6,9 +6,11 @@ use HasinHayder\Tyro\Models\Privilege;
 
 class AddPrivilegeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:add-privilege {slug? : Unique slug for the privilege}
+    protected $signature = 'tyro:privilege-create {slug? : Unique slug for the privilege}
         {--name= : Readable name for the privilege}
         {--description= : Optional description for the privilege}';
+
+    protected $aliases = ['tyro:add-privilege'];
 
     protected $description = 'Create a new Tyro privilege record';
 

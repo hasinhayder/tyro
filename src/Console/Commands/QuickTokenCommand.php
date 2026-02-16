@@ -5,7 +5,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 use HasinHayder\Tyro\Support\TyroAudit;
 
 class QuickTokenCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:quick-token {user? : User ID or email} {--name=Tyro Quick Token : Token name}';
+    protected $signature = 'tyro:user-token {user? : User ID or email} {--name=Tyro Quick Token : Token name}';
+
+    protected $aliases = ['tyro:quick-token'];
 
     protected $description = 'Mint a Sanctum token for a user without prompting for credentials';
 

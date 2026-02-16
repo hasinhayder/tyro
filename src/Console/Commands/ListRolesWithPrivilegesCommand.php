@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Models\Role;
 
 class ListRolesWithPrivilegesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:roles-with-privileges';
+    protected $signature = 'tyro:role-list-with-privileges';
+
+    protected $aliases = ['tyro:roles-with-privileges'];
 
     protected $description = 'Display each role along with its attached privileges';
 

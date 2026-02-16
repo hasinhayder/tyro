@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CreateUserCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:create-user {--name=} {--email=} {--password=}';
+    protected $signature = 'tyro:user-create {--name=} {--email=} {--password=}';
+
+    protected $aliases = ['tyro:create-user'];
 
     protected $description = 'Create a new user and attach Tyro\'s default role';
 

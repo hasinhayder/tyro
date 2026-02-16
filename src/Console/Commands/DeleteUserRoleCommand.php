@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class DeleteUserRoleCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:delete-user-role {--user=} {--role=}';
+    protected $signature = 'tyro:role-remove {--user=} {--role=}';
+
+    protected $aliases = ['tyro:delete-user-role'];
 
     protected $description = 'Detach a role from a user';
 

@@ -7,7 +7,9 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class LogoutAllUsersCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:logout-all-users {--force : Skip the confirmation prompt}';
+    protected $signature = 'tyro:auth-logout-all-users {--force : Skip the confirmation prompt}';
+
+    protected $aliases = ['tyro:logout-all-users'];
 
     protected $description = 'Revoke every Sanctum token issued for all users';
 

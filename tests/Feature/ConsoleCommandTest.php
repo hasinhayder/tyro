@@ -18,7 +18,7 @@ class ConsoleCommandTest extends TestCase {
     public function test_create_user_command_creates_user(): void {
         $email = 'cli-user@example.com';
 
-        $this->artisan('tyro:create-user', [
+        $this->artisan('tyro:user-create', [
             '--name' => 'CLI User',
             '--email' => $email,
             '--password' => 'secret-password',
@@ -30,7 +30,7 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_roles_command_outputs_roles(): void {
-        $this->artisan('tyro:roles')
+        $this->artisan('tyro:role-list')
             ->expectsOutputToContain('Administrator')
             ->assertExitCode(0);
     }
@@ -48,7 +48,7 @@ class ConsoleCommandTest extends TestCase {
             'Attached privilege should be visible on the role before running the command'
         );
 
-        $exitCode = Artisan::call('tyro:roles-with-privileges');
+        $exitCode = Artisan::call('tyro:role-list-with-privileges');
         $output = Artisan::output();
 
         $this->assertSame(0, $exitCode);
@@ -57,13 +57,13 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_privileges_command_outputs_privileges(): void {
-        $this->artisan('tyro:privileges')
+        $this->artisan('tyro:privilege-list')
             ->expectsOutputToContain('report.generate')
             ->assertExitCode(0);
     }
 
     public function test_add_privilege_command_creates_privilege(): void {
-        $this->artisan('tyro:add-privilege', [
+        $this->artisan('tyro:privilege-create', [
             'slug' => 'ci.build',
             '--name' => 'CI Build',
             '--description' => 'Allows triggering CI builds',
@@ -78,7 +78,7 @@ class ConsoleCommandTest extends TestCase {
             'slug' => 'obsolete.permission',
         ]);
 
-        $this->artisan('tyro:delete-privilege', [
+        $this->artisan('tyro:privilege-delete', [
             'privilege' => $privilege->slug,
             '--force' => true,
         ])->expectsOutputToContain('deleted')
@@ -92,7 +92,7 @@ class ConsoleCommandTest extends TestCase {
             'slug' => 'obsolete.prompt',
         ]);
 
-        $this->artisan('tyro:delete-privilege', ['--force' => true])
+        $this->artisan('tyro:privilege-delete', ['--force' => true])
             ->expectsQuestion('Which privilege slug or ID should be deleted?', $privilege->slug)
             ->expectsOutputToContain('deleted')
             ->assertExitCode(0);
@@ -106,7 +106,7 @@ class ConsoleCommandTest extends TestCase {
             'slug' => 'content.feature',
         ]);
 
-        $this->artisan('tyro:attach-privilege', [
+        $this->artisan('tyro:privilege-attach', [
             'privilege' => $privilege->slug,
             'role' => $role->slug,
         ])->expectsOutputToContain('attached')
@@ -114,7 +114,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertTrue($role->fresh()->privileges->contains('id', $privilege->id));
 
-        $this->artisan('tyro:detach-privilege', [
+        $this->artisan('tyro:privilege-detach', [
             'privilege' => $privilege->slug,
             'role' => $role->slug,
         ])->expectsOutputToContain('detached')
@@ -129,7 +129,7 @@ class ConsoleCommandTest extends TestCase {
             'slug' => 'content.workflow',
         ]);
 
-        $this->artisan('tyro:attach-privilege')
+        $this->artisan('tyro:privilege-attach')
             ->expectsQuestion('Which privilege slug or ID should be attached?', $privilege->slug)
             ->expectsQuestion('Which role slug or ID should receive the privilege?', $role->slug)
             ->expectsOutputToContain('attached')
@@ -146,7 +146,7 @@ class ConsoleCommandTest extends TestCase {
 
         $role->privileges()->syncWithoutDetaching([$privilege->id]);
 
-        $this->artisan('tyro:detach-privilege')
+        $this->artisan('tyro:privilege-detach')
             ->expectsQuestion('Which privilege slug or ID should be detached?', $privilege->slug)
             ->expectsQuestion('Which role slug or ID should lose the privilege?', $role->slug)
             ->expectsOutputToContain('detached')
@@ -158,7 +158,7 @@ class ConsoleCommandTest extends TestCase {
     public function test_purge_privileges_command_removes_all_privileges(): void {
         Privilege::factory()->count(2)->create();
 
-        $this->artisan('tyro:purge-privileges', ['--force' => true])
+        $this->artisan('tyro:privilege-purge', ['--force' => true])
             ->expectsOutputToContain('Deleted')
             ->assertExitCode(0);
 
@@ -166,7 +166,7 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_login_command_displays_token(): void {
-        $this->artisan('tyro:login', [
+        $this->artisan('tyro:auth-login', [
             '--email' => 'admin@tyro.project',
             '--password' => 'tyro',
         ])->expectsOutputToContain('Token:')
@@ -177,7 +177,7 @@ class ConsoleCommandTest extends TestCase {
         $userClass = config('tyro.models.user');
         $user = $userClass::where('email', 'admin@tyro.project')->first();
 
-        $this->artisan('tyro:login', [
+        $this->artisan('tyro:auth-login', [
             '--user' => (string) $user->id,
             '--password' => 'tyro',
         ])->expectsOutputToContain('Token:')
@@ -185,7 +185,7 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_list_users_command_outputs_admin(): void {
-        $this->artisan('tyro:users')
+        $this->artisan('tyro:user-list')
             ->expectsOutputToContain('admin@tyro.project')
             ->assertExitCode(0);
     }
@@ -193,7 +193,7 @@ class ConsoleCommandTest extends TestCase {
     public function test_users_with_roles_command_displays_role_ids(): void {
         $adminRole = Role::where('slug', 'admin')->first();
 
-        $exitCode = Artisan::call('tyro:users-with-roles');
+        $exitCode = Artisan::call('tyro:user-list-with-roles');
         $output = Artisan::output();
 
         $this->assertSame(0, $exitCode);
@@ -227,7 +227,7 @@ class ConsoleCommandTest extends TestCase {
         $user = $userClass::where('email', 'admin@tyro.project')->first();
         $token = $user->createToken('Test CLI Token', ['admin'])->plainTextToken;
 
-        $this->artisan('tyro:logout', ['token' => $token])
+        $this->artisan('tyro:auth-logout', ['token' => $token])
             ->expectsOutputToContain('revoked')
             ->assertExitCode(0);
 
@@ -244,7 +244,7 @@ class ConsoleCommandTest extends TestCase {
 
         $user->roles()->sync(Role::where('slug', 'user')->pluck('id')->all());
 
-        $this->artisan('tyro:quick-token', ['user' => (string) $user->id])
+        $this->artisan('tyro:user-token', ['user' => (string) $user->id])
             ->expectsOutputToContain('Token:')
             ->assertExitCode(0);
 
@@ -265,7 +265,7 @@ class ConsoleCommandTest extends TestCase {
 
         $user->roles()->sync([$role->id]);
 
-        $this->artisan('tyro:quick-token', ['user' => (string) $user->id])
+        $this->artisan('tyro:user-token', ['user' => (string) $user->id])
             ->expectsOutputToContain('Token:')
             ->assertExitCode(0);
 
@@ -285,7 +285,7 @@ class ConsoleCommandTest extends TestCase {
             'suspension_reason' => 'Manual review',
         ]);
 
-        $this->artisan('tyro:quick-token', [
+        $this->artisan('tyro:user-token', [
             'user' => (string) $user->id,
         ])->expectsOutputToContain('User is suspended. Reason: Manual review')
             ->assertExitCode(1);
@@ -301,7 +301,7 @@ class ConsoleCommandTest extends TestCase {
             'password' => Hash::make('secret'),
         ]);
 
-        $this->artisan('tyro:update-user', [
+        $this->artisan('tyro:user-update', [
             '--user' => (string) $user->id,
             '--name' => 'Updated User',
             '--email' => 'updated-user@example.com',
@@ -323,7 +323,7 @@ class ConsoleCommandTest extends TestCase {
             'password' => Hash::make('old-secret'),
         ]);
 
-        $this->artisan('tyro:update-user', [
+        $this->artisan('tyro:user-update', [
             '--user' => (string) $user->id,
             '--password' => 'new-secret',
             '--email' => $user->email,
@@ -342,7 +342,7 @@ class ConsoleCommandTest extends TestCase {
             'password' => Hash::make('secret'),
         ]);
 
-        $this->artisan('tyro:suspend-user', [
+        $this->artisan('tyro:user-suspend', [
             '--user' => (string) $user->id,
             '--reason' => 'Manual review',
             '--force' => true,
@@ -353,7 +353,7 @@ class ConsoleCommandTest extends TestCase {
         $this->assertNotNull($fresh->suspended_at);
         $this->assertSame('Manual review', $fresh->suspension_reason);
 
-        $this->artisan('tyro:suspend-user', [
+        $this->artisan('tyro:user-suspend', [
             '--user' => (string) $user->id,
             '--unsuspend' => true,
             '--force' => true,
@@ -375,7 +375,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(2, $user->tokens()->count());
 
-        $this->artisan('tyro:suspend-user', [
+        $this->artisan('tyro:user-suspend', [
             '--user' => (string) $user->id,
             '--force' => true,
             '--reason' => 'Token cleanup',
@@ -395,7 +395,7 @@ class ConsoleCommandTest extends TestCase {
             'suspension_reason' => 'Review',
         ]);
 
-        $this->artisan('tyro:unsuspend-user', [
+        $this->artisan('tyro:user-unsuspend', [
             '--user' => (string) $user->id,
             '--force' => true,
         ])->expectsOutputToContain('no longer suspended')
@@ -415,7 +415,7 @@ class ConsoleCommandTest extends TestCase {
             'suspension_reason' => 'Testing',
         ]);
 
-        $exitCode = Artisan::call('tyro:suspended-users');
+        $exitCode = Artisan::call('tyro:user-suspended');
         $output = Artisan::output();
 
         $this->assertSame(0, $exitCode);
@@ -432,7 +432,7 @@ class ConsoleCommandTest extends TestCase {
             'suspension_reason' => 'Color testing',
         ]);
 
-        $exitCode = Artisan::call('tyro:users');
+        $exitCode = Artisan::call('tyro:user-list');
         $output = Artisan::output();
 
         $this->assertSame(0, $exitCode);
@@ -450,7 +450,7 @@ class ConsoleCommandTest extends TestCase {
             'suspension_reason' => 'Lockout',
         ]);
 
-        $this->artisan('tyro:login', [
+        $this->artisan('tyro:auth-login', [
             '--user' => (string) $user->id,
             '--password' => 'secret',
         ])->expectsOutputToContain('User is suspended. Reason: Lockout')
@@ -460,7 +460,7 @@ class ConsoleCommandTest extends TestCase {
     public function test_update_role_command_updates_name_and_slug(): void {
         $role = Role::where('slug', 'editor')->first();
 
-        $this->artisan('tyro:update-role', [
+        $this->artisan('tyro:role-update', [
             '--role' => (string) $role->id,
             '--name' => 'Content Editor',
             '--slug' => 'content-editor',
@@ -480,7 +480,7 @@ class ConsoleCommandTest extends TestCase {
             'name' => 'Docs Review',
         ]);
 
-        $this->artisan('tyro:update-privilege', [
+        $this->artisan('tyro:privilege-update', [
             '--privilege' => $privilege->slug,
             '--name' => 'Docs Audit',
             '--slug' => 'docs.audit',
@@ -507,7 +507,7 @@ class ConsoleCommandTest extends TestCase {
         $role = Role::where('slug', 'editor')->first();
         $user->roles()->sync([$role->id]);
 
-        $this->artisan('tyro:delete-user-role', [
+        $this->artisan('tyro:role-remove', [
             '--user' => $user->email,
             '--role' => $role->slug,
         ])->expectsOutputToContain('removed')
@@ -548,7 +548,7 @@ class ConsoleCommandTest extends TestCase {
         $user->createToken('First', ['admin']);
         $user->createToken('Second', ['admin']);
 
-        $this->artisan('tyro:logout-all', ['--user' => $user->email, '--force' => true])
+        $this->artisan('tyro:auth-logout-all', ['--user' => $user->email, '--force' => true])
             ->expectsOutputToContain('All tokens revoked')
             ->assertExitCode(0);
 
@@ -565,7 +565,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(2, PersonalAccessToken::count());
 
-        $this->artisan('tyro:logout-all-users', ['--force' => true])
+        $this->artisan('tyro:auth-logout-all-users', ['--force' => true])
             ->expectsOutputToContain('Revoked 2 tokens')
             ->assertExitCode(0);
 
@@ -573,25 +573,25 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_about_command_outputs_summary(): void {
-        $this->artisan('tyro:about')
+        $this->artisan('tyro:sys-about')
             ->expectsOutputToContain('Tyro for Laravel')
             ->assertExitCode(0);
     }
 
     public function test_doc_command_can_print_url(): void {
-        $this->artisan('tyro:doc', ['--no-open' => true])
+        $this->artisan('tyro:sys-doc', ['--no-open' => true])
             ->expectsOutputToContain('https://github.com/hasinhayder/tyro')
             ->assertExitCode(0);
     }
 
     public function test_postman_collection_command_can_print_url(): void {
-        $this->artisan('tyro:postman-collection', ['--no-open' => true])
+        $this->artisan('tyro:postman', ['--no-open' => true])
             ->expectsOutputToContain('Tyro.postman_collection.json')
             ->assertExitCode(0);
     }
 
     public function test_install_command_runs_install_api_and_migrate(): void {
-        $this->artisan('tyro:install', ['--dry-run' => true])
+        $this->artisan('tyro:sys-install', ['--dry-run' => true])
             ->expectsOutputToContain('Dry run: skipped install:api and migrate.')
             ->assertExitCode(0);
     }
@@ -609,9 +609,9 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame([
             'install:api',
-            'tyro:prepare-user-model',
+            'tyro:user-prepare',
             'migrate',
-            'tyro:seed',
+            'tyro:seed-all',
         ], array_column(FakeInstallCommand::$recorded, 'command'));
     }
 
@@ -628,7 +628,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame([
             'install:api',
-            'tyro:prepare-user-model',
+            'tyro:user-prepare',
             'migrate',
         ], array_column(FakeInstallCommand::$recorded, 'command'));
     }
@@ -636,7 +636,7 @@ class ConsoleCommandTest extends TestCase {
     public function test_flush_roles_command_truncates_roles(): void {
         $this->assertGreaterThan(0, Role::count());
 
-        $this->artisan('tyro:purge-roles', ['--force' => true])
+        $this->artisan('tyro:role-purge', ['--force' => true])
             ->assertExitCode(0);
 
         $this->assertSame(0, Role::count());
@@ -646,7 +646,7 @@ class ConsoleCommandTest extends TestCase {
         $userClass = config('tyro.models.user');
         
         // Run seed command
-        $this->artisan('tyro:seed', ['--force' => true])
+        $this->artisan('tyro:seed-all', ['--force' => true])
             ->assertExitCode(0);
 
         // Verify admin user exists
@@ -718,7 +718,7 @@ PHP;
         file_put_contents($path, $stub);
 
         try {
-            $this->artisan('tyro:prepare-user-model', ['--path' => $path])
+            $this->artisan('tyro:user-prepare', ['--path' => $path])
                 ->expectsOutputToContain('Updated User model')
                 ->assertExitCode(0);
 
@@ -727,7 +727,7 @@ PHP;
             $this->assertStringContainsString('use HasinHayder\\Tyro\\Concerns\\HasTyroRoles;', $updated);
             $this->assertStringContainsString('use HasApiTokens, HasTyroRoles;', $updated);
 
-            $this->artisan('tyro:prepare-user-model', ['--path' => $path])
+            $this->artisan('tyro:user-prepare', ['--path' => $path])
                 ->expectsOutputToContain('already prepared')
                 ->assertExitCode(0);
         } finally {

@@ -6,7 +6,9 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class MeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:me {token?} {--token=}';
+    protected $signature = 'tyro:auth-me {token?} {--token=}';
+
+    protected $aliases = ['tyro:me'];
 
     protected $description = 'Inspect which user a given token belongs to';
 

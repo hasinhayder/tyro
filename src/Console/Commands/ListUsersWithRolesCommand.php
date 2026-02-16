@@ -4,7 +4,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 class ListUsersWithRolesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:users-with-roles';
+    protected $signature = 'tyro:user-list-with-roles';
+
+    protected $aliases = ['tyro:users-with-roles'];
 
     protected $description = 'Display users alongside their Tyro roles';
 

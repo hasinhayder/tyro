@@ -6,11 +6,13 @@ use HasinHayder\Tyro\Models\AuditLog;
 
 class ListAuditLogsCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:audit 
+    protected $signature = 'tyro:audit-list 
                             {--limit=20 : Number of logs to display} 
                             {--event= : Filter by event type}
                             {--from= : Filter by start date (YYYY-MM-DD)}
                             {--to= : Filter by end date (YYYY-MM-DD)}';
+
+    protected $aliases = ['tyro:audit'];
 
     protected $description = 'Display recent Tyro audit logs';
 

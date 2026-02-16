@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 
 class UpdateRoleCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:update-role {--role=} {--name=} {--slug=}';
+    protected $signature = 'tyro:role-update {--role=} {--name=} {--slug=}';
+
+    protected $aliases = ['tyro:update-role'];
 
     protected $description = 'Update a role name or slug';
 

@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Models\Role;
 
 class ListRolesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:roles';
+    protected $signature = 'tyro:role-list';
+
+    protected $aliases = ['tyro:roles'];
 
     protected $description = 'Display all Tyro roles';
 

@@ -5,7 +5,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 use Illuminate\Support\Carbon;
 
 class ListUsersCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:users';
+    protected $signature = 'tyro:user-list';
+
+    protected $aliases = ['tyro:users'];
 
     protected $description = 'Display all users tracked by Tyro';
 

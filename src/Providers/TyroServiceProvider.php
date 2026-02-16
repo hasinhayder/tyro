@@ -35,6 +35,7 @@ use HasinHayder\Tyro\Console\Commands\PurgeAuditLogsCommand;
 use HasinHayder\Tyro\Console\Commands\PurgePrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\QuickTokenCommand;
 use HasinHayder\Tyro\Console\Commands\RoleUsersCommand;
+use HasinHayder\Tyro\Console\Commands\RunTestsCommand;
 use HasinHayder\Tyro\Console\Commands\SeedCommand;
 use HasinHayder\Tyro\Console\Commands\SeedPrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\SeedRolesCommand;
@@ -196,6 +197,7 @@ class TyroServiceProvider extends ServiceProvider {
             PostmanCollectionCommand::class,
             PublishMigrationsCommand::class,
             QuickTokenCommand::class,
+            RunTestsCommand::class,
             SuspendUserCommand::class,
             SuspendedUsersCommand::class,
             UnsuspendUserCommand::class,

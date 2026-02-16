@@ -145,12 +145,12 @@ class TyroCache
 
     protected static function rolesKey($userId): string
     {
-        return sprintf('tyro:user:%s:roles', $userId);
+        return sprintf('tyro:user-%s:roles', $userId);
     }
 
     protected static function privilegesKey($userId): string
     {
-        return sprintf('tyro:user:%s:privileges', $userId);
+        return sprintf('tyro:user-%s:privileges', $userId);
     }
 
     protected static function bumpRuntimeVersion($user): void

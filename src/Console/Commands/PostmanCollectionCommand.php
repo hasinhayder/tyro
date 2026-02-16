@@ -3,7 +3,9 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 class PostmanCollectionCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:postman-collection {--no-open : Only print the Postman collection URL}';
+    protected $signature = 'tyro:postman {--no-open : Only print the Postman collection URL}';
+
+    protected $aliases = ['tyro:postman-collection'];
 
     protected $description = 'Open the Tyro Postman collection in your browser';
 

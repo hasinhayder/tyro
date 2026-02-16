@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 class InstallCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:install
+    protected $signature = 'tyro:sys-install
         {--force : Pass the --force flag to migrate}
         {--dry-run : Print the steps without executing install:api or migrate}';
+
+    protected $aliases = ['tyro:install'];
 
     protected $description = 'Bootstrap Tyro: set up Sanctum, run migrations, seed roles/privileges, and prepare your User model';
 
@@ -24,7 +26,7 @@ class InstallCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if (!$this->runRequiredCommand('tyro:prepare-user-model')) {
+        if (!$this->runRequiredCommand('tyro:user-prepare')) {
             return self::FAILURE;
         }
 
@@ -40,7 +42,7 @@ class InstallCommand extends BaseTyroCommand {
 
         if ($this->input->isInteractive()) {
             if ($this->confirm('Seed Tyro roles, privileges, and the bootstrap admin user now?', true)) {
-                if (!$this->runRequiredCommand('tyro:seed', ['--force' => true])) {
+                if (!$this->runRequiredCommand('tyro:seed-all', ['--force' => true])) {
                     return self::FAILURE;
                 }
             }

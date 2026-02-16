@@ -4,7 +4,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 class DocCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:doc {--no-open : Only print the docs URL}';
+    protected $signature = 'tyro:sys-doc {--no-open : Only print the docs URL}';
+
+    protected $aliases = ['tyro:doc'];
 
     protected $description = 'Open the Tyro documentation in your browser';
 

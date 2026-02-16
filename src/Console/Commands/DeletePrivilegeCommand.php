@@ -6,8 +6,10 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class DeletePrivilegeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:delete-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'tyro:privilege-delete {privilege? : Privilege ID or slug}
         {--force : Skip confirmation prompt}';
+
+    protected $aliases = ['tyro:delete-privilege'];
 
     protected $description = 'Delete a Tyro privilege record';
 

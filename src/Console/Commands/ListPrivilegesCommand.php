@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Models\Privilege;
 
 class ListPrivilegesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:privileges';
+    protected $signature = 'tyro:privilege-list';
+
+    protected $aliases = ['tyro:privileges'];
 
     protected $description = 'Display all Tyro privileges and their roles';
 

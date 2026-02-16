@@ -6,8 +6,10 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class AttachPrivilegeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:attach-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'tyro:privilege-attach {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
+
+    protected $aliases = ['tyro:attach-privilege'];
 
     protected $description = 'Attach a privilege to a Tyro role';
 

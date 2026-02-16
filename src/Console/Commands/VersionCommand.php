@@ -5,7 +5,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 use Illuminate\Console\Command;
 
 class VersionCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:version';
+    protected $signature = 'tyro:sys-version';
+
+    protected $aliases = ['tyro:version'];
 
     protected $description = 'Show the currently installed Tyro version';
 

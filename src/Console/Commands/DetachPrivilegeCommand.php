@@ -6,8 +6,10 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class DetachPrivilegeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:detach-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'tyro:privilege-detach {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
+
+    protected $aliases = ['tyro:detach-privilege'];
 
     protected $description = 'Detach a privilege from a Tyro role';
 

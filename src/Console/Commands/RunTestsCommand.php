@@ -6,7 +6,7 @@ use Symfony\Component\Process\Process;
 
 class RunTestsCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:run-tests
+    protected $signature = 'tyro:test
         {--pest : Force Pest}
         {--phpunit : Force PHPUnit}
         {--filter= : Filter tests by name}
@@ -14,6 +14,8 @@ class RunTestsCommand extends BaseTyroCommand
         {--coverage : Enable coverage collection}
         {--dry-run : Print the command instead of executing it}
         {--extra=* : Additional arguments to pass through}';
+
+    protected $aliases = ['tyro:run-tests'];
 
     protected $description = 'Run your project\'s automated tests (Pest by default)';
 

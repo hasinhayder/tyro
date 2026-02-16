@@ -6,7 +6,9 @@ use Illuminate\Support\Carbon;
 
 class SuspendedUsersCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:suspended-users';
+    protected $signature = 'tyro:user-suspended';
+
+    protected $aliases = ['tyro:suspended-users'];
 
     protected $description = 'List every Tyro user currently suspended';
 

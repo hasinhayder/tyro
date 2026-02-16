@@ -3,7 +3,9 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 class AboutCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:about';
+    protected $signature = 'tyro:sys-about';
+
+    protected $aliases = ['tyro:about'];
 
     protected $description = 'Show Tyro\'s mission, version, and author details';
 
@@ -30,7 +32,7 @@ class AboutCommand extends BaseTyroCommand {
         $this->line('Works for APIs, web apps, and hybrid applications.');
         $this->newLine();
         $this->line('• GitHub: https://github.com/hasinhayder/tyro');
-        $this->line('• Run `tyro:doc` to open documentation');
+        $this->line('• Run `tyro:sys-doc` to open documentation');
 
         return self::SUCCESS;
     }

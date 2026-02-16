@@ -9,6 +9,8 @@ use HasinHayder\Tyro\Support\TyroCache;
 class SeedPrivilegesCommand extends BaseTyroCommand {
     protected $signature = 'tyro:seed-privileges {--force : Skip confirmation}';
 
+    protected $aliases = ['tyro:seed-privileges'];
+
     protected $description = 'Seed default privilege definitions and role assignments';
 
     public function handle(): int {

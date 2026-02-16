@@ -4,7 +4,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 class StarCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:star {--no-open : Only print the link instead of opening a browser}';
+    protected $signature = 'tyro:sys-star {--no-open : Only print the link instead of opening a browser}';
+
+    protected $aliases = ['tyro:star'];
 
     protected $description = 'Open the Tyro GitHub repository so you can star it';
 

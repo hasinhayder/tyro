@@ -7,7 +7,9 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class UpdatePrivilegeCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:update-privilege {--privilege=} {--name=} {--slug=} {--description=}';
+    protected $signature = 'tyro:privilege-update {--privilege=} {--name=} {--slug=} {--description=}';
+
+    protected $aliases = ['tyro:update-privilege'];
 
     protected $description = 'Update an existing privilege record';
 

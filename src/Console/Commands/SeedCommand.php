@@ -7,7 +7,9 @@ use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:seed {--force : Run without confirmation}';
+    protected $signature = 'tyro:seed-all {--force : Run without confirmation}';
+
+    protected $aliases = ['tyro:seed'];
 
     protected $description = 'Seed default roles, privileges, and bootstrap admin user';
 

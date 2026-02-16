@@ -4,9 +4,11 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 class UnsuspendUserCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:unsuspend-user
+    protected $signature = 'tyro:user-unsuspend
         {--user= : User ID or email address}
         {--force : Skip confirmation prompts}';
+
+    protected $aliases = ['tyro:unsuspend-user'];
 
     protected $description = 'Lift the suspension for a Tyro user';
 

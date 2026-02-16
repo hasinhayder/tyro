@@ -6,11 +6,13 @@ use HasinHayder\Tyro\Support\TyroAudit;
 use Illuminate\Support\Facades\Hash;
 
 class LoginCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:login
+    protected $signature = 'tyro:auth-login
         {--user= : User ID or email address}
         {--email= : [Deprecated] Email address}
         {--password= : The plain text password}
         {--name=Tyro CLI Token : Token name}';
+
+    protected $aliases = ['tyro:login'];
 
     protected $description = 'Mint a Sanctum token for a user via the CLI';
 

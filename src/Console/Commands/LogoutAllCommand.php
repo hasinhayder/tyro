@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Support\TyroAudit;
 
 class LogoutAllCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:logout-all {--user=} {--force}';
+    protected $signature = 'tyro:auth-logout-all {--user=} {--force}';
+
+    protected $aliases = ['tyro:logout-all'];
 
     protected $description = 'Delete every Sanctum token for a specific user';
 

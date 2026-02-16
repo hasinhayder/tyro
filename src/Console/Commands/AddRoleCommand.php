@@ -7,7 +7,9 @@ use Illuminate\Support\Str;
 
 class AddRoleCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:create-role {--name=} {--slug=}';
+    protected $signature = 'tyro:role-create {--name=} {--slug=}';
+
+    protected $aliases = ['tyro:create-role'];
 
     protected $description = 'Create a new role';
 

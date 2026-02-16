@@ -6,7 +6,9 @@ use HasinHayder\Tyro\Support\TyroCache;
 
 class AssignRoleCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:assign-role {--user=} {--role=}';
+    protected $signature = 'tyro:role-assign {--user=} {--role=}';
+
+    protected $aliases = ['tyro:assign-role'];
 
     protected $description = 'Attach a role to a user';
 

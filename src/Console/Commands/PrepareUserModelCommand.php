@@ -5,7 +5,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 use Illuminate\Support\Str;
 
 class PrepareUserModelCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:prepare-user-model {--path= : Override the location of the User model file}';
+    protected $signature = 'tyro:user-prepare {--path= : Override the location of the User model file}';
+
+    protected $aliases = ['tyro:prepare-user-model'];
 
     protected $description = 'Add HasApiTokens and HasTyroRoles traits to the default User model';
 

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class FlushRolesCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:purge-roles {--force : Run without confirmation}';
+    protected $signature = 'tyro:role-purge {--force : Run without confirmation}';
+
+    protected $aliases = ['tyro:purge-roles'];
 
     protected $description = 'Truncate the roles and pivot tables without re-seeding them';
 

@@ -6,11 +6,13 @@ use Illuminate\Support\Carbon;
 
 class SuspendUserCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:suspend-user
+    protected $signature = 'tyro:user-suspend
         {--user= : User ID or email address}
         {--reason= : Optional suspension reason}
         {--unsuspend : Lift the current suspension instead of applying one}
         {--force : Skip confirmation prompts}';
+
+    protected $aliases = ['tyro:suspend-user'];
 
     protected $description = 'Suspend or unsuspend a Tyro user';
 

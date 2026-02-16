@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class PurgePrivilegesCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:purge-privileges {--force : Skip confirmation prompt}';
+    protected $signature = 'tyro:privilege-purge {--force : Skip confirmation prompt}';
+
+    protected $aliases = ['tyro:purge-privileges'];
 
     protected $description = 'Delete every privilege record and detach them from roles';
 
