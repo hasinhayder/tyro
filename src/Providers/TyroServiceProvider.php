@@ -16,6 +16,7 @@ use HasinHayder\Tyro\Console\Commands\DetachPrivilegeCommand;
 use HasinHayder\Tyro\Console\Commands\DocCommand;
 use HasinHayder\Tyro\Console\Commands\FlushRolesCommand;
 use HasinHayder\Tyro\Console\Commands\InstallCommand;
+use HasinHayder\Tyro\Console\Commands\ListAuditLogsCommand;
 use HasinHayder\Tyro\Console\Commands\ListPrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\ListRolesCommand;
 use HasinHayder\Tyro\Console\Commands\ListRolesWithPrivilegesCommand;
@@ -30,6 +31,7 @@ use HasinHayder\Tyro\Console\Commands\PostmanCollectionCommand;
 use HasinHayder\Tyro\Console\Commands\PrepareUserModelCommand;
 use HasinHayder\Tyro\Console\Commands\PublishConfigCommand;
 use HasinHayder\Tyro\Console\Commands\PublishMigrationsCommand;
+use HasinHayder\Tyro\Console\Commands\PurgeAuditLogsCommand;
 use HasinHayder\Tyro\Console\Commands\PurgePrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\QuickTokenCommand;
 use HasinHayder\Tyro\Console\Commands\RoleUsersCommand;
@@ -79,6 +81,7 @@ class TyroServiceProvider extends ServiceProvider {
         $this->registerBindings();
         $this->registerCommands();
         $this->registerBladeDirectives();
+        $this->registerObservers();
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
@@ -175,6 +178,7 @@ class TyroServiceProvider extends ServiceProvider {
             DetachPrivilegeCommand::class,
             FlushRolesCommand::class,
             InstallCommand::class,
+            ListAuditLogsCommand::class,
             ListPrivilegesCommand::class,
             ListRolesCommand::class,
             ListRolesWithPrivilegesCommand::class,
@@ -186,6 +190,7 @@ class TyroServiceProvider extends ServiceProvider {
             LogoutCommand::class,
             MeCommand::class,
             PrepareUserModelCommand::class,
+            PurgeAuditLogsCommand::class,
             PurgePrivilegesCommand::class,
             PublishConfigCommand::class,
             PostmanCollectionCommand::class,
@@ -218,5 +223,12 @@ class TyroServiceProvider extends ServiceProvider {
         UserHasPrivilegeDirective::register();
         UserHasAnyPrivilegeDirective::register();
         UserHasPrivilegesDirective::register();
+    }
+
+    protected function registerObservers(): void {
+        if (config('tyro.audit.enabled', true)) {
+            Role::observe(\HasinHayder\Tyro\Models\Observers\RoleObserver::class);
+            Privilege::observe(\HasinHayder\Tyro\Models\Observers\PrivilegeObserver::class);
+        }
     }
 }

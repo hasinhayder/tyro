@@ -17,6 +17,7 @@ Tyro is the complete auth and access control toolkit that works everywhere in yo
 -   **40+ Artisan Commands.** Manage users, roles, privileges, and tokens entirely from the CLI. Seed data, suspend users, rotate tokens, audit permissions—all without touching the database directly. Perfect for automation, CI/CD, and incident response.
 -   **Blade Directives for Views.** Use `@hasRole`, `@hasPrivilege`, `@hasAnyRole`, and more to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter (camelCase and legacy lowercase/snake_case supported).
 -   **User Suspension Workflows.** Freeze accounts instantly with optional reasons, automatically revoke all active tokens, and manage suspensions via CLI or REST endpoints.
+-   **Comprehensive Audit Trail.** Track every administrative action—who assigned which role, who suspended a user, and what changed in a role's privileges. View logs via CLI or a dedicated API endpoint.
 -   **Optional API Surface.** Need REST endpoints? Tyro ships production-ready routes for login, registration, user management, role CRUD, and privilege management. Don't need them? Disable with one config flag.
 -   **Security Hardened.** Sanctum tokens automatically include role and privilege abilities, suspension workflows revoke tokens instantly, and protected role slugs prevent accidental deletion.
 -   **Zero Lock-in.** Publish config, migrations, and factories to customize everything. Disable CLI commands or API routes per environment. Tyro adapts to your architecture, not the other way around.
@@ -521,6 +522,40 @@ public function destroy(User $user, Report $report): bool
 }
 ```
 
+## Audit Trail
+
+Tyro includes a database-backed audit trail to track administrative actions. This is essential for security auditing and compliance.
+
+### Recorded Events
+
+-   **User Actions:** Role assignment, role removal, user suspension, and unsuspension.
+-   **Role Actions:** Role creation, updates, and deletion.
+-   **Privilege Actions:** Privilege creation, updates, and deletion.
+
+### CLI Management
+
+```bash
+# View recent audit logs
+php artisan tyro:audit --limit=50
+
+# Filter by event
+php artisan tyro:audit --event=role.assigned
+
+# Purge old logs (older than 30 days)
+php artisan tyro:audit-purge
+```
+
+### Configuration
+
+Customize retention and toggle the feature in `config/tyro.php`:
+
+```php
+'audit' => [
+    'enabled' => true,
+    'retention_days' => 30,
+],
+```
+
 ## CLI Commands (40+ Tools)
 
 Tyro ships with a powerful CLI toolbox for managing users, roles, privileges, and tokens—perfect for automation, CI/CD pipelines, and incident response.
@@ -574,6 +609,13 @@ Tyro ships with a powerful CLI toolbox for managing users, roles, privileges, an
 | `tyro:logout-all`       | Revoke all tokens for a specific user.                       |
 | `tyro:logout-all-users` | Revoke all tokens for all users (emergency rotation).        |
 | `tyro:me`               | Inspect a token to see user and abilities.                   |
+
+### Audit Management Commands
+
+| Command            | Purpose                                  |
+| ------------------ | ---------------------------------------- |
+| `tyro:audit`       | List recent audit logs with filters.     |
+| `tyro:audit-purge` | Purge old audit logs based on retention. |
 
 ### Setup & Maintenance Commands
 
@@ -638,7 +680,7 @@ Tyro registers the following endpoints (prefixed by `tyro.route_prefix`, default
 
 -   **Public:** `GET /tyro`, `GET /tyro/version`, `POST /login`, `POST /users` (registration)
 -   **Authenticated:** `GET /me`, `PUT|PATCH|POST /users/{user}`
--   **Admin-only:** User CRUD, Role CRUD, Privilege CRUD, user-role assignments, role-privilege assignments, user suspension
+-   **Admin-only:** User CRUD, Role CRUD, Privilege CRUD, Audit Log CRUD, user-role assignments, role-privilege assignments, user suspension
 
 ### Disabling the API
 

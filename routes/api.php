@@ -1,6 +1,7 @@
 <?php
 
 use HasinHayder\Tyro\Http\Controllers\TyroController;
+use HasinHayder\Tyro\Http\Controllers\AuditLogController;
 use HasinHayder\Tyro\Http\Controllers\PrivilegeController;
 use HasinHayder\Tyro\Http\Controllers\RoleController;
 use HasinHayder\Tyro\Http\Controllers\RolePrivilegeController;
@@ -33,5 +34,6 @@ Route::middleware([$guardMiddleware])->group(function () use ($adminAbilities, $
         Route::apiResource('users.roles', UserRoleController::class)->except(['create', 'edit', 'show', 'update']);
         Route::apiResource('privileges', PrivilegeController::class)->except(['create', 'edit']);
         Route::apiResource('roles.privileges', RolePrivilegeController::class)->only(['index', 'store', 'destroy']);
+        Route::get('audit-logs', [AuditLogController::class, 'index'])->name('tyro.audit-logs.index');
     });
 });

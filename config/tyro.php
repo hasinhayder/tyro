@@ -22,6 +22,7 @@ return [
         'role' => Role::class,
         'privilege' => Privilege::class,
         'pivot' => UserRole::class,
+        'audit_log' => \HasinHayder\Tyro\Models\AuditLog::class,
     ],
 
     'tables' => [
@@ -30,6 +31,12 @@ return [
         'pivot' => 'user_roles',
         'privileges' => 'privileges',
         'role_privilege' => 'privilege_role',
+        'audit_logs' => 'tyro_audit_logs',
+    ],
+
+    'audit' => [
+        'enabled' => env('TYRO_AUDIT_ENABLED', true),
+        'retention_days' => env('TYRO_AUDIT_RETENTION_DAYS', 30),
     ],
 
     'default_user_role_slug' => env('DEFAULT_ROLE_SLUG', 'user'),

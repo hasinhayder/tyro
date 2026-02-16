@@ -4,6 +4,7 @@ namespace HasinHayder\Tyro\Concerns;
 
 use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\Models\UserRole;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -35,6 +36,8 @@ trait HasTyroRoles {
         $this->roles()->syncWithoutDetaching($role);
         TyroCache::forgetUser($this->getKey());
         $this->flushTyroRuntimeCache();
+
+        TyroAudit::log('role.assigned', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
     }
 
     /**
@@ -44,6 +47,8 @@ trait HasTyroRoles {
         $this->roles()->detach($role);
         TyroCache::forgetUser($this->getKey());
         $this->flushTyroRuntimeCache();
+
+        TyroAudit::log('role.removed', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
     }
 
     /**
@@ -213,9 +218,20 @@ trait HasTyroRoles {
      * Suspend the user and revoke all tokens.
      */
     public function suspend(?string $reason = null): void {
+        $oldValues = [
+            'suspended_at' => $this->suspended_at,
+            'suspension_reason' => $this->suspension_reason,
+        ];
+
         $this->suspended_at = now();
         $this->suspension_reason = $reason;
         $this->save();
+
+        TyroAudit::log('user.suspended', $this, $oldValues, [
+            'suspended_at' => $this->suspended_at,
+            'suspension_reason' => $this->suspension_reason,
+        ]);
+
         // Revoke all active tokens
         $this->tokens()->delete();
     }
@@ -224,9 +240,19 @@ trait HasTyroRoles {
      * Unsuspend the user.
      */
     public function unsuspend(): void {
+        $oldValues = [
+            'suspended_at' => $this->suspended_at,
+            'suspension_reason' => $this->suspension_reason,
+        ];
+
         $this->suspended_at = null;
         $this->suspension_reason = null;
         $this->save();
+
+        TyroAudit::log('user.unsuspended', $this, $oldValues, [
+            'suspended_at' => null,
+            'suspension_reason' => null,
+        ]);
     }
 
     /**
