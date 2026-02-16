@@ -556,6 +556,8 @@ Customize retention and toggle the feature in `config/tyro.php`:
 ],
 ```
 
+For more details, see the [Detailed Audit Trail Documentation](docs/audit-trail.md).
+
 ## CLI Commands (40+ Tools)
 
 Tyro ships with a powerful CLI toolbox for managing users, roles, privileges, and tokens—perfect for automation, CI/CD pipelines, and incident response.
