@@ -19,6 +19,14 @@ class AuditLogController extends TyroController
             $query->where('user_id', $request->user_id);
         }
 
+        if ($request->has('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+
+        if ($request->has('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+
         $logs = $query->paginate($request->get('per_page', 20));
 
         return response()->json($logs);

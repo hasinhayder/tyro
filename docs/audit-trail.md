@@ -60,6 +60,9 @@ php artisan tyro:audit --limit=50
 
 # Filter by event type
 php artisan tyro:audit --event=user.suspended
+
+# Filter by date range
+php artisan tyro:audit --from=2024-01-01 --to=2024-01-31
 ```
 
 ### Purging Logs
@@ -85,6 +88,8 @@ If the Tyro API is enabled, admins can access logs via:
 ### Query Parameters:
 - `event`: Filter by event slug (e.g., `role.assigned`).
 - `user_id`: Filter by the actor's user ID.
+- `from`: Filter by start date (YYYY-MM-DD).
+- `to`: Filter by end date (YYYY-MM-DD).
 - `per_page`: Control pagination (default 20).
 
 **Note:** This endpoint requires the authenticated user to have administrative privileges as defined in your Tyro config.

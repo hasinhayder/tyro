@@ -78,3 +78,23 @@ test('audit logs can be purged', function () {
     $this->assertDatabaseMissing(config('tyro.tables.audit_logs'), ['event' => 'old.event']);
     $this->assertDatabaseHas(config('tyro.tables.audit_logs'), ['event' => 'new.event']);
 });
+
+test('audit logs can be filtered by date range via api', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole(Role::where('slug', 'admin')->first());
+
+    // Clear logs created by setup/other tests
+    AuditLog::truncate();
+
+    AuditLog::create(['event' => 'past.event', 'created_at' => now()->subDays(5)]);
+    AuditLog::create(['event' => 'today.event', 'created_at' => now()]);
+    AuditLog::create(['event' => 'future.event', 'created_at' => now()->addDays(5)]);
+
+    $this->actingAs($admin)
+        ->getJson('/api/audit-logs?from=' . now()->subDays(1)->format('Y-m-d') . '&to=' . now()->addDays(1)->format('Y-m-d'))
+        ->assertStatus(200)
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['event' => 'today.event'])
+        ->assertJsonMissing(['event' => 'past.event'])
+        ->assertJsonMissing(['event' => 'future.event']);
+});

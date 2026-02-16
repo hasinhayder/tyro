@@ -6,7 +6,11 @@ use HasinHayder\Tyro\Models\AuditLog;
 
 class ListAuditLogsCommand extends BaseTyroCommand
 {
-    protected $signature = 'tyro:audit {--limit=20 : Number of logs to display} {--event= : Filter by event type}';
+    protected $signature = 'tyro:audit 
+                            {--limit=20 : Number of logs to display} 
+                            {--event= : Filter by event type}
+                            {--from= : Filter by start date (YYYY-MM-DD)}
+                            {--to= : Filter by end date (YYYY-MM-DD)}';
 
     protected $description = 'Display recent Tyro audit logs';
 
@@ -16,6 +20,14 @@ class ListAuditLogsCommand extends BaseTyroCommand
 
         if ($event = $this->option('event')) {
             $query->where('event', 'like', "%{$event}%");
+        }
+
+        if ($from = $this->option('from')) {
+            $query->whereDate('created_at', '>=', $from);
+        }
+
+        if ($to = $this->option('to')) {
+            $query->whereDate('created_at', '<=', $to);
         }
 
         $logs = $query->limit((int) $this->option('limit'))->get();
