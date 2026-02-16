@@ -51,14 +51,13 @@ class SuspendUserCommand extends BaseTyroCommand
             }
         }
 
-        $user->forceFill([
-            'suspended_at' => Carbon::now(),
-            'suspension_reason' => $reason ?: null,
-        ])->save();
-
-        $this->revokeTokens($user);
+        $revoked = $user->suspend($reason);
 
         $this->info(sprintf('User %s suspended%s.', $user->email, $reason ? ' ('.$reason.')' : ''));
+
+        if ($revoked > 0) {
+            $this->warn(sprintf('Revoked %d existing token%s.', $revoked, $revoked === 1 ? '' : 's'));
+        }
 
         return self::SUCCESS;
     }
@@ -83,10 +82,7 @@ class SuspendUserCommand extends BaseTyroCommand
             }
         }
 
-        $user->forceFill([
-            'suspended_at' => null,
-            'suspension_reason' => null,
-        ])->save();
+        $user->unsuspend();
 
         $this->info(sprintf('User %s is no longer suspended.', $user->email));
 
@@ -95,14 +91,6 @@ class SuspendUserCommand extends BaseTyroCommand
 
     protected function revokeTokens($user): void
     {
-        if (! method_exists($user, 'tokens')) {
-            return;
-        }
-
-        $deleted = $user->tokens()->delete();
-
-        if ($deleted > 0) {
-            $this->warn(sprintf('Revoked %d existing token%s.', $deleted, $deleted === 1 ? '' : 's'));
-        }
+        // Deprecated: tokens are revoked in $user->suspend()
     }
 }

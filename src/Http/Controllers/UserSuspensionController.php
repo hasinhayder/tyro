@@ -26,12 +26,7 @@ class UserSuspensionController extends Controller
             ], 200);
         }
 
-        $user->forceFill([
-            'suspended_at' => now(),
-            'suspension_reason' => $payload['reason'] ?? null,
-        ])->save();
-
-        $revoked = $this->revokeTokens($user);
+        $revoked = $user->suspend($payload['reason'] ?? null);
 
         return response([
             'error' => 0,
@@ -55,10 +50,7 @@ class UserSuspensionController extends Controller
             ], 200);
         }
 
-        $user->forceFill([
-            'suspended_at' => null,
-            'suspension_reason' => null,
-        ])->save();
+        $user->unsuspend();
 
         return response([
             'error' => 0,
@@ -88,14 +80,5 @@ class UserSuspensionController extends Controller
         }
 
         return (bool) ($user->suspended_at ?? false);
-    }
-
-    protected function revokeTokens($user): int
-    {
-        if (! method_exists($user, 'tokens')) {
-            return 0;
-        }
-
-        return (int) $user->tokens()->delete();
     }
 }

@@ -25,8 +25,7 @@ class UserRoleController extends Controller
 
         $role = Role::findOrFail($data['role_id']);
         if (! $user->roles()->find($role->id)) {
-            $user->roles()->attach($role);
-            TyroCache::forgetUser($user);
+            $user->assignRole($role);
         }
 
         return $user->load('roles');
@@ -35,8 +34,7 @@ class UserRoleController extends Controller
     public function destroy($user, Role $role)
     {
         $user = $this->resolveUser($user);
-        $user->roles()->detach($role);
-        TyroCache::forgetUser($user);
+        $user->removeRole($role);
 
         return $user->load('roles');
     }

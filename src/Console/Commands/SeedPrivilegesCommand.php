@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Database\Seeders\PrivilegeSeeder;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedPrivilegesCommand extends BaseTyroCommand {
@@ -22,6 +23,8 @@ class SeedPrivilegesCommand extends BaseTyroCommand {
         $seeder->setContainer($this->laravel)->setCommand($this);
         $seeder->run();
         TyroCache::forgetAllUsersWithRoles();
+
+        TyroAudit::log('system.seeded', null, null, ['type' => 'privileges']);
 
         $this->info('Default Tyro privileges and role mappings have been re-seeded.');
 

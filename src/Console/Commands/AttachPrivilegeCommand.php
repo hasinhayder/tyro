@@ -41,8 +41,7 @@ class AttachPrivilegeCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $role->privileges()->syncWithoutDetaching($privilege);
-        TyroCache::forgetUsersByRole($role);
+        $role->attachPrivilege($privilege);
 
         $this->info("Privilege [{$privilege->slug}] attached to role [{$role->slug}].");
 

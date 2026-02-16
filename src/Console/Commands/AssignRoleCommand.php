@@ -35,8 +35,7 @@ class AssignRoleCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $user->roles()->syncWithoutDetaching($role);
-        TyroCache::forgetUser($user);
+        $user->assignRole($role);
 
         $this->info(sprintf('Role "%s" assigned to %s.', $role->slug, $user->email));
 

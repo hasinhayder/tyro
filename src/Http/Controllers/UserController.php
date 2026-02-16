@@ -4,6 +4,7 @@ namespace HasinHayder\Tyro\Http\Controllers;
 
 use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\Support\PasswordRules;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -36,9 +37,16 @@ class UserController extends Controller {
             'name' => $creds['name'],
         ]);
 
-        $defaultRoleSlug = config('tyro.default_user_role_slug', 'user');
-        $user->roles()->attach(Role::where('slug', $defaultRoleSlug)->first());
-        TyroCache::forgetUser($user);
+        TyroAudit::log('user.created', $user, null, $user->only(['name', 'email', 'id']));
+
+        if (method_exists($user, 'assignRole')) {
+            $defaultRoleSlug = config('tyro.default_user_role_slug', 'user');
+            $user->assignRole(Role::where('slug', $defaultRoleSlug)->first());
+        } else {
+            $defaultRoleSlug = config('tyro.default_user_role_slug', 'user');
+            $user->roles()->attach(Role::where('slug', $defaultRoleSlug)->first());
+            TyroCache::forgetUser($user);
+        }
 
         return $user;
     }
@@ -90,15 +98,19 @@ class UserController extends Controller {
         $user->email = $request->email ?? $user->email;
         $user->password = $request->password ? Hash::make($request->password) : $user->password;
 
+        $oldValues = $user->getOriginal();
+
         $loggedInUser = $request->user();
         if ($loggedInUser->id === $user->id) {
             $user->save();
+            TyroAudit::log('user.updated', $user, $oldValues, $user->only(['name', 'email']));
 
             return $user;
         }
 
         if ($loggedInUser->tokenCan('admin') || $loggedInUser->tokenCan('super-admin')) {
             $user->save();
+            TyroAudit::log('user.updated', $user, $oldValues, $user->only(['name', 'email']));
 
             return $user;
         }
@@ -116,6 +128,8 @@ class UserController extends Controller {
                 return response(['error' => 1, 'message' => 'Create another admin before deleting this only admin user'], 409);
             }
         }
+
+        TyroAudit::log('user.deleted', $user, $user->only(['name', 'email', 'id']));
 
         $user->delete();
         TyroCache::forgetUser($user);

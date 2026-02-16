@@ -2,6 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class LogoutCommand extends BaseTyroCommand
@@ -31,9 +32,14 @@ class LogoutCommand extends BaseTyroCommand
         }
 
         $user = $token->tokenable;
+        $tokenName = $token->name;
         $token->delete();
 
-        $this->info(sprintf('Token "%s" revoked for %s (ID %s).', $token->name, $user?->email ?? 'unknown', $user?->id ?? 'N/A'));
+        if ($user) {
+            TyroAudit::log('user.token_revoked', $user, null, ['token_name' => $tokenName]);
+        }
+
+        $this->info(sprintf('Token "%s" revoked for %s (ID %s).', $tokenName, $user?->email ?? 'unknown', $user?->id ?? 'N/A'));
 
         return self::SUCCESS;
     }

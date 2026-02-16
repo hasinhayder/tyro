@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Database\Seeders\RoleSeeder;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedRolesCommand extends BaseTyroCommand
@@ -23,6 +24,8 @@ class SeedRolesCommand extends BaseTyroCommand
         $seeder = $this->laravel->make(RoleSeeder::class);
         $seeder->run();
         TyroCache::forgetAllUsersWithRoles();
+
+        TyroAudit::log('system.seeded', null, null, ['type' => 'roles']);
 
         $this->info('Default Tyro roles have been re-seeded.');
 

@@ -98,3 +98,19 @@ test('audit logs can be filtered by date range via api', function () {
         ->assertJsonMissing(['event' => 'past.event'])
         ->assertJsonMissing(['event' => 'future.event']);
 });
+
+test('role-privilege attachment is audited', function () {
+    $admin = User::factory()->create();
+    $this->actingAs($admin);
+
+    $role = Role::create(['name' => 'Audited Role', 'slug' => 'audited-role']);
+    $privilege = \HasinHayder\Tyro\Models\Privilege::create(['name' => 'Audited Privilege', 'slug' => 'audited.privilege']);
+
+    $role->attachPrivilege($privilege);
+
+    $this->assertDatabaseHas(config('tyro.tables.audit_logs'), [
+        'event' => 'privilege.attached',
+        'auditable_type' => Role::class,
+        'auditable_id' => $role->id,
+    ]);
+});

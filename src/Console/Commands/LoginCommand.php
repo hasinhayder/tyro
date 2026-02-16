@@ -2,6 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
 use Illuminate\Support\Facades\Hash;
 
 class LoginCommand extends BaseTyroCommand {
@@ -59,6 +60,8 @@ class LoginCommand extends BaseTyroCommand {
 
         $abilities = $this->abilitiesForUser($user);
         $token = $user->createToken($tokenName ?: 'Tyro CLI Token', $abilities)->plainTextToken;
+
+        TyroAudit::log('user.token_created', $user, null, ['token_name' => $tokenName]);
 
         $this->info('Token: ' . $token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));

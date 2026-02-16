@@ -2,6 +2,8 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
+
 class LogoutAllCommand extends BaseTyroCommand
 {
     protected $signature = 'tyro:logout-all {--user=} {--force}';
@@ -46,6 +48,8 @@ class LogoutAllCommand extends BaseTyroCommand
         }
 
         $user->tokens()->delete();
+
+        TyroAudit::log('user.tokens_revoked', $user, null, ['token_count' => $tokenCount]);
 
         $this->info(sprintf('All tokens revoked for %s.', $user->email));
 

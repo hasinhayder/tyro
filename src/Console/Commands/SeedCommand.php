@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Database\Seeders\TyroSeeder;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class SeedCommand extends BaseTyroCommand {
@@ -21,6 +22,8 @@ class SeedCommand extends BaseTyroCommand {
         $seeder->setContainer($this->laravel)->setCommand($this);
         $seeder->run();
         TyroCache::forgetAllUsersWithRoles();
+
+        TyroAudit::log('system.seeded', null, null, ['type' => 'full']);
 
         $this->info('TyroSeeder completed. Default roles and admin user restored.');
 

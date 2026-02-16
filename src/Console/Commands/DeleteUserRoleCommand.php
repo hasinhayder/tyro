@@ -35,14 +35,9 @@ class DeleteUserRoleCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $detached = $user->roles()->detach($role);
-        TyroCache::forgetUser($user);
+        $user->removeRole($role);
 
-        if ($detached) {
-            $this->info(sprintf('Role "%s" removed from %s.', $role->slug, $user->email));
-        } else {
-            $this->warn(sprintf('%s did not have the "%s" role.', $user->email, $role->slug));
-        }
+        $this->info(sprintf('Role "%s" removed from %s.', $role->slug, $user->email));
 
         return self::SUCCESS;
     }

@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\PasswordRules;
+use HasinHayder\Tyro\Support\TyroAudit;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -109,7 +110,10 @@ class UpdateUserCommand extends BaseTyroCommand {
             $payload['password'] = Hash::make($password);
         }
 
+        $oldValues = $user->only(['name', 'email']);
         $user->forceFill($payload)->save();
+
+        TyroAudit::log('user.updated', $user, $oldValues, $user->only(['name', 'email']));
 
         $this->info(sprintf('User %s updated.', $user->email));
 

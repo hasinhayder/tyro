@@ -217,7 +217,7 @@ trait HasTyroRoles {
     /**
      * Suspend the user and revoke all tokens.
      */
-    public function suspend(?string $reason = null): void {
+    public function suspend(?string $reason = null): int {
         $oldValues = [
             'suspended_at' => $this->suspended_at,
             'suspension_reason' => $this->suspension_reason,
@@ -233,7 +233,7 @@ trait HasTyroRoles {
         ]);
 
         // Revoke all active tokens
-        $this->tokens()->delete();
+        return (int) $this->tokens()->delete();
     }
 
     /**

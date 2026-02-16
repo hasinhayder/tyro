@@ -27,16 +27,14 @@ class RolePrivilegeController extends Controller
         ]);
 
         $privilege = Privilege::findOrFail($data['privilege_id']);
-        $role->privileges()->syncWithoutDetaching($privilege);
-        TyroCache::forgetUsersByRole($role);
+        $role->attachPrivilege($privilege);
 
         return $role->load('privileges');
     }
 
     public function destroy(Role $role, Privilege $privilege)
     {
-        $role->privileges()->detach($privilege);
-        TyroCache::forgetUsersByRole($role);
+        $role->detachPrivilege($privilege);
 
         return $role->load('privileges');
     }

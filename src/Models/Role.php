@@ -2,6 +2,8 @@
 
 namespace HasinHayder\Tyro\Models;
 
+use HasinHayder\Tyro\Support\TyroAudit;
+use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -59,5 +61,29 @@ class Role extends Model {
         }
 
         return true;
+    }
+
+    /**
+     * Attach a privilege to the role.
+     */
+    public function attachPrivilege(Privilege $privilege): void {
+        $this->privileges()->syncWithoutDetaching($privilege);
+        TyroCache::forgetUsersByRole($this);
+        TyroAudit::log('privilege.attached', $this, null, [
+            'privilege_id' => $privilege->id,
+            'privilege_slug' => $privilege->slug,
+        ]);
+    }
+
+    /**
+     * Detach a privilege from the role.
+     */
+    public function detachPrivilege(Privilege $privilege): void {
+        $this->privileges()->detach($privilege);
+        TyroCache::forgetUsersByRole($this);
+        TyroAudit::log('privilege.detached', $this, null, [
+            'privilege_id' => $privilege->id,
+            'privilege_slug' => $privilege->slug,
+        ]);
     }
 }

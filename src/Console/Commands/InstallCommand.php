@@ -2,6 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
@@ -52,6 +53,8 @@ class InstallCommand extends BaseTyroCommand {
                 return self::FAILURE;
             }
         }
+
+        TyroAudit::log('system.installed');
 
         $this->info('Tyro install flow complete.');
 

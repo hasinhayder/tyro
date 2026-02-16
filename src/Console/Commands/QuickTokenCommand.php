@@ -2,6 +2,8 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
+
 class QuickTokenCommand extends BaseTyroCommand {
     protected $signature = 'tyro:quick-token {user? : User ID or email} {--name=Tyro Quick Token : Token name}';
 
@@ -49,6 +51,11 @@ class QuickTokenCommand extends BaseTyroCommand {
         }
 
         $token = $user->createToken($tokenName, $this->abilitiesForUser($user))->plainTextToken;
+
+        TyroAudit::log('user.token_created', $user, null, [
+            'token_name' => $tokenName,
+            'type' => 'quick_token'
+        ]);
 
         $this->info('Token: ' . $token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));

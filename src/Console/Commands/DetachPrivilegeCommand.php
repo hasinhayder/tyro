@@ -41,8 +41,7 @@ class DetachPrivilegeCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $role->privileges()->detach($privilege);
-        TyroCache::forgetUsersByRole($role);
+        $role->detachPrivilege($privilege);
 
         $this->info("Privilege [{$privilege->slug}] detached from role [{$role->slug}].");
 

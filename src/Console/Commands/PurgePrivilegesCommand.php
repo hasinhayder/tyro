@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\Privilege;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +24,8 @@ class PurgePrivilegesCommand extends BaseTyroCommand
         DB::table(config('tyro.tables.role_privilege', 'privilege_role'))->truncate();
         $deleted = Privilege::query()->delete();
         TyroCache::forgetAllUsersWithRoles();
+
+        TyroAudit::log('privileges.purged', null, null, ['deleted_count' => $deleted]);
 
         $this->info("Deleted {$deleted} privilege(s).");
 

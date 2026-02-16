@@ -2,6 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -26,6 +27,11 @@ class FlushRolesCommand extends BaseTyroCommand {
         DB::table($rolesTable)->truncate();
         Schema::enableForeignKeyConstraints();
         TyroCache::forgetAllUsersWithRoles();
+
+        TyroAudit::log('roles.flushed', null, null, [
+            'roles_table' => $rolesTable,
+            'pivot_table' => $pivotTable,
+        ]);
 
         $this->info('Roles and pivot tables truncated.');
 

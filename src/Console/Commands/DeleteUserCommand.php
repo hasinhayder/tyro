@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\Role;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
 class DeleteUserCommand extends BaseTyroCommand
@@ -37,6 +38,8 @@ class DeleteUserCommand extends BaseTyroCommand
                 return self::FAILURE;
             }
         }
+
+        TyroAudit::log('user.deleted', $user, $user->only(['name', 'email', 'id']));
 
         TyroCache::forgetUser($user);
         $user->delete();

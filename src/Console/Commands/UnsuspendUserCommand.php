@@ -46,10 +46,7 @@ class UnsuspendUserCommand extends BaseTyroCommand
             }
         }
 
-        $user->forceFill([
-            'suspended_at' => null,
-            'suspension_reason' => null,
-        ])->save();
+        $user->unsuspend();
 
         $this->info(sprintf('User %s is no longer suspended.', $user->email));
 

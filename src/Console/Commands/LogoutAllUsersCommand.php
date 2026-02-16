@@ -2,6 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
+use HasinHayder\Tyro\Support\TyroAudit;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class LogoutAllUsersCommand extends BaseTyroCommand
@@ -27,6 +28,8 @@ class LogoutAllUsersCommand extends BaseTyroCommand
         }
 
         PersonalAccessToken::query()->delete();
+
+        TyroAudit::log('system.tokens_purged', null, null, ['token_count' => $count]);
 
         $this->info(sprintf('Revoked %s tokens across all users.', $count));
 

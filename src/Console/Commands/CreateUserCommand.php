@@ -3,6 +3,7 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\PasswordRules;
+use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -70,11 +71,12 @@ class CreateUserCommand extends BaseTyroCommand {
             'password' => Hash::make($password),
         ]);
 
-        if (method_exists($user, 'roles')) {
+        TyroAudit::log('user.created', $user, null, $user->only(['name', 'email', 'id']));
+
+        if (method_exists($user, 'assignRole')) {
             $defaultRole = $this->defaultRole();
             if ($defaultRole) {
-                $user->roles()->syncWithoutDetaching($defaultRole);
-                TyroCache::forgetUser($user);
+                $user->assignRole($defaultRole);
             }
         }
 
