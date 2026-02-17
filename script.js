@@ -24,6 +24,37 @@ themeToggle.addEventListener('click', () => {
 });
 
 // ===========================
+// Navigation Menu Toggle
+// ===========================
+
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+// Toggle mobile menu
+navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close mobile menu when a link is clicked
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    const isClickInsideNav = navToggle.contains(e.target) || navMenu.contains(e.target);
+    if (!isClickInsideNav && navMenu.classList.contains('active')) {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// ===========================
 // Copy to Clipboard
 // ===========================
 
