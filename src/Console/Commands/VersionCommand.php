@@ -12,7 +12,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = "1.3.0"; //Audit Trail and Consitent Naming for the commands with backward compatibility
+        $version = "1.3.1"; //Log user's email change for audit log
         
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -33,7 +33,8 @@ class VersionCommand extends BaseTyroCommand {
     }
 }
 
-//1.3.0 - Audit Trail and Consitent Naming for the commands with backward compatibility
+//1.3.1 - log user's email change for audit log
+//1.3.0 - audit Trail and Consitent Naming for the commands with backward compatibility
 //1.2.8 - fixed issue #6. Now authenticated users can not update their email verification timestamp anymore
 //1.2.7 - merged PR 5 that improved middleware - https://github.com/hasinhayder/tyro/pull/5
 //1.2.6 - merged PR 4 that improved the blade directives -https://github.com/hasinhayder/tyro/pull/4
