@@ -173,6 +173,15 @@
             white-space: pre;
         }
 
+        /* Syntax highlighting classes */
+        .doc-code-block .kw { color: #f472b6; } /* Keywords - pink */
+        .doc-code-block .str { color: #86efac; } /* Strings - green */
+        .doc-code-block .cm { color: #94a3b8; } /* Comments - muted blue */
+        .doc-code-block .num { color: #fbbf24; } /* Numbers - amber */
+        .doc-code-block .fn { color: #60a5fa; } /* Functions - blue */
+        .doc-code-block .bl { color: #c084fc; } /* Blade directives - purple */
+        .doc-code-block .op { color: #f1f5f9; } /* Operators - light */
+
         .doc-inline-code {
             background: var(--color-bg-secondary);
             color: var(--color-primary);
@@ -591,10 +600,10 @@
 
                 <h3 class="doc-section-subtitle">Update Steps</h3>
                 <div class="doc-code-block">
-                    <code># Step 1: Update the package
+                    <code><span class="cm"># Step 1: Update the package</span>
 composer update hasinhayder/tyro
 
-# Step 2: Run migrations to apply new database changes
+<span class="cm"># Step 2: Run migrations to apply new database changes</span>
 php artisan migrate</code>
                 </div>
 
@@ -638,33 +647,33 @@ php artisan migrate</code>
                 <h3 class="doc-section-subtitle">3. Check Permissions in Code</h3>
                 <p class="doc-text">Use Tyro's intuitive API anywhere in your application:</p>
                 <div class="doc-code-block">
-                    <code>// Check roles
-if ($user->hasRole('admin')) { ... }
+                    <code><span class="cm">// Check roles</span>
+<span class="kw">if</span> ($user->hasRole(<span class="str">'admin'</span>)) { ... }
 
-// Check privileges
-if ($user->can('reports.run')) { ... }
+<span class="cm">// Check privileges</span>
+<span class="kw">if</span> ($user->can(<span class="str">'reports.run'</span>)) { ... }
 
-// Get all role slugs
-$roles = $user->tyroRoleSlugs(); // ['admin', 'editor']</code>
+<span class="cm">// Get all role slugs</span>
+$roles = $user->tyroRoleSlugs(); <span class="cm">// ['admin', 'editor']</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">4. Use Blade Directives</h3>
                 <p class="doc-text">Conditionally render content in your views:</p>
                 <div class="doc-code-block">
-                    <code>@hasRole('admin')
+                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
     &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-@endhasRole
+<span class="bl">@endhasRole</span>
 
-@hasPrivilege('edit-posts')
+<span class="bl">@hasPrivilege</span>(<span class="str">'edit-posts'</span>)
     &lt;button&gt;Edit Post&lt;/button&gt;
-@endhasPrivilege</code>
+<span class="bl">@endhasPrivilege</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">5. Protect Routes</h3>
                 <p class="doc-text">Use middleware to protect your routes:</p>
                 <div class="doc-code-block">
-                    <code>Route::middleware(['auth:sanctum', 'role:admin'])
-    ->get('/admin/dashboard', DashboardController::class);</code>
+                    <code><span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>])
+    ->get(<span class="str">'/'</span><span><span class="str">admin/dashboard'</span>, DashboardController::<span class="kw">class</span>);</code>
                 </div>
 
                 <div class="doc-alert doc-alert-success">
@@ -721,10 +730,10 @@ $roles = $user->tyroRoleSlugs(); // ['admin', 'editor']</code>
                 <h3 class="doc-section-subtitle">Working with Privileges</h3>
                 <p class="doc-text">Create and attach privileges to roles:</p>
                 <div class="doc-code-block">
-                    <code># Create a new privilege
-php artisan tyro:privilege-create reports.run --name="Run Reports"
+                    <code><span class="cm"># Create a new privilege</span>
+php artisan tyro:privilege-create reports.run --name=<span class="str">"Run Reports"</span>
 
-# Attach it to a role
+<span class="cm"># Attach it to a role</span>
 php artisan tyro:privilege-attach reports.run editor</code>
                 </div>
             </section>
@@ -738,11 +747,11 @@ php artisan tyro:privilege-attach reports.run editor</code>
 
                 <h3 class="doc-section-subtitle">Generating Tokens via CLI</h3>
                 <div class="doc-code-block">
-                    <code># Generate token with password prompt
+                    <code><span class="cm"># Generate token with password prompt</span>
 php artisan tyro:login --user=admin@tyro.project
 
-# Quick token without password (development only)
-php artisan tyro:user-token --user=1</code>
+<span class="cm"># Quick token without password (development only)</span>
+php artisan tyro:user-token --user=<span class="num">1</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Token Inspection</h3>
@@ -807,19 +816,19 @@ php artisan tyro:user-token --user=1</code>
 
                 <h3 class="doc-section-subtitle">Example Usage</h3>
                 <div class="doc-code-block">
-                    <code>use Illuminate\Support\Facades\Route;
+                    <code><span class="kw">use</span> Illuminate\Support\Facades\Route;
 
-// Require admin role
-Route::middleware(['auth:sanctum', 'role:admin'])
-    ->get('/admin/dashboard', DashboardController::class);
+<span class="cm">// Require admin role</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>])
+    ->get(<span class="str">'/'</span><span class="str">admin/dashboard'</span>, DashboardController::<span class="kw">class</span>);
 
-// Allow either admin or editor
-Route::middleware(['auth:sanctum', 'roles:admin,editor'])
-    ->post('/articles', ArticleController::class);
+<span class="cm">// Allow either admin or editor</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'roles:admin,editor'</span>])
+    ->post(<span class="str">'/'</span><span class="str">articles'</span>, ArticleController::<span class="kw">class</span>);
 
-// Require specific privilege
-Route::middleware(['auth:sanctum', 'privilege:reports.run'])
-    ->get('/reports', ReportController::class);</code>
+<span class="cm">// Require specific privilege</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'privilege:reports.run'</span>])
+    ->get(<span class="str">'/'</span><span class="str">reports'</span>, ReportController::<span class="kw">class</span>);</code>
                 </div>
             </section>
 
@@ -833,127 +842,127 @@ Route::middleware(['auth:sanctum', 'privilege:reports.run'])
                 <h3 class="doc-section-subtitle">@userCan</h3>
                 <p class="doc-text">Checks if the current user has a specific role or privilege (uses the <code class="doc-inline-code">can()</code> method):</p>
                 <div class="doc-code-block">
-                    <code>@userCan('admin')
+                    <code><span class="bl">@userCan</span>(<span class="str">'admin'</span>)
     &lt;div class="admin-panel"&gt;
         &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
         &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
     &lt;/div&gt;
-@enduserCan
+<span class="bl">@enduserCan</span>
 
-@userCan('edit-posts')
+<span class="bl">@userCan</span>(<span class="str">'edit-posts'</span>)
     &lt;button class="btn btn-primary"&gt;Edit Post&lt;/button&gt;
-@enduserCan</code>
+<span class="bl">@enduserCan</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasRole</h3>
                 <p class="doc-text">Checks if the current user has a specific role:</p>
                 <div class="doc-code-block">
-                    <code>@hasRole('admin')
+                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
     &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-@endhasRole
+<span class="bl">@endhasRole</span>
 
-@hasRole('editor')
+<span class="bl">@hasRole</span>(<span class="str">'editor'</span>)
     &lt;a href="/dashboard/editor" class="nav-link"&gt;Editor Dashboard&lt;/a&gt;
-@endhasRole</code>
+<span class="bl">@endhasRole</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasAnyRole</h3>
                 <p class="doc-text">Checks if the current user has any of the provided roles:</p>
                 <div class="doc-code-block">
-                    <code>@hasAnyRole('admin', 'editor', 'moderator')
+                    <code><span class="bl">@hasAnyRole</span>(<span class="str">'admin'</span>, <span class="str">'editor'</span>, <span class="str">'moderator'</span>)
     &lt;div class="management-tools"&gt;
         &lt;h3&gt;Management Tools&lt;/h3&gt;
         &lt;p&gt;You have access to management features&lt;/p&gt;
     &lt;/div&gt;
-@endhasAnyRole</code>
+<span class="bl">@endhasAnyRole</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasAllRoles</h3>
                 <p class="doc-text">Checks if the current user has all of the provided roles:</p>
                 <div class="doc-code-block">
-                    <code>@hasAllRoles('admin', 'super-admin')
+                    <code><span class="bl">@hasAllRoles</span>(<span class="str">'admin'</span>, <span class="str">'super-admin'</span>)
     &lt;div class="super-admin-panel"&gt;
         &lt;p&gt;You have both admin and super-admin privileges&lt;/p&gt;
         &lt;button class="btn-danger"&gt;Critical Actions&lt;/button&gt;
     &lt;/div&gt;
-@endhasAllRoles</code>
+<span class="bl">@endhasAllRoles</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasPrivilege</h3>
                 <p class="doc-text">Checks if the current user has a specific privilege:</p>
                 <div class="doc-code-block">
-                    <code>@hasPrivilege('delete-users')
+                    <code><span class="bl">@hasPrivilege</span>(<span class="str">'delete-users'</span>)
     &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
         Delete User
     &lt;/button&gt;
-@endhasPrivilege
+<span class="bl">@endhasPrivilege</span>
 
-@hasPrivilege('view-reports')
+<span class="bl">@hasPrivilege</span>(<span class="str">'view-reports'</span>)
     &lt;a href="/reports" class="nav-link"&gt;
         &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
     &lt;/a&gt;
-@endhasPrivilege</code>
+<span class="bl">@endhasPrivilege</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasAnyPrivilege</h3>
                 <p class="doc-text">Checks if the current user has any of the provided privileges:</p>
                 <div class="doc-code-block">
-                    <code>@hasAnyPrivilege('edit-posts', 'delete-posts', 'publish-posts')
+                    <code><span class="bl">@hasAnyPrivilege</span>(<span class="str">'edit-posts'</span>, <span class="str">'delete-posts'</span>, <span class="str">'publish-posts'</span>)
     &lt;div class="post-actions"&gt;
         &lt;h4&gt;Post Management&lt;/h4&gt;
-        @hasPrivilege('edit-posts')
+        <span class="bl">@hasPrivilege</span>(<span class="str">'edit-posts'</span>)
             &lt;button&gt;Edit&lt;/button&gt;
-        @endhasPrivilege
-        @hasPrivilege('delete-posts')
+        <span class="bl">@endhasPrivilege</span>
+        <span class="bl">@hasPrivilege</span>(<span class="str">'delete-posts'</span>)
             &lt;button&gt;Delete&lt;/button&gt;
-        @endhasPrivilege
+        <span class="bl">@endhasPrivilege</span>
     &lt;/div&gt;
-@endhasAnyPrivilege</code>
+<span class="bl">@endhasAnyPrivilege</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">@hasAllPrivileges</h3>
                 <p class="doc-text">Checks if the current user has all of the provided privileges:</p>
                 <div class="doc-code-block">
-                    <code>@hasAllPrivileges('create-invoices', 'approve-invoices')
+                    <code><span class="bl">@hasAllPrivileges</span>(<span class="str">'create-invoices'</span>, <span class="str">'approve-invoices'</span>)
     &lt;button class="btn btn-success" onclick="createAndApproveInvoice()"&gt;
         Create and Approve Invoice
     &lt;/button&gt;
-@endhasAllPrivileges
+<span class="bl">@endhasAllPrivileges</span>
 
-@hasAllPrivileges('view-reports', 'export-reports')
+<span class="bl">@hasAllPrivileges</span>(<span class="str">'view-reports'</span>, <span class="str">'export-reports'</span>)
     &lt;div class="reports-section"&gt;
         &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
         &lt;button onclick="exportReport()"&gt;Export&lt;/button&gt;
     &lt;/div&gt;
-@endhasAllPrivileges</code>
+<span class="bl">@endhasAllPrivileges</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Combining Directives</h3>
                 <p class="doc-text">You can nest and combine directives for complex authorization logic:</p>
                 <div class="doc-code-block">
-                    <code>@hasRole('admin')
+                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
     &lt;div class="admin-section"&gt;
         &lt;h2&gt;Admin Controls&lt;/h2&gt;
 
-        @hasPrivilege('manage-users')
+        <span class="bl">@hasPrivilege</span>(<span class="str">'manage-users'</span>)
             &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
-        @endhasPrivilege
+        <span class="bl">@endhasPrivilege</span>
 
-        @hasAnyPrivilege('view-reports', 'export-data')
+        <span class="bl">@hasAnyPrivilege</span>(<span class="str">'view-reports'</span>, <span class="str">'export-data'</span>)
             &lt;a href="/admin/reports"&gt;Reports&lt;/a&gt;
-        @endhasAnyPrivilege
+        <span class="bl">@endhasAnyPrivilege</span>
     &lt;/div&gt;
-@endhasRole
+<span class="bl">@endhasRole</span>
 
-@hasAnyRole('editor', 'author')
+<span class="bl">@hasAnyRole</span>(<span class="str">'editor'</span>, <span class="str">'author'</span>)
     &lt;div class="content-tools"&gt;
-        @hasPrivilege('publish-posts')
+        <span class="bl">@hasPrivilege</span>(<span class="str">'publish-posts'</span>)
             &lt;button&gt;Publish&lt;/button&gt;
-        @else
+        <span class="bl">@else</span>
             &lt;button disabled&gt;Publish (requires approval)&lt;/button&gt;
-        @endhasPrivilege
+        <span class="bl">@endhasPrivilege</span>
     &lt;/div&gt;
-@endhasanyrole</code>
+<span class="bl">@endhasanyrole</span></code>
                 </div>
 
                 <div class="doc-alert doc-alert-success">
@@ -970,27 +979,27 @@ Route::middleware(['auth:sanctum', 'privilege:reports.run'])
 
                 <h3 class="doc-section-subtitle">Suspending Users</h3>
                 <div class="doc-code-block">
-                    <code># Via CLI
-php artisan tyro:user-suspend --user=user@example.com --reason="Policy violation"
+                    <code><span class="cm"># Via CLI</span>
+php artisan tyro:user-suspend --user=user@example.com --reason=<span class="str">"Policy violation"</span>
 
-# Via Code
-$user->suspend('Policy violation');</code>
+<span class="cm"># Via Code</span>
+$user->suspend(<span class="str">'Policy violation'</span>);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Unsuspending Users</h3>
                 <div class="doc-code-block">
-                    <code># Via CLI
+                    <code><span class="cm"># Via CLI</span>
 php artisan tyro:user-unsuspend --user=user@example.com
 
-# Via Code
+<span class="cm"># Via Code</span>
 $user->unsuspend();</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Checking Suspension Status</h3>
                 <div class="doc-code-block">
-                    <code>if ($user->isSuspended()) {
+                    <code><span class="kw">if</span> ($user->isSuspended()) {
     $reason = $user->getSuspensionReason();
-    return response()->json(['error' => $reason], 423);
+    <span class="kw">return</span> response()->json([<span class="str\">'error'</span> => $reason], <span class="num\">423</span>);
 }</code>
                 </div>
 
@@ -1313,17 +1322,17 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:audit-list</div>
                     <div class="doc-command-desc">View recent audit logs with optional filtering by event, date range, or user</div>
                     <div class="doc-code-block">
-                        <code># Show last 20 logs
+                        <code><span class="cm"># Show last 20 logs</span>
 php artisan tyro:audit-list
 
-# Show last 50 logs
-php artisan tyro:audit-list --limit=50
+<span class="cm"># Show last 50 logs</span>
+php artisan tyro:audit-list --limit=<span class="num">50</span>
 
-# Filter by event type
+<span class="cm"># Filter by event type</span>
 php artisan tyro:audit-list --event=user.suspended
 
-# Filter by date range
-php artisan tyro:audit-list --from=2024-01-01 --to=2024-01-31</code>
+<span class="cm"># Filter by date range</span>
+php artisan tyro:audit-list --from=<span class="num">2024-01-01</span> --to=<span class="num">2024-01-31</span></code>
                     </div>
                 </div>
 
@@ -1331,13 +1340,13 @@ php artisan tyro:audit-list --from=2024-01-01 --to=2024-01-31</code>
                     <div class="doc-command-name">tyro:audit-purge</div>
                     <div class="doc-command-desc">Purge old audit logs based on retention policy</div>
                     <div class="doc-code-block">
-                        <code># Purge logs older than configured retention days
+                        <code><span class="cm"># Purge logs older than configured retention days</span>
 php artisan tyro:audit-purge
 
-# Override retention and purge logs older than 7 days
-php artisan tyro:audit-purge --days=7
+<span class="cm"># Override retention and purge logs older than 7 days</span>
+php artisan tyro:audit-purge --days=<span class="num">7</span>
 
-# Force purge without confirmation prompt
+<span class="cm"># Force purge without confirmation prompt</span>
 php artisan tyro:audit-purge --force</code>
                     </div>
                 </div>
@@ -1349,44 +1358,44 @@ php artisan tyro:audit-purge --force</code>
 
                 <h3 class="doc-section-subtitle">Check User Roles</h3>
                 <div class="doc-code-block">
-                    <code>use Illuminate\Http\Request;
+                    <code><span class="kw">use</span> Illuminate\Http\Request;
 
-class ArticleController
+<span class="kw">class</span> ArticleController
 {
-    public function store(Request $request)
+    <span class="kw">public</span> <span class="kw">function</span> store(Request $request)
     {
-        // Check single role
-        if (!$request->user()->hasRole('admin')) {
-            abort(403, 'Admin access required');
+        <span class="cm">// Check single role</span>
+        <span class="kw">if</span> (!$request->user()->hasRole(<span class="str">'admin'</span>)) {
+            abort(<span class="num">403</span>, <span class="str">'Admin access required'</span>);
         }
 
-        // Check multiple roles (requires ALL)
-        if (!$request->user()->hasRoles(['admin', 'editor'])) {
-            abort(403, 'Insufficient permissions');
+        <span class="cm">// Check multiple roles (requires ALL)</span>
+        <span class="kw">if</span> (!$request->user()->hasRoles([<span class="str">'admin'</span>, <span class="str">'editor'</span>])) {
+            abort(<span class="num">403</span>, <span class="str">'Insufficient permissions'</span>);
         }
 
-        // Create article...
+        <span class="cm">// Create article...</span>
     }
 }</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Check User Privileges</h3>
                 <div class="doc-code-block">
-                    <code>class ReportController
+                    <code><span class="kw">class</span> ReportController
 {
-    public function index(Request $request)
+    <span class="kw">public</span> <span class="kw">function</span> index(Request $request)
     {
-        // Check single privilege using can()
-        if (!$request->user()->can('reports.run')) {
-            abort(403, 'Missing reports privilege');
+        <span class="cm">// Check single privilege using can()</span>
+        <span class="kw">if</span> (!$request->user()->can(<span class="str">'reports.run'</span>)) {
+            abort(<span class="num">403</span>, <span class="str">'Missing reports privilege'</span>);
         }
 
-        // Check multiple privileges (requires ALL)
-        if (!$request->user()->hasPrivileges(['reports.run', 'billing.view'])) {
-            abort(403, 'Missing required privileges');
+        <span class="cm">// Check multiple privileges (requires ALL)</span>
+        <span class="kw">if</span> (!$request->user()->hasPrivileges([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
+            abort(<span class="num">403</span>, <span class="str">'Missing required privileges'</span>);
         }
 
-        // Generate report...
+        <span class="cm">// Generate report...</span>
     }
 }</code>
                 </div>
@@ -1410,45 +1419,45 @@ $roles = $request->user()->roles()->with('privileges')->get();</code>
 
                 <h3 class="doc-section-subtitle">Assign Roles to Users</h3>
                 <div class="doc-code-block">
-                    <code>use HasinHayder\Tyro\Models\Role;
-use App\Models\User;
+                    <code><span class="kw">use</span> HasinHayder\Tyro\Models\Role;
+<span class="kw">use</span> App\Models\User;
 
-$user = User::find(1);
-$editorRole = Role::where('slug', 'editor')->first();
+$user = User::find(<span class="num">1</span>);
+$editorRole = Role::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
 
-// Assign a single role
+<span class="cm">// Assign a single role</span>
 $user->assignRole($editorRole);
 
-// Or use the relationship directly
+<span class="cm">// Or use the relationship directly</span>
 $user->roles()->attach($editorRole->id);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Remove Roles from Users</h3>
                 <div class="doc-code-block">
-                    <code>// Remove a single role
+                    <code><span class="cm">// Remove a single role</span>
 $user->removeRole($editorRole);
 
-// Or use the relationship
+<span class="cm">// Or use the relationship</span>
 $user->roles()->detach($editorRole->id);
 
-// Remove all roles
+<span class="cm">// Remove all roles</span>
 $user->roles()->detach();</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Manage Privileges on Roles</h3>
                 <div class="doc-code-block">
-                    <code>use HasinHayder\Tyro\Models\Privilege;
+                    <code><span class="kw">use</span> HasinHayder\Tyro\Models\Privilege;
 
-$role = Role::where('slug', 'editor')->first();
-$privilege = Privilege::where('slug', 'reports.run')->first();
+$role = Role::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
+$privilege = Privilege::where(<span class="str">'slug'</span>, <span class="str">'reports.run'</span>)->first();
 
-// Attach privilege to role
+<span class="cm">// Attach privilege to role</span>
 $role->privileges()->attach($privilege->id);
 
-// Detach privilege from role
+<span class="cm">// Detach privilege from role</span>
 $role->privileges()->detach($privilege->id);
 
-// Sync privileges (replaces all existing)
+<span class="cm">// Sync privileges (replaces all existing)</span>
 $role->privileges()->sync([
     $privilege1->id,
     $privilege2->id,
@@ -1457,16 +1466,16 @@ $role->privileges()->sync([
 
                 <h3 class="doc-section-subtitle">Check Role Privileges</h3>
                 <div class="doc-code-block">
-                    <code>$role = Role::where('slug', 'editor')->first();
+                    <code>$role = Role::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
 
-// Check if role has a privilege
-if ($role->hasPrivilege('reports.run')) {
-    // Role has the privilege
+<span class="cm">// Check if role has a privilege</span>
+<span class="kw">if</span> ($role->hasPrivilege(<span class="str">'reports.run'</span>)) {
+    <span class="cm">// Role has the privilege</span>
 }
 
-// Check if role has all specified privileges
-if ($role->hasPrivileges(['reports.run', 'billing.view'])) {
-    // Role has both privileges
+<span class="cm">// Check if role has all specified privileges</span>
+<span class="kw">if</span> ($role->hasPrivileges([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
+    <span class="cm">// Role has both privileges</span>
 }</code>
                 </div>
             </section>
@@ -1477,48 +1486,48 @@ if ($role->hasPrivileges(['reports.run', 'billing.view'])) {
 
                 <h3 class="doc-section-subtitle">Basic Route Protection</h3>
                 <div class="doc-code-block">
-                    <code>use Illuminate\Support\Facades\Route;
+                    <code><span class="kw">use</span> Illuminate\Support\Facades\Route;
 
-// Require authentication
-Route::middleware(['auth:sanctum'])
-    ->get('/profile', ProfileController::class);
+<span class="cm">// Require authentication</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>])
+    ->get(<span class="str">'/'</span><span class="str">profile'</span>, ProfileController::<span class="kw">class</span>);
 
-// Require specific role
-Route::middleware(['auth:sanctum', 'role:admin'])
-    ->get('/admin/dashboard', AdminDashboardController::class);
+<span class="cm">// Require specific role</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>])
+    ->get(<span class="str">'/'</span><span class="str">admin/dashboard'</span>, AdminDashboardController::<span class="kw">class</span>);
 
-// Allow any of multiple roles
-Route::middleware(['auth:sanctum', 'roles:admin,editor'])
-    ->post('/articles', ArticleController::class);</code>
+<span class="cm">// Allow any of multiple roles</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'roles:admin,editor'</span>])
+    ->post(<span class="str">'/'</span><span class="str">articles'</span>, ArticleController::<span class="kw">class</span>);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Privilege-Based Protection</h3>
                 <div class="doc-code-block">
-                    <code>// Require specific privilege
-Route::middleware(['auth:sanctum', 'privilege:reports.run'])
-    ->get('/reports', ReportController::class);
+                    <code><span class="cm">// Require specific privilege</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'privilege:reports.run'</span>])
+    ->get(<span class="str">'/'</span><span class="str">reports'</span>, ReportController::<span class="kw">class</span>);
 
-// Allow any of multiple privileges
-Route::middleware(['auth:sanctum', 'privileges:billing.view,reports.run'])
-    ->get('/analytics', AnalyticsController::class);</code>
+<span class="cm">// Allow any of multiple privileges</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'privileges:billing.view,reports.run'</span>])
+    ->get(<span class="str">'/'</span><span class="str">analytics'</span>, AnalyticsController::<span class="kw">class</span>);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Mixed Abilities (Roles + Privileges)</h3>
                 <div class="doc-code-block">
-                    <code>// Require ALL abilities (roles and/or privileges)
-Route::middleware(['auth:sanctum', 'ability:admin,reports.run'])
-    ->post('/reports/export', ReportExportController::class);
+                    <code><span class="cm">// Require ALL abilities (roles and/or privileges)</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'ability:admin,reports.run'</span>])
+    ->post(<span class="str">'/'</span><span class="str">reports/export'</span>, ReportExportController::<span class="kw">class</span>);
 
-// Allow ANY ability
-Route::middleware(['auth:sanctum', 'abilities:admin,super-admin,reports.run'])
-    ->get('/reports/advanced', AdvancedReportController::class);</code>
+<span class="cm">// Allow ANY ability</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'abilities:admin,super-admin,reports.run'</span>])
+    ->get(<span class="str">'/'</span><span class="str">reports/advanced'</span>, AdvancedReportController::<span class="kw">class</span>);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">With Audit Logging</h3>
                 <div class="doc-code-block">
-                    <code>// Add tyro.log middleware for request/response logging
-Route::middleware(['auth:sanctum', 'ability:billing.view', 'tyro.log'])
-    ->get('/billing/statements', BillingStatementController::class);</code>
+                    <code><span class="cm">// Add tyro.log middleware for request/response logging</span>
+<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'ability:billing.view'</span>, <span class="str">'tyro.log'</span>])
+    ->get(<span class="str">'/'</span><span class="str">billing/statements'</span>, BillingStatementController::<span class="kw">class</span>);</code>
                 </div>
             </section>
 
@@ -1785,11 +1794,11 @@ Route::middleware(['auth:sanctum', 'ability:billing.view', 'tyro.log'])
 
                 <h3 class="doc-section-subtitle">Environment Variables</h3>
                 <div class="doc-code-block">
-                    <code># Disable commands in production
-TYRO_DISABLE_COMMANDS=true
+                    <code><span class="cm"># Disable commands in production</span>
+TYRO_DISABLE_COMMANDS=<span class="str">true</span>
 
-# Disable API routes
-TYRO_DISABLE_API=true</code>
+<span class="cm"># Disable API routes</span>
+TYRO_DISABLE_API=<span class="str">true</span></code>
                 </div>
             </section>
 
@@ -1878,20 +1887,20 @@ TYRO_DISABLE_API=true</code>
 
                 <h3 class="doc-section-subtitle">Example Usage</h3>
                 <div class="doc-code-block">
-                    <code>// View recent audit logs
+                    <code><span class="cm">// View recent audit logs</span>
 php artisan tyro:audit-list
 
-// Filter by event type
+<span class="cm">// Filter by event type</span>
 php artisan tyro:audit-list --event=role.assigned
 
-// View logs from a specific date range
-php artisan tyro:audit-list --from=2024-06-01 --to=2024-06-30
+<span class="cm">// View logs from a specific date range</span>
+php artisan tyro:audit-list --from=<span class="num">2024-06-01</span> --to=<span class="num">2024-06-30</span>
 
-// Purge old logs (older than 30 days)
+<span class="cm">// Purge old logs (older than 30 days)</span>
 php artisan tyro:audit-purge
 
-// Immediately purge logs older than 7 days
-php artisan tyro:audit-purge --days=7 --force</code>
+<span class="cm">// Immediately purge logs older than 7 days</span>
+php artisan tyro:audit-purge --days=<span class="num">7</span> --force</code>
                 </div>
 
                 <div class="doc-alert doc-alert-success">
@@ -1931,13 +1940,13 @@ php artisan tyro:audit-purge --days=7 --force</code>
                     Use the artisan commands or create them programmatically:
                 </p>
                 <div class="doc-code-block">
-                    <code># Via CLI
-php artisan tyro:role-create --name="Manager" --slug="manager"
-php artisan tyro:privilege-create custom.action --name="Custom Action"
+                    <code><span class="cm"># Via CLI</span>
+php artisan tyro:role-create --name=<span class="str">"Manager"</span> --slug=<span class="str">"manager"</span>
+php artisan tyro:privilege-create custom.action --name=<span class="str">"Custom Action"</span>
 
-# Via Code
-Role::create(['name' => 'Manager', 'slug' => 'manager']);
-Privilege::create(['name' => 'Custom Action', 'slug' => 'custom.action']);</code>
+<span class="cm"># Via Code</span>
+<span class="fn">Role::create</span>([<span class="str">'name'</span> => <span class="str">'Manager'</span>, <span class="str">'slug'</span> => <span class="str">'manager'</span>]);
+<span class="fn">Privilege::create</span>([<span class="str">'name'</span> => <span class="str">'Custom Action'</span>, <span class="str">'slug'</span> => <span class="str">'custom.action'</span>]);</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Is Tyro production-ready?</h3>
