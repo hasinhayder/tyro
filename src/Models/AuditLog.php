@@ -80,6 +80,10 @@ class AuditLog extends Model
                 return "Created user \"{$new['email']}\"";
             case 'user.updated':
                 return "Updated user \"{$new['email']}\"";
+            case 'user.email_changed':
+                $oldEmail = $old['email'] ?? 'unknown';
+                $newEmail = $new['email'] ?? 'unknown';
+                return "Changed user email from \"{$oldEmail}\" to \"{$newEmail}\"";
             case 'user.deleted':
                 return "Deleted user \"{$old['email']}\"";
             case 'user.token_created':
