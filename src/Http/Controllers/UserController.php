@@ -94,23 +94,27 @@ class UserController extends Controller {
             ]);
         }
 
+        $oldValues = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+        $passwordChanged = (bool) $request->password;
+
         $user->name = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
-        $user->password = $request->password ? Hash::make($request->password) : $user->password;
-
-        $oldValues = $user->getOriginal();
+        $user->password = $passwordChanged ? Hash::make($request->password) : $user->password;
 
         $loggedInUser = $request->user();
-        if ($loggedInUser->id === $user->id) {
-            $user->save();
-            TyroAudit::log('user.updated', $user, $oldValues, $user->only(['name', 'email']));
+        $authorized = $loggedInUser->id === $user->id
+            || $loggedInUser->tokenCan('admin')
+            || $loggedInUser->tokenCan('super-admin');
 
-            return $user;
-        }
-
-        if ($loggedInUser->tokenCan('admin') || $loggedInUser->tokenCan('super-admin')) {
+        if ($authorized) {
             $user->save();
-            TyroAudit::log('user.updated', $user, $oldValues, $user->only(['name', 'email']));
+
+            if ($oldValues['email'] !== $user->email) {
+                TyroAudit::log('user.email_changed', $user, ['email' => $oldValues['email']], ['email' => $user->email]);
+            }
 
             return $user;
         }
