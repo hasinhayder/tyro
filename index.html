@@ -193,7 +193,7 @@
                         </svg>
                     </div>
                     <h3 class="feature-title">7 Blade Directives</h3>
-                    <p class="feature-description">Use @usercan, @hasrole, @hasanyrole, @hasroles, @hasprivilege, @hasanyprivilege, @hasprivileges in your views. Clean, readable templates.</p>
+                    <p class="feature-description">Use @userCan, @hasRole, @hasAnyRole, @hasAllRoles, @hasPrivilege, @hasAnyPrivilege, @hasAllPrivileges in your views. Clean, readable templates.</p>
                 </div>
 
                 <div class="feature-card">
@@ -728,7 +728,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@usercan</span>
+                            <span class="directive-tab-name">@userCan</span>
                             <span class="directive-tab-desc">Check role or privilege via can()</span>
                         </div>
                     </button>
@@ -739,7 +739,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasrole</span>
+                            <span class="directive-tab-name">@hasRole</span>
                             <span class="directive-tab-desc">Check for a specific role</span>
                         </div>
                     </button>
@@ -753,7 +753,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasanyrole</span>
+                            <span class="directive-tab-name">@hasAnyRole</span>
                             <span class="directive-tab-desc">Check for any of multiple roles</span>
                         </div>
                     </button>
@@ -766,7 +766,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasroles</span>
+                            <span class="directive-tab-name">@hasAllRoles</span>
                             <span class="directive-tab-desc">Require ALL specified roles</span>
                         </div>
                     </button>
@@ -778,7 +778,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasprivilege</span>
+                            <span class="directive-tab-name">@hasPrivilege</span>
                             <span class="directive-tab-desc">Check for a specific privilege</span>
                         </div>
                     </button>
@@ -789,7 +789,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasanyprivilege</span>
+                            <span class="directive-tab-name">@hasAnyPrivilege</span>
                             <span class="directive-tab-desc">Check for any of multiple privileges</span>
                         </div>
                     </button>
@@ -801,7 +801,7 @@ Route::middleware([
                             </svg>
                         </div>
                         <div class="directive-tab-content">
-                            <span class="directive-tab-name">@hasprivileges</span>
+                            <span class="directive-tab-name">@hasAllPrivileges</span>
                             <span class="directive-tab-desc">Require ALL specified privileges</span>
                         </div>
                     </button>
@@ -817,21 +817,21 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@usercan directive</div>
+                                <div class="code-window-title">@userCan directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Check if user can perform action via can() --}}
-@usercan('admin')
+@userCan('admin')
     &lt;div class="admin-panel"&gt;
         &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
         &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
     &lt;/div&gt;
-@endusercan
+@enduserCan
 
-@usercan('edit-posts')
+@userCan('edit-posts')
     &lt;button class="btn btn-primary"&gt;
         Edit Post
     &lt;/button&gt;
-@endusercan</code></pre>
+@enduserCan</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Uses the <code>can()</code> method to check if user has a role or privilege. Works with both role slugs and privilege slugs.</p>
@@ -847,25 +847,25 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasrole directive</div>
+                                <div class="code-window-title">@hasRole directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Check if user has a specific role --}}
-@hasrole('admin')
+@hasRole('admin')
     &lt;p&gt;Welcome, Admin!&lt;/p&gt;
     &lt;a href="/admin/settings"&gt;Settings&lt;/a&gt;
-@endhasrole
+@endhasRole
 
-@hasrole('editor')
+@hasRole('editor')
     &lt;a href="/dashboard/editor" class="nav-link"&gt;
         Editor Dashboard
     &lt;/a&gt;
-@endhasrole
+@endhasRole
 
-@hasrole('super-admin')
+@hasRole('super-admin')
     &lt;button class="btn-danger"&gt;
         Critical Actions
     &lt;/button&gt;
-@endhasrole</code></pre>
+@endhasRole</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Checks if the authenticated user has a specific role by its slug. Returns false if not authenticated.</p>
@@ -881,22 +881,22 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasanyrole directive</div>
+                                <div class="code-window-title">@hasAnyRole directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Check if user has ANY of the roles --}}
-@hasanyrole('admin', 'editor', 'moderator')
+@hasAnyRole('admin', 'editor', 'moderator')
     &lt;div class="management-tools"&gt;
         &lt;h3&gt;Management Tools&lt;/h3&gt;
         &lt;p&gt;You have access to management features&lt;/p&gt;
         &lt;a href="/manage"&gt;Open Dashboard&lt;/a&gt;
     &lt;/div&gt;
-@endhasanyrole
+@endhasAnyRole
 
-@hasanyrole('author', 'contributor')
+@hasAnyRole('author', 'contributor')
     &lt;div class="content-section"&gt;
         &lt;button&gt;Create New Post&lt;/button&gt;
     &lt;/div&gt;
-@endhasanyrole</code></pre>
+@endhasAnyRole</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Renders content if the user has <strong>at least one</strong> of the specified roles. Great for showing shared features across multiple roles.</p>
@@ -912,10 +912,10 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasroles directive</div>
+                                <div class="code-window-title">@hasAllRoles directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Require ALL specified roles --}}
-@hasroles('admin', 'super-admin')
+@hasAllRoles('admin', 'super-admin')
     &lt;div class="super-admin-panel"&gt;
         &lt;h2&gt;Super Admin Controls&lt;/h2&gt;
         &lt;p&gt;You have both admin and super-admin roles&lt;/p&gt;
@@ -926,7 +926,7 @@ Route::middleware([
             Delete All Data
         &lt;/button&gt;
     &lt;/div&gt;
-@endhasroles</code></pre>
+@endhasAllRoles</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Renders content only if the user has <strong>ALL</strong> of the specified roles. Use for features requiring multiple role assignments.</p>
@@ -942,24 +942,24 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasprivilege directive</div>
+                                <div class="code-window-title">@hasPrivilege directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Check for a specific privilege --}}
-@hasprivilege('delete-users')
+@hasPrivilege('delete-users')
     &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
         Delete User
     &lt;/button&gt;
-@endhasprivilege
+@endhasPrivilege
 
-@hasprivilege('view-reports')
+@hasPrivilege('view-reports')
     &lt;a href="/reports" class="nav-link"&gt;
         &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
     &lt;/a&gt;
-@endhasprivilege
+@endhasPrivilege
 
-@hasprivilege('manage-settings')
+@hasPrivilege('manage-settings')
     &lt;a href="/settings"&gt;System Settings&lt;/a&gt;
-@endhasprivilege</code></pre>
+@endhasPrivilege</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Checks if the user has a specific privilege through any of their assigned roles. More granular than role checks.</p>
@@ -975,23 +975,23 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasanyprivilege directive</div>
+                                <div class="code-window-title">@hasAnyPrivilege directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Check for ANY of the privileges --}}
-@hasanyprivilege('edit-posts', 'delete-posts', 'publish-posts')
+@hasAnyPrivilege('edit-posts', 'delete-posts', 'publish-posts')
     &lt;div class="post-actions"&gt;
         &lt;h4&gt;Post Management&lt;/h4&gt;
-        @hasprivilege('edit-posts')
+        @hasPrivilege('edit-posts')
             &lt;button&gt;Edit&lt;/button&gt;
-        @endhasprivilege
-        @hasprivilege('delete-posts')
+        @endhasPrivilege
+        @hasPrivilege('delete-posts')
             &lt;button&gt;Delete&lt;/button&gt;
-        @endhasprivilege
-        @hasprivilege('publish-posts')
+        @endhasPrivilege
+        @hasPrivilege('publish-posts')
             &lt;button&gt;Publish&lt;/button&gt;
-        @endhasprivilege
+        @endhasPrivilege
     &lt;/div&gt;
-@endhasanyprivilege</code></pre>
+@endhasAnyPrivilege</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Shows content if user has <strong>at least one</strong> of the listed privileges. Perfect for showing action panels with conditional buttons.</p>
@@ -1007,23 +1007,23 @@ Route::middleware([
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="code-window-title">@hasprivileges directive</div>
+                                <div class="code-window-title">@hasAllPrivileges directive</div>
                             </div>
                             <pre><code class="language-blade">{{-- Require ALL specified privileges --}}
-@hasprivileges('create-invoices', 'approve-invoices')
+@hasAllPrivileges('create-invoices', 'approve-invoices')
     &lt;button class="btn btn-success"&gt;
         Create and Approve Invoice
     &lt;/button&gt;
-@endhasprivileges
+@endhasAllPrivileges
 
-@hasprivileges('view-reports', 'export-reports')
+@hasAllPrivileges('view-reports', 'export-reports')
     &lt;div class="reports-section"&gt;
         &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
         &lt;button onclick="exportReport()"&gt;
             Export to PDF
         &lt;/button&gt;
     &lt;/div&gt;
-@endhasprivileges</code></pre>
+@endhasAllPrivileges</code></pre>
                         </div>
                         <div class="directive-info">
                             <p>Renders content only if the user has <strong>ALL</strong> specified privileges. Use for actions requiring multiple permissions.</p>
@@ -1461,7 +1461,7 @@ curl -H "Authorization: Bearer {token}" \
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Tyro is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. It provides complete RBAC, user suspension workflows, 40+ CLI commands, 7 Blade directives (@usercan, @hasrole, @hasanyrole, @hasroles, @hasprivilege, @hasanyprivilege, @hasprivileges), middleware for route protection, and optional REST API endpoints. It works for APIs, traditional web apps, and hybrid applications—saving you weeks of development time.</p>
+                        <p>Tyro is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. It provides complete RBAC, user suspension workflows, 40+ CLI commands, 7 Blade directives (@userCan, @hasRole, @hasAnyRole, @hasAllRoles, @hasPrivilege, @hasAnyPrivilege, @hasAllPrivileges), middleware for route protection, and optional REST API endpoints. It works for APIs, traditional web apps, and hybrid applications—saving you weeks of development time.</p>
                     </div>
                 </div>
 

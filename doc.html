@@ -506,7 +506,7 @@
                         </div>
                         <h3 class="feature-title" style="font-size: 1.25rem;">Blade Directives</h3>
                         <p class="feature-description" style="font-size: 0.95rem;">
-                            Use @hasrole, @hasprivilege, and more in your Blade templates. Clean, readable views without PHP logic clutter.
+                            Use @userCan, @hasRole, @hasPrivilege, and more in your Blade templates. Clean, readable views without PHP logic clutter.
                         </p>
                     </div>
 
@@ -642,13 +642,13 @@ $roles = $user->tyroRoleSlugs(); // ['admin', 'editor']</code>
                 <h3 class="doc-section-subtitle">4. Use Blade Directives</h3>
                 <p class="doc-text">Conditionally render content in your views:</p>
                 <div class="doc-code-block">
-                    <code>@hasrole('admin')
+                    <code>@hasRole('admin')
     &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-@endhasrole
+@endhasRole
 
-@hasprivilege('edit-posts')
+@hasPrivilege('edit-posts')
     &lt;button&gt;Edit Post&lt;/button&gt;
-@endhasprivilege</code>
+@endhasPrivilege</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">5. Protect Routes</h3>
@@ -821,128 +821,128 @@ Route::middleware(['auth:sanctum', 'privilege:reports.run'])
                     Tyro provides custom Blade directives for checking user roles and privileges directly in your views. All directives automatically return <code class="doc-inline-code">false</code> if no user is authenticated.
                 </p>
 
-                <h3 class="doc-section-subtitle">@usercan</h3>
+                <h3 class="doc-section-subtitle">@userCan</h3>
                 <p class="doc-text">Checks if the current user has a specific role or privilege (uses the <code class="doc-inline-code">can()</code> method):</p>
                 <div class="doc-code-block">
-                    <code>@usercan('admin')
+                    <code>@userCan('admin')
     &lt;div class="admin-panel"&gt;
         &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
         &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
     &lt;/div&gt;
-@endusercan
+@enduserCan
 
-@usercan('edit-posts')
+@userCan('edit-posts')
     &lt;button class="btn btn-primary"&gt;Edit Post&lt;/button&gt;
-@endusercan</code>
+@enduserCan</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasrole</h3>
+                <h3 class="doc-section-subtitle">@hasRole</h3>
                 <p class="doc-text">Checks if the current user has a specific role:</p>
                 <div class="doc-code-block">
-                    <code>@hasrole('admin')
+                    <code>@hasRole('admin')
     &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-@endhasrole
+@endhasRole
 
-@hasrole('editor')
+@hasRole('editor')
     &lt;a href="/dashboard/editor" class="nav-link"&gt;Editor Dashboard&lt;/a&gt;
-@endhasrole</code>
+@endhasRole</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasanyrole</h3>
+                <h3 class="doc-section-subtitle">@hasAnyRole</h3>
                 <p class="doc-text">Checks if the current user has any of the provided roles:</p>
                 <div class="doc-code-block">
-                    <code>@hasanyrole('admin', 'editor', 'moderator')
+                    <code>@hasAnyRole('admin', 'editor', 'moderator')
     &lt;div class="management-tools"&gt;
         &lt;h3&gt;Management Tools&lt;/h3&gt;
         &lt;p&gt;You have access to management features&lt;/p&gt;
     &lt;/div&gt;
-@endhasanyrole</code>
+@endhasAnyRole</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasroles</h3>
+                <h3 class="doc-section-subtitle">@hasAllRoles</h3>
                 <p class="doc-text">Checks if the current user has all of the provided roles:</p>
                 <div class="doc-code-block">
-                    <code>@hasroles('admin', 'super-admin')
+                    <code>@hasAllRoles('admin', 'super-admin')
     &lt;div class="super-admin-panel"&gt;
         &lt;p&gt;You have both admin and super-admin privileges&lt;/p&gt;
         &lt;button class="btn-danger"&gt;Critical Actions&lt;/button&gt;
     &lt;/div&gt;
-@endhasroles</code>
+@endhasAllRoles</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasprivilege</h3>
+                <h3 class="doc-section-subtitle">@hasPrivilege</h3>
                 <p class="doc-text">Checks if the current user has a specific privilege:</p>
                 <div class="doc-code-block">
-                    <code>@hasprivilege('delete-users')
+                    <code>@hasPrivilege('delete-users')
     &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
         Delete User
     &lt;/button&gt;
-@endhasprivilege
+@endhasPrivilege
 
-@hasprivilege('view-reports')
+@hasPrivilege('view-reports')
     &lt;a href="/reports" class="nav-link"&gt;
         &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
     &lt;/a&gt;
-@endhasprivilege</code>
+@endhasPrivilege</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasanyprivilege</h3>
+                <h3 class="doc-section-subtitle">@hasAnyPrivilege</h3>
                 <p class="doc-text">Checks if the current user has any of the provided privileges:</p>
                 <div class="doc-code-block">
-                    <code>@hasanyprivilege('edit-posts', 'delete-posts', 'publish-posts')
+                    <code>@hasAnyPrivilege('edit-posts', 'delete-posts', 'publish-posts')
     &lt;div class="post-actions"&gt;
         &lt;h4&gt;Post Management&lt;/h4&gt;
-        @hasprivilege('edit-posts')
+        @hasPrivilege('edit-posts')
             &lt;button&gt;Edit&lt;/button&gt;
-        @endhasprivilege
-        @hasprivilege('delete-posts')
+        @endhasPrivilege
+        @hasPrivilege('delete-posts')
             &lt;button&gt;Delete&lt;/button&gt;
-        @endhasprivilege
+        @endhasPrivilege
     &lt;/div&gt;
-@endhasanyprivilege</code>
+@endhasAnyPrivilege</code>
                 </div>
 
-                <h3 class="doc-section-subtitle">@hasprivileges</h3>
+                <h3 class="doc-section-subtitle">@hasAllPrivileges</h3>
                 <p class="doc-text">Checks if the current user has all of the provided privileges:</p>
                 <div class="doc-code-block">
-                    <code>@hasprivileges('create-invoices', 'approve-invoices')
+                    <code>@hasAllPrivileges('create-invoices', 'approve-invoices')
     &lt;button class="btn btn-success" onclick="createAndApproveInvoice()"&gt;
         Create and Approve Invoice
     &lt;/button&gt;
-@endhasprivileges
+@endhasAllPrivileges
 
-@hasprivileges('view-reports', 'export-reports')
+@hasAllPrivileges('view-reports', 'export-reports')
     &lt;div class="reports-section"&gt;
         &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
         &lt;button onclick="exportReport()"&gt;Export&lt;/button&gt;
     &lt;/div&gt;
-@endhasprivileges</code>
+@endhasAllPrivileges</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Combining Directives</h3>
                 <p class="doc-text">You can nest and combine directives for complex authorization logic:</p>
                 <div class="doc-code-block">
-                    <code>@hasrole('admin')
+                    <code>@hasRole('admin')
     &lt;div class="admin-section"&gt;
         &lt;h2&gt;Admin Controls&lt;/h2&gt;
 
-        @hasprivilege('manage-users')
+        @hasPrivilege('manage-users')
             &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
-        @endhasprivilege
+        @endhasPrivilege
 
-        @hasanyprivilege('view-reports', 'export-data')
+        @hasAnyPrivilege('view-reports', 'export-data')
             &lt;a href="/admin/reports"&gt;Reports&lt;/a&gt;
-        @endhasanyprivilege
+        @endhasAnyPrivilege
     &lt;/div&gt;
-@endhasrole
+@endhasRole
 
-@hasanyrole('editor', 'author')
+@hasAnyRole('editor', 'author')
     &lt;div class="content-tools"&gt;
-        @hasprivilege('publish-posts')
+        @hasPrivilege('publish-posts')
             &lt;button&gt;Publish&lt;/button&gt;
         @else
             &lt;button disabled&gt;Publish (requires approval)&lt;/button&gt;
-        @endhasprivilege
+        @endhasPrivilege
     &lt;/div&gt;
 @endhasanyrole</code>
                 </div>
