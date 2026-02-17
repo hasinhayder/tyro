@@ -1,6 +1,6 @@
 # Tyro
 
-**Tyro** is a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
+**Tyro** is a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, 7 Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
 
 ### Related Resources
 
@@ -15,7 +15,7 @@ Tyro is the complete auth and access control toolkit that works everywhere in yo
 -   **Complete Authentication & Authorization.** Out-of-the-box user authentication with Sanctum, role-based access control, fine-grained privilege management, and Laravel Gate integration. Works seamlessly for APIs, web apps, and hybrid applications.
 -   **Powerful Role & Privilege System.** Create unlimited roles with granular privileges. Check permissions in controllers, middleware, Blade templates, or anywhere in your code with intuitive helpers like `$user->hasRole()`, `$user->can()`, and `$user->hasPrivileges()`.
 -   **40+ Artisan Commands.** Manage users, roles, privileges, and tokens entirely from the CLI. Seed data, suspend users, rotate tokens, audit permissions—all without touching the database directly. Perfect for automation, CI/CD, and incident response.
--   **Blade Directives for Views.** Use `@hasRole`, `@hasPrivilege`, `@hasAnyRole`, and more to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter (camelCase and legacy lowercase/snake_case supported).
+-   **Blade Directives for Views.** Use `@userCan`, `@hasRole`, `@hasPrivilege`, `@hasAnyRole`, `@hasAllRoles`, `@hasAnyPrivilege`, and `@hasAllPrivileges` to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter.
 -   **User Suspension Workflows.** Freeze accounts instantly with optional reasons, automatically revoke all active tokens, and manage suspensions via CLI or REST endpoints.
 -   **Comprehensive Audit Trail.** Track every administrative action—who assigned which role, who suspended a user, and what changed in a role's privileges. View logs via CLI or a dedicated API endpoint.
 -   **Optional API Surface.** Need REST endpoints? Tyro ships production-ready routes for login, registration, user management, role CRUD, and privilege management. Don't need them? Disable with one config flag.
@@ -246,6 +246,23 @@ The `HasTyroRoles` trait gives your User model a complete API for roles, privile
 
 Tyro caches role and privilege slugs per user so authorization checks never hit the database on every request. The cache respects your `config/tyro.php` settings and is automatically invalidated when you modify roles, privileges, or assignments.
 
+## Updating Tyro
+
+When updating Tyro from an older version using `composer update`, you **must run migrations** to apply any new database changes (such as audit trail tables):
+
+```bash
+# Update the package
+composer update hasinhayder/tyro
+
+# Run migrations to apply new database changes
+php artisan migrate
+
+# Or, run migrations for Tyro specifically:
+php artisan migrate --path=vendor/hasinhayder/tyro/database/migrations
+```
+
+> ⚠️ **Important:** Always run migrations after updating Tyro. Skipping this step may result in missing database tables and unexpected behavior.
+
 ### 5. Optional configuration
 
 Override defaults in `config/tyro.php` to align with your app:
@@ -323,7 +340,7 @@ TYRO_PASSWORD_DISALLOW_USER_INFO=true
 
 Tyro provides custom Blade directives for checking user roles and privileges directly in your views. All directives automatically return `false` if no user is authenticated.
 
-### @userCan / @usercan
+### @userCan
 
 Checks if the current user has a specific role or privilege (uses the `can()` method):
 
@@ -340,7 +357,7 @@ Checks if the current user has a specific role or privilege (uses the `can()` me
 @enduserCan
 ```
 
-### @hasRole / @hasrole
+### @hasRole
 
 Checks if the current user has a specific role:
 
@@ -354,7 +371,7 @@ Checks if the current user has a specific role:
 @endhasRole
 ```
 
-### @hasAnyRole / @hasanyrole
+### @hasAnyRole
 
 Checks if the current user has any of the provided roles:
 
@@ -367,7 +384,7 @@ Checks if the current user has any of the provided roles:
 @endhasAnyRole
 ```
 
-### @hasAllRoles / @hasroles
+### @hasAllRoles
 
 Checks if the current user has all of the provided roles:
 
@@ -380,7 +397,7 @@ Checks if the current user has all of the provided roles:
 @endhasAllRoles
 ```
 
-### @hasPrivilege / @hasprivilege
+### @hasPrivilege
 
 Checks if the current user has a specific privilege:
 
@@ -398,7 +415,7 @@ Checks if the current user has a specific privilege:
 @endhasPrivilege
 ```
 
-### @hasAnyPrivilege / @hasanyprivilege
+### @hasAnyPrivilege
 
 Checks if the current user has any of the provided privileges:
 
@@ -419,7 +436,7 @@ Checks if the current user has any of the provided privileges:
 @endhasAnyPrivilege
 ```
 
-### @hasAllPrivileges / @hasprivileges
+### @hasAllPrivileges
 
 Checks if the current user has all of the provided privileges:
 
@@ -435,7 +452,7 @@ Checks if the current user has all of the provided privileges:
         <a href="/reports">View Reports</a>
         <button onclick="exportReport()">Export</button>
     </div>
-@endAllPrivileges
+@endhasAllPrivileges
 ```
 
 ### Combining Directives
@@ -468,7 +485,7 @@ You can nest and combine directives for complex authorization logic:
 @endhasAnyRole
 ```
 
-All directives leverage the methods from the `HasTyroRoles` trait and are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions without cluttering your Blade templates with PHP logic. Tyro supports both canonical camelCase names (e.g., `@hasRole`, `@hasAnyPrivilege`, `@hasAllRoles`) and their legacy counterparts (e.g., `@hasrole`, `@hasanyprivilege`, `@hasroles`) for full backward compatibility.
+All directives leverage the methods from the `HasTyroRoles` trait and are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions without cluttering your Blade templates with PHP logic.
 
 ## Middleware for Route Protection
 
