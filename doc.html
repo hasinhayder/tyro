@@ -181,6 +181,7 @@
         .doc-code-block .fn { color: #60a5fa; } /* Functions - blue */
         .doc-code-block .bl { color: #c084fc; } /* Blade directives - purple */
         .doc-code-block .op { color: #f1f5f9; } /* Operators - light */
+        .doc-code-block .cmd { color: #22d3ee; font-weight: 600; } /* Commands - cyan */
 
         .doc-inline-code {
             background: var(--color-bg-secondary);
@@ -570,7 +571,7 @@
                 <h3 class="doc-section-subtitle">Step 2: Run the Installer</h3>
                 <p class="doc-text">Run the all-in-one installer command:</p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:install</code>
+                    <code>php artisan <span class="cmd">tyro:install</span></code>
                 </div>
                 <p class="doc-text">This command automatically:</p>
                 <ul class="doc-list">
@@ -587,7 +588,7 @@
                 <h3 class="doc-section-subtitle">Step 3: Verify Installation</h3>
                 <p class="doc-text">Check that everything is set up correctly:</p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:version</code>
+                    <code>php artisan <span class="cmd">tyro:version</span></code>
                 </div>
             </section>
 
@@ -620,7 +621,7 @@ php artisan migrate</code>
                 <h3 class="doc-section-subtitle">Verify Update</h3>
                 <p class="doc-text">Check that the update was successful:</p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:version</code>
+                    <code>php artisan <span class="cmd">tyro:version</span></code>
                 </div>
             </section>
 
@@ -731,10 +732,10 @@ $roles = $user->tyroRoleSlugs(); <span class="cm">// ['admin', 'editor']</span><
                 <p class="doc-text">Create and attach privileges to roles:</p>
                 <div class="doc-code-block">
                     <code><span class="cm"># Create a new privilege</span>
-php artisan tyro:privilege-create reports.run --name=<span class="str">"Run Reports"</span>
+php artisan <span class="cmd">tyro:privilege-create</span> reports.run --name=<span class="str">"Run Reports"</span>
 
 <span class="cm"># Attach it to a role</span>
-php artisan tyro:privilege-attach reports.run editor</code>
+php artisan <span class="cmd">tyro:privilege-attach</span> reports.run editor</code>
                 </div>
             </section>
 
@@ -748,16 +749,16 @@ php artisan tyro:privilege-attach reports.run editor</code>
                 <h3 class="doc-section-subtitle">Generating Tokens via CLI</h3>
                 <div class="doc-code-block">
                     <code><span class="cm"># Generate token with password prompt</span>
-php artisan tyro:login --user=admin@tyro.project
+php artisan <span class="cmd">tyro:login</span> --user=admin@tyro.project
 
 <span class="cm"># Quick token without password (development only)</span>
-php artisan tyro:user-token --user=<span class="num">1</span></code>
+php artisan <span class="cmd">tyro:user-token</span> --user=<span class="num">1</span></code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Token Inspection</h3>
                 <p class="doc-text">Inspect what a token contains:</p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:me</code>
+                    <code>php artisan <span class="cmd">tyro:me</span></code>
                 </div>
                 <p class="doc-text">Then paste your token when prompted to see the user and abilities.</p>
             </section>
@@ -980,7 +981,7 @@ php artisan tyro:user-token --user=<span class="num">1</span></code>
                 <h3 class="doc-section-subtitle">Suspending Users</h3>
                 <div class="doc-code-block">
                     <code><span class="cm"># Via CLI</span>
-php artisan tyro:user-suspend --user=user@example.com --reason=<span class="str">"Policy violation"</span>
+php artisan <span class="cmd">tyro:user-suspend</span> --user=user@example.com --reason=<span class="str">"Policy violation"</span>
 
 <span class="cm"># Via Code</span>
 $user->suspend(<span class="str">'Policy violation'</span>);</code>
@@ -989,7 +990,7 @@ $user->suspend(<span class="str">'Policy violation'</span>);</code>
                 <h3 class="doc-section-subtitle">Unsuspending Users</h3>
                 <div class="doc-code-block">
                     <code><span class="cm"># Via CLI</span>
-php artisan tyro:user-unsuspend --user=user@example.com
+php artisan <span class="cmd">tyro:user-unsuspend</span> --user=user@example.com
 
 <span class="cm"># Via Code</span>
 $user->unsuspend();</code>
@@ -1124,7 +1125,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:install</div>
                     <div class="doc-command-desc">Run Laravel's install:api, migrate, and optionally seed or prepare user model</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:install</code>
+                        <code>php artisan <span class="cmd">tyro:install</span></code>
                     </div>
                 </div>
 
@@ -1132,7 +1133,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:prepare-user-model</div>
                     <div class="doc-command-desc">Automatically add HasApiTokens and HasTyroRoles to your User model</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:prepare-user-model</code>
+                        <code>php artisan <span class="cmd">tyro:prepare-user-model</span></code>
                     </div>
                 </div>
 
@@ -1140,7 +1141,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:seed</div>
                     <div class="doc-command-desc">Run the full TyroSeeder (roles + bootstrap admin)</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:seed --force</code>
+                        <code>php artisan <span class="cmd">tyro:seed</span> --force</code>
                     </div>
                 </div>
 
@@ -1148,7 +1149,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:publish-config</div>
                     <div class="doc-command-desc">Publish config/tyro.php to customize settings</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:publish-config --force</code>
+                        <code>php artisan <span class="cmd">tyro:publish-config</span> --force</code>
                     </div>
                 </div>
 
@@ -1156,7 +1157,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:publish-migrations</div>
                     <div class="doc-command-desc">Copy Tyro's migrations into your database/migrations directory</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:publish-migrations --force</code>
+                        <code>php artisan <span class="cmd">tyro:publish-migrations</span> --force</code>
                     </div>
                 </div>
             </section>
@@ -1169,7 +1170,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-create</div>
                     <div class="doc-command-desc">Create a new user with interactive prompts</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-create</code>
+                        <code>php artisan <span class="cmd">tyro:user-create</span></code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1178,7 +1179,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-list</div>
                     <div class="doc-command-desc">List all users with their roles and suspension status</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-list</code>
+                        <code>php artisan <span class="cmd">tyro:user-list</span></code>
                     </div>
                 </div>
 
@@ -1186,7 +1187,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-suspend</div>
                     <div class="doc-command-desc">Suspend a user account with optional reason</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-suspend --user=5 --reason="Manual review"</code>
+                        <code>php artisan <span class="cmd">tyro:user-suspend</span> --user=5 --reason="Manual review"</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1195,7 +1196,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-unsuspend</div>
                     <div class="doc-command-desc">Lift suspension from a user account</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-unsuspend --user=user@example.com</code>
+                        <code>php artisan <span class="cmd">tyro:user-unsuspend</span> --user=user@example.com</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1204,7 +1205,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-privileges</div>
                     <div class="doc-command-desc">Display all privileges a user inherits through their roles</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-privileges 1</code>
+                        <code>php artisan <span class="cmd">tyro:user-privileges</span> 1</code>
                     </div>
                 </div>
             </section>
@@ -1217,7 +1218,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:role-list</div>
                     <div class="doc-command-desc">Display all roles with user counts</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:role-list</code>
+                        <code>php artisan <span class="cmd">tyro:role-list</span></code>
                     </div>
                 </div>
 
@@ -1225,7 +1226,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:role-list-with-privileges</div>
                     <div class="doc-command-desc">Display roles with their attached privileges</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:role-list-with-privileges</code>
+                        <code>php artisan <span class="cmd">tyro:role-list-with-privileges</span></code>
                     </div>
                 </div>
 
@@ -1233,7 +1234,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:role-create</div>
                     <div class="doc-command-desc">Create a new role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:role-create --name="Manager" --slug="manager"</code>
+                        <code>php artisan <span class="cmd">tyro:role-create</span> --name="Manager" --slug="manager"</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1242,7 +1243,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:role-assign</div>
                     <div class="doc-command-desc">Assign a role to a user</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:role-assign --user=5 --role=editor</code>
+                        <code>php artisan <span class="cmd">tyro:role-assign</span> --user=5 --role=editor</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1251,7 +1252,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:privilege-create</div>
                     <div class="doc-command-desc">Create a new privilege</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:privilege-create reports.run --name="Run Reports"</code>
+                        <code>php artisan <span class="cmd">tyro:privilege-create</span> reports.run --name="Run Reports"</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1260,7 +1261,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:privilege-attach</div>
                     <div class="doc-command-desc">Attach a privilege to a role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:privilege-attach reports.run editor</code>
+                        <code>php artisan <span class="cmd">tyro:privilege-attach</span> reports.run editor</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1269,7 +1270,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:privilege-detach</div>
                     <div class="doc-command-desc">Remove a privilege from a role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:privilege-detach reports.run editor</code>
+                        <code>php artisan <span class="cmd">tyro:privilege-detach</span> reports.run editor</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1283,7 +1284,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:login</div>
                     <div class="doc-command-desc">Generate a Sanctum token with password verification</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:login --user=admin@tyro.project</code>
+                        <code>php artisan <span class="cmd">tyro:login</span> --user=admin@tyro.project</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1292,7 +1293,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:user-token</div>
                     <div class="doc-command-desc">Generate a token without password (development only)</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:user-token --user=1</code>
+                        <code>php artisan <span class="cmd">tyro:user-token</span> --user=1</code>
                     </div>
                     <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
                 </div>
@@ -1301,7 +1302,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:me</div>
                     <div class="doc-command-desc">Inspect a token to see user and abilities</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:me</code>
+                        <code>php artisan <span class="cmd">tyro:me</span></code>
                     </div>
                 </div>
 
@@ -1309,7 +1310,7 @@ $user->unsuspend();</code>
                     <div class="doc-command-name">tyro:auth-logout-all-users</div>
                     <div class="doc-command-desc">Revoke all tokens for all users (emergency rotation)</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:auth-logout-all-users --force</code>
+                        <code>php artisan <span class="cmd">tyro:auth-logout-all-users</span> --force</code>
                     </div>
                 </div>
             </section>
@@ -1323,16 +1324,16 @@ $user->unsuspend();</code>
                     <div class="doc-command-desc">View recent audit logs with optional filtering by event, date range, or user</div>
                     <div class="doc-code-block">
                         <code><span class="cm"># Show last 20 logs</span>
-php artisan tyro:audit-list
+php artisan <span class="cmd">tyro:audit-list</span>
 
 <span class="cm"># Show last 50 logs</span>
-php artisan tyro:audit-list --limit=<span class="num">50</span>
+php artisan <span class="cmd">tyro:audit-list</span> --limit=<span class="num">50</span>
 
 <span class="cm"># Filter by event type</span>
-php artisan tyro:audit-list --event=user.suspended
+php artisan <span class="cmd">tyro:audit-list</span> --event=user.suspended
 
 <span class="cm"># Filter by date range</span>
-php artisan tyro:audit-list --from=<span class="num">2024-01-01</span> --to=<span class="num">2024-01-31</span></code>
+php artisan <span class="cmd">tyro:audit-list</span> --from=<span class="num">2024-01-01</span> --to=<span class="num">2024-01-31</span></code>
                     </div>
                 </div>
 
@@ -1341,13 +1342,13 @@ php artisan tyro:audit-list --from=<span class="num">2024-01-01</span> --to=<spa
                     <div class="doc-command-desc">Purge old audit logs based on retention policy</div>
                     <div class="doc-code-block">
                         <code><span class="cm"># Purge logs older than configured retention days</span>
-php artisan tyro:audit-purge
+php artisan <span class="cmd">tyro:audit-purge</span>
 
 <span class="cm"># Override retention and purge logs older than 7 days</span>
-php artisan tyro:audit-purge --days=<span class="num">7</span>
+php artisan <span class="cmd">tyro:audit-purge</span> --days=<span class="num">7</span>
 
 <span class="cm"># Force purge without confirmation prompt</span>
-php artisan tyro:audit-purge --force</code>
+php artisan <span class="cmd">tyro:audit-purge</span> --force</code>
                     </div>
                 </div>
             </section>
@@ -1746,7 +1747,7 @@ $role->privileges()->sync([
                 <h2 class="doc-section-title">Configuration</h2>
                 <p class="doc-text">Publish the configuration file to customize Tyro:</p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:publish-config --force</code>
+                    <code>php artisan <span class="cmd">tyro:publish-config</span> --force</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Key Configuration Options</h3>
@@ -1888,19 +1889,19 @@ TYRO_DISABLE_API=<span class="str">true</span></code>
                 <h3 class="doc-section-subtitle">Example Usage</h3>
                 <div class="doc-code-block">
                     <code><span class="cm">// View recent audit logs</span>
-php artisan tyro:audit-list
+php artisan <span class="cmd">tyro:audit-list</span>
 
 <span class="cm">// Filter by event type</span>
-php artisan tyro:audit-list --event=role.assigned
+php artisan <span class="cmd">tyro:audit-list</span> --event=role.assigned
 
 <span class="cm">// View logs from a specific date range</span>
-php artisan tyro:audit-list --from=<span class="num">2024-06-01</span> --to=<span class="num">2024-06-30</span>
+php artisan <span class="cmd">tyro:audit-list</span> --from=<span class="num">2024-06-01</span> --to=<span class="num">2024-06-30</span>
 
 <span class="cm">// Purge old logs (older than 30 days)</span>
-php artisan tyro:audit-purge
+php artisan <span class="cmd">tyro:audit-purge</span>
 
 <span class="cm">// Immediately purge logs older than 7 days</span>
-php artisan tyro:audit-purge --days=<span class="num">7</span> --force</code>
+php artisan <span class="cmd">tyro:audit-purge</span> --days=<span class="num">7</span> --force</code>
                 </div>
 
                 <div class="doc-alert doc-alert-success">
@@ -1917,7 +1918,7 @@ php artisan tyro:audit-purge --days=<span class="num">7</span> --force</code>
                     After installation, immediately change the default admin password using:
                 </p>
                 <div class="doc-code-block">
-                    <code>php artisan tyro:update-user --user=admin@tyro.project --password=new_secure_password</code>
+                    <code>php artisan <span class="cmd">tyro:update-user</span> --user=admin@tyro.project --password=new_secure_password</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Can I use Tyro with an existing Laravel project?</h3>
@@ -1941,8 +1942,8 @@ php artisan tyro:audit-purge --days=<span class="num">7</span> --force</code>
                 </p>
                 <div class="doc-code-block">
                     <code><span class="cm"># Via CLI</span>
-php artisan tyro:role-create --name=<span class="str">"Manager"</span> --slug=<span class="str">"manager"</span>
-php artisan tyro:privilege-create custom.action --name=<span class="str">"Custom Action"</span>
+php artisan <span class="cmd">tyro:role-create</span> --name=<span class="str">"Manager"</span> --slug=<span class="str">"manager"</span>
+php artisan <span class="cmd">tyro:privilege-create</span> custom.action --name=<span class="str">"Custom Action"</span>
 
 <span class="cm"># Via Code</span>
 <span class="fn">Role::create</span>([<span class="str">'name'</span> => <span class="str">'Manager'</span>, <span class="str">'slug'</span> => <span class="str">'manager'</span>]);
