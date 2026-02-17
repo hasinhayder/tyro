@@ -471,8 +471,8 @@ if ($user->isSuspended()) {
 // Unsuspend when ready
 $user->unsuspend();
 
-// CLI: php artisan tyro:suspend-user --user=1
-// CLI: php artisan tyro:unsuspend-user --user=1</code></pre>
+// CLI: php artisan tyro:user-suspend --user=1
+// CLI: php artisan tyro:user-unsuspend --user=1</code></pre>
                     </div>
                 </div>
             </div>
@@ -1122,27 +1122,27 @@ Route::middleware([
                     <div class="command-group-content">
                         <div class="command-list">
                             <div class="command-item">
-                                <code class="command-name">tyro:create-user</code>
+                                <code class="command-name">tyro:user-create</code>
                                 <p class="command-description">Prompt for name/email/password and attach the default role</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:users</code>
+                                <code class="command-name">tyro:user-list</code>
                                 <p class="command-description">Inspect users with their role slugs and suspension status</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:users-with-roles</code>
+                                <code class="command-name">tyro:user-list-with-roles</code>
                                 <p class="command-description">Display users with their role slugs and suspension column</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:suspend-user</code>
+                                <code class="command-name">tyro:user-suspend</code>
                                 <p class="command-description">Suspend a user with optional reason or lift with --unsuspend</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:unsuspend-user</code>
+                                <code class="command-name">tyro:user-unsuspend</code>
                                 <p class="command-description">Dedicated shortcut to lift user suspensions</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:suspended-users</code>
+                                <code class="command-name">tyro:user-suspended</code>
                                 <p class="command-description">Show every suspended user, when locked, and why</p>
                             </div>
                             <div class="command-item">
@@ -1183,15 +1183,15 @@ Route::middleware([
                     <div class="command-group-content">
                         <div class="command-list">
                             <div class="command-item">
-                                <code class="command-name">tyro:roles</code>
+                                <code class="command-name">tyro:role-list</code>
                                 <p class="command-description">Display all roles with user counts</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:roles-with-privileges</code>
+                                <code class="command-name">tyro:role-list-with-privileges</code>
                                 <p class="command-description">Display roles alongside their attached privilege slugs and user counts</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:create-role</code>
+                                <code class="command-name">tyro:role-create</code>
                                 <p class="command-description">Manage custom roles (protected slugs cannot be renamed or deleted)</p>
                             </div>
                             <div class="command-item">
@@ -1203,11 +1203,11 @@ Route::middleware([
                                 <p class="command-description">Delete a role (protected slugs cannot be deleted)</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:assign-role</code>
+                                <code class="command-name">tyro:role-assign</code>
                                 <p class="command-description">Attach a role to a user by email/ID</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:delete-user-role</code>
+                                <code class="command-name">tyro:role-remove</code>
                                 <p class="command-description">Detach a role from a user</p>
                             </div>
                             <div class="command-item">
@@ -1227,11 +1227,11 @@ Route::middleware([
                                 <p class="command-description">Truncate the roles + pivot tables without re-seeding</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:privileges</code>
+                                <code class="command-name">tyro:privilege-list</code>
                                 <p class="command-description">List every privilege and which roles currently own it</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:add-privilege</code>
+                                <code class="command-name">tyro:privilege-create</code>
                                 <p class="command-description">Create new privilege records</p>
                             </div>
                             <div class="command-item">
@@ -1243,11 +1243,11 @@ Route::middleware([
                                 <p class="command-description">Remove privilege records</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:attach-privilege</code>
+                                <code class="command-name">tyro:privilege-attach</code>
                                 <p class="command-description">Attach privileges to roles via slug or ID</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:detach-privilege</code>
+                                <code class="command-name">tyro:privilege-detach</code>
                                 <p class="command-description">Detach privileges from roles</p>
                             </div>
                         </div>
@@ -1279,7 +1279,7 @@ Route::middleware([
                                 <p class="command-description">Mint a Sanctum token using user ID or email (respects suspensions)</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:quick-token</code>
+                                <code class="command-name">tyro:user-token</code>
                                 <p class="command-description">Mint a Sanctum token by user ID/email without password prompt</p>
                             </div>
                             <div class="command-item">
@@ -1295,7 +1295,7 @@ Route::middleware([
                                 <p class="command-description">Revoke every token for a given user</p>
                             </div>
                             <div class="command-item">
-                                <code class="command-name">tyro:logout-all-users</code>
+                                <code class="command-name">tyro:auth-logout-all-users</code>
                                 <p class="command-description">Revoke every Sanctum token for every user (emergency rotation)</p>
                             </div>
                         </div>
@@ -1497,7 +1497,7 @@ curl -H "Authorization: Bearer {token}" \
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Tyro ships with 40+ artisan commands for managing users, roles, privileges, tokens, and more. Key commands include: <code>tyro:create-user</code>, <code>tyro:assign-role</code>, <code>tyro:suspend-user</code>, <code>tyro:add-privilege</code>, <code>tyro:attach-privilege</code>, <code>tyro:quick-token</code>, and <code>tyro:logout-all-users</code>. Every command supports non-interactive flags for automation.</p>
+                        <p>Tyro ships with 40+ artisan commands for managing users, roles, privileges, tokens, and more. Key commands include: <code>tyro:user-create</code>, <code>tyro:role-assign</code>, <code>tyro:user-suspend</code>, <code>tyro:privilege-create</code>, <code>tyro:privilege-attach</code>, <code>tyro:user-token</code>, and <code>tyro:auth-logout-all-users</code>. Every command supports non-interactive flags for automation.</p>
                     </div>
                 </div>
 
@@ -1533,7 +1533,7 @@ curl -H "Authorization: Bearer {token}" \
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Use <code>php artisan tyro:suspend-user --user=email@example.com --reason="Policy violation"</code> or call <code>$user->suspend('reason')</code> in your code. Suspension automatically revokes all Sanctum tokens and prevents login. To lift a suspension, use <code>php artisan tyro:unsuspend-user</code> or <code>$user->unsuspend()</code>. Check suspension status with <code>$user->isSuspended()</code>.</p>
+                        <p>Use <code>php artisan tyro:user-suspend --user=email@example.com --reason="Policy violation"</code> or call <code>$user->suspend('reason')</code> in your code. Suspension automatically revokes all Sanctum tokens and prevents login. To lift a suspension, use <code>php artisan tyro:user-unsuspend</code> or <code>$user->unsuspend()</code>. Check suspension status with <code>$user->isSuspended()</code>.</p>
                     </div>
                 </div>
 

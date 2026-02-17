@@ -713,10 +713,10 @@ $roles = $user->tyroRoleSlugs(); // ['admin', 'editor']</code>
                 <p class="doc-text">Create and attach privileges to roles:</p>
                 <div class="doc-code-block">
                     <code># Create a new privilege
-php artisan tyro:add-privilege reports.run --name="Run Reports"
+php artisan tyro:privilege-create reports.run --name="Run Reports"
 
 # Attach it to a role
-php artisan tyro:attach-privilege reports.run editor</code>
+php artisan tyro:privilege-attach reports.run editor</code>
                 </div>
             </section>
 
@@ -733,7 +733,7 @@ php artisan tyro:attach-privilege reports.run editor</code>
 php artisan tyro:login --user=admin@tyro.project
 
 # Quick token without password (development only)
-php artisan tyro:quick-token --user=1</code>
+php artisan tyro:user-token --user=1</code>
                 </div>
 
                 <h3 class="doc-section-subtitle">Token Inspection</h3>
@@ -962,7 +962,7 @@ Route::middleware(['auth:sanctum', 'privilege:reports.run'])
                 <h3 class="doc-section-subtitle">Suspending Users</h3>
                 <div class="doc-code-block">
                     <code># Via CLI
-php artisan tyro:suspend-user --user=user@example.com --reason="Policy violation"
+php artisan tyro:user-suspend --user=user@example.com --reason="Policy violation"
 
 # Via Code
 $user->suspend('Policy violation');</code>
@@ -971,7 +971,7 @@ $user->suspend('Policy violation');</code>
                 <h3 class="doc-section-subtitle">Unsuspending Users</h3>
                 <div class="doc-code-block">
                     <code># Via CLI
-php artisan tyro:unsuspend-user --user=user@example.com
+php artisan tyro:user-unsuspend --user=user@example.com
 
 # Via Code
 $user->unsuspend();</code>
@@ -1148,34 +1148,34 @@ $user->unsuspend();</code>
                 <h2 class="doc-section-title">User Management Commands</h2>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:create-user</div>
+                    <div class="doc-command-name">tyro:user-create</div>
                     <div class="doc-command-desc">Create a new user with interactive prompts</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:create-user</code>
+                        <code>php artisan tyro:user-create</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:users</div>
+                    <div class="doc-command-name">tyro:user-list</div>
                     <div class="doc-command-desc">List all users with their roles and suspension status</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:users</code>
+                        <code>php artisan tyro:user-list</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:suspend-user</div>
+                    <div class="doc-command-name">tyro:user-suspend</div>
                     <div class="doc-command-desc">Suspend a user account with optional reason</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:suspend-user --user=5 --reason="Manual review"</code>
+                        <code>php artisan tyro:user-suspend --user=5 --reason="Manual review"</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:unsuspend-user</div>
+                    <div class="doc-command-name">tyro:user-unsuspend</div>
                     <div class="doc-command-desc">Lift suspension from a user account</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:unsuspend-user --user=user@example.com</code>
+                        <code>php artisan tyro:user-unsuspend --user=user@example.com</code>
                     </div>
                 </div>
 
@@ -1193,58 +1193,58 @@ $user->unsuspend();</code>
                 <h2 class="doc-section-title">Role & Privilege Commands</h2>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:roles</div>
+                    <div class="doc-command-name">tyro:role-list</div>
                     <div class="doc-command-desc">Display all roles with user counts</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:roles</code>
+                        <code>php artisan tyro:role-list</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:roles-with-privileges</div>
+                    <div class="doc-command-name">tyro:role-list-with-privileges</div>
                     <div class="doc-command-desc">Display roles with their attached privileges</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:roles-with-privileges</code>
+                        <code>php artisan tyro:role-list-with-privileges</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:create-role</div>
+                    <div class="doc-command-name">tyro:role-create</div>
                     <div class="doc-command-desc">Create a new role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:create-role --name="Manager" --slug="manager"</code>
+                        <code>php artisan tyro:role-create --name="Manager" --slug="manager"</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:assign-role</div>
+                    <div class="doc-command-name">tyro:role-assign</div>
                     <div class="doc-command-desc">Assign a role to a user</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:assign-role --user=5 --role=editor</code>
+                        <code>php artisan tyro:role-assign --user=5 --role=editor</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:add-privilege</div>
+                    <div class="doc-command-name">tyro:privilege-create</div>
                     <div class="doc-command-desc">Create a new privilege</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:add-privilege reports.run --name="Run Reports"</code>
+                        <code>php artisan tyro:privilege-create reports.run --name="Run Reports"</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:attach-privilege</div>
+                    <div class="doc-command-name">tyro:privilege-attach</div>
                     <div class="doc-command-desc">Attach a privilege to a role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:attach-privilege reports.run editor</code>
+                        <code>php artisan tyro:privilege-attach reports.run editor</code>
                     </div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:detach-privilege</div>
+                    <div class="doc-command-name">tyro:privilege-detach</div>
                     <div class="doc-command-desc">Remove a privilege from a role</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:detach-privilege reports.run editor</code>
+                        <code>php artisan tyro:privilege-detach reports.run editor</code>
                     </div>
                 </div>
             </section>
@@ -1262,10 +1262,10 @@ $user->unsuspend();</code>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:quick-token</div>
+                    <div class="doc-command-name">tyro:user-token</div>
                     <div class="doc-command-desc">Generate a token without password (development only)</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:quick-token --user=1</code>
+                        <code>php artisan tyro:user-token --user=1</code>
                     </div>
                 </div>
 
@@ -1278,10 +1278,10 @@ $user->unsuspend();</code>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:logout-all-users</div>
+                    <div class="doc-command-name">tyro:auth-logout-all-users</div>
                     <div class="doc-command-desc">Revoke all tokens for all users (emergency rotation)</div>
                     <div class="doc-code-block">
-                        <code>php artisan tyro:logout-all-users --force</code>
+                        <code>php artisan tyro:auth-logout-all-users --force</code>
                     </div>
                 </div>
             </section>
@@ -1913,8 +1913,8 @@ php artisan tyro:audit-purge --days=7 --force</code>
                 </p>
                 <div class="doc-code-block">
                     <code># Via CLI
-php artisan tyro:create-role --name="Manager" --slug="manager"
-php artisan tyro:add-privilege custom.action --name="Custom Action"
+php artisan tyro:role-create --name="Manager" --slug="manager"
+php artisan tyro:privilege-create custom.action --name="Custom Action"
 
 # Via Code
 Role::create(['name' => 'Manager', 'slug' => 'manager']);
