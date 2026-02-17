@@ -49,20 +49,20 @@ Each audit log entry includes:
 ## CLI Commands
 
 ### Viewing Logs
-List recent audit logs with the `tyro:audit` command:
+List recent audit logs with the `tyro:audit-list` command:
 
 ```bash
 # Show last 20 logs
-php artisan tyro:audit
+php artisan tyro:audit-list
 
 # Show last 50 logs
-php artisan tyro:audit --limit=50
+php artisan tyro:audit-list --limit=50
 
 # Filter by event type
-php artisan tyro:audit --event=user.suspended
+php artisan tyro:audit-list --event=user.suspended
 
 # Filter by date range
-php artisan tyro:audit --from=2024-01-01 --to=2024-01-31
+php artisan tyro:audit-list --from=2024-01-01 --to=2024-01-31
 ```
 
 ### Purging Logs
