@@ -345,6 +345,7 @@
                         <li><a href="#benefits" class="doc-nav-link">Benefits</a></li>
                         <li><a href="#requirements" class="doc-nav-link">Requirements</a></li>
                         <li><a href="#installation" class="doc-nav-link">Installation</a></li>
+                        <li><a href="#updating-tyro" class="doc-nav-link">Updating Tyro</a></li>
                         <li><a href="#quick-start" class="doc-nav-link">Quick Start</a></li>
                     </ul>
                 </div>
@@ -367,6 +368,7 @@
                         <li><a href="#user-commands" class="doc-nav-link">User Management</a></li>
                         <li><a href="#role-commands" class="doc-nav-link">Role & Privilege</a></li>
                         <li><a href="#token-commands" class="doc-nav-link">Token Management</a></li>
+                        <li><a href="#audit-commands" class="doc-nav-link">Audit Management</a></li>
                     </ul>
                 </div>
 
@@ -390,6 +392,7 @@
                 <div class="doc-nav-section">
                     <div class="doc-nav-title">Resources</div>
                     <ul class="doc-nav-list">
+                        <li><a href="#audit-trail" class="doc-nav-link">Audit Trail</a></li>
                         <li><a href="#configuration" class="doc-nav-link">Configuration</a></li>
                         <li><a href="#faq" class="doc-nav-link">FAQ</a></li>
                         <li><a href="index.html" class="doc-nav-link">← Back to Home</a></li>
@@ -565,6 +568,39 @@
 
                 <h3 class="doc-section-subtitle">Step 3: Verify Installation</h3>
                 <p class="doc-text">Check that everything is set up correctly:</p>
+                <div class="doc-code-block">
+                    <code>php artisan tyro:version</code>
+                </div>
+            </section>
+
+            <!-- Updating Tyro -->
+            <section id="updating-tyro" class="doc-section">
+                <h2 class="doc-section-title">Updating Tyro</h2>
+                <p class="doc-text">
+                    When updating Tyro from an older version using <code class="doc-inline-code">composer update</code>, you <strong>must run migrations</strong> to apply any new database changes (such as audit trail tables and other features).
+                </p>
+
+                <h3 class="doc-section-subtitle">Update Steps</h3>
+                <div class="doc-code-block">
+                    <code># Step 1: Update the package
+composer update hasinhayder/tyro
+
+# Step 2: Run migrations to apply new database changes
+php artisan migrate</code>
+                </div>
+
+                <h3 class="doc-section-subtitle">Run Migrations for Tyro Only</h3>
+                <p class="doc-text">If you prefer to run only Tyro's migrations without running other pending migrations:</p>
+                <div class="doc-code-block">
+                    <code>php artisan migrate --path=vendor/hasinhayder/tyro/database/migrations</code>
+                </div>
+
+                <div class="doc-alert doc-alert-warning">
+                    <strong>⚠️ Important:</strong> Always run migrations after updating Tyro. Skipping this step may result in missing database tables, audit logs not recording, or other unexpected behavior. New features depend on the database schema being up-to-date.
+                </div>
+
+                <h3 class="doc-section-subtitle">Verify Update</h3>
+                <p class="doc-text">Check that the update was successful:</p>
                 <div class="doc-code-block">
                     <code>php artisan tyro:version</code>
                 </div>
@@ -1250,6 +1286,44 @@ $user->unsuspend();</code>
                 </div>
             </section>
 
+            <!-- Audit Commands -->
+            <section id="audit-commands" class="doc-section">
+                <h2 class="doc-section-title">Audit Management Commands</h2>
+
+                <div class="doc-command-card">
+                    <div class="doc-command-name">tyro:audit-list</div>
+                    <div class="doc-command-desc">View recent audit logs with optional filtering by event, date range, or user</div>
+                    <div class="doc-code-block">
+                        <code># Show last 20 logs
+php artisan tyro:audit-list
+
+# Show last 50 logs
+php artisan tyro:audit-list --limit=50
+
+# Filter by event type
+php artisan tyro:audit-list --event=user.suspended
+
+# Filter by date range
+php artisan tyro:audit-list --from=2024-01-01 --to=2024-01-31</code>
+                    </div>
+                </div>
+
+                <div class="doc-command-card">
+                    <div class="doc-command-name">tyro:audit-purge</div>
+                    <div class="doc-command-desc">Purge old audit logs based on retention policy</div>
+                    <div class="doc-code-block">
+                        <code># Purge logs older than configured retention days
+php artisan tyro:audit-purge
+
+# Override retention and purge logs older than 7 days
+php artisan tyro:audit-purge --days=7
+
+# Force purge without confirmation prompt
+php artisan tyro:audit-purge --force</code>
+                    </div>
+                </div>
+            </section>
+
             <!-- Checking Permissions -->
             <section id="checking-permissions" class="doc-section">
                 <h2 class="doc-section-title">Checking Permissions</h2>
@@ -1697,6 +1771,112 @@ TYRO_DISABLE_COMMANDS=true
 
 # Disable API routes
 TYRO_DISABLE_API=true</code>
+                </div>
+            </section>
+
+            <!-- Audit Trail -->
+            <section id="audit-trail" class="doc-section">
+                <h2 class="doc-section-title">Audit Trail</h2>
+                <p class="doc-text">
+                    The Audit Trail feature provides a database-backed log of all administrative actions. It helps you track "Who did what, to whom, and when," which is essential for security compliance, troubleshooting, and forensic analysis.
+                </p>
+
+                <h3 class="doc-section-subtitle">Recorded Events</h3>
+                <p class="doc-text">
+                    Tyro automatically captures the following events:
+                </p>
+
+                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">User Management</h4>
+                <ul class="doc-list">
+                    <li><code class="doc-inline-code">user.suspended</code> - When a user is suspended (includes the reason)</li>
+                    <li><code class="doc-inline-code">user.unsuspended</code> - When a user's suspension is lifted</li>
+                    <li><code class="doc-inline-code">role.assigned</code> - When a role is attached to a user</li>
+                    <li><code class="doc-inline-code">role.removed</code> - When a role is detached from a user</li>
+                </ul>
+
+                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Role Management</h4>
+                <ul class="doc-list">
+                    <li><code class="doc-inline-code">role.created</code> - When a new role is created</li>
+                    <li><code class="doc-inline-code">role.updated</code> - When a role's name or slug is modified (logs old vs. new values)</li>
+                    <li><code class="doc-inline-code">role.deleted</code> - When a role is deleted</li>
+                </ul>
+
+                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Privilege Management</h4>
+                <ul class="doc-list">
+                    <li><code class="doc-inline-code">privilege.created</code> - When a new privilege is created</li>
+                    <li><code class="doc-inline-code">privilege.updated</code> - When a privilege is modified</li>
+                    <li><code class="doc-inline-code">privilege.deleted</code> - When a privilege is deleted</li>
+                </ul>
+
+                <h3 class="doc-section-subtitle">Data Captured</h3>
+                <p class="doc-text">
+                    Each audit log entry includes:
+                </p>
+                <ul class="doc-list">
+                    <li><strong>User ID:</strong> The ID of the authenticated user who performed the action (or "System" for CLI)</li>
+                    <li><strong>Event:</strong> The type of action performed</li>
+                    <li><strong>Auditable:</strong> A polymorphic relation to the object affected (e.g., the User or Role)</li>
+                    <li><strong>Old Values:</strong> A JSON representation of the data before the change</li>
+                    <li><strong>New Values:</strong> A JSON representation of the data after the change</li>
+                    <li><strong>Metadata:</strong> Includes IP Address, User-Agent, and whether the action was performed via Console (CLI)</li>
+                </ul>
+
+                <h3 class="doc-section-subtitle">Configuration</h3>
+                <p class="doc-text">
+                    Configure the audit trail in <code class="doc-inline-code">config/tyro.php</code>:
+                </p>
+                <div class="doc-code-block">
+                    <code>'audit' => [
+    'enabled' => env('TYRO_AUDIT_ENABLED', true),
+    'retention_days' => env('TYRO_AUDIT_RETENTION_DAYS', 30),
+],</code>
+                </div>
+                <ul class="doc-list">
+                    <li><strong>enabled:</strong> Set to <code class="doc-inline-code">false</code> to completely disable audit logging</li>
+                    <li><strong>retention_days:</strong> Number of days to keep logs before they are eligible for purging via the CLI</li>
+                </ul>
+
+                <h3 class="doc-section-subtitle">REST API Access</h3>
+                <p class="doc-text">
+                    If the Tyro API is enabled, admins can access logs via the REST endpoint:
+                </p>
+                <div class="doc-code-block">
+                    <code>GET /api/audit-logs</code>
+                </div>
+
+                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Query Parameters</h4>
+                <ul class="doc-list">
+                    <li><code class="doc-inline-code">event</code> - Filter by event slug (e.g., <code class="doc-inline-code">role.assigned</code>)</li>
+                    <li><code class="doc-inline-code">user_id</code> - Filter by the actor's user ID</li>
+                    <li><code class="doc-inline-code">from</code> - Filter by start date (YYYY-MM-DD)</li>
+                    <li><code class="doc-inline-code">to</code> - Filter by end date (YYYY-MM-DD)</li>
+                    <li><code class="doc-inline-code">per_page</code> - Control pagination (default 20)</li>
+                </ul>
+
+                <div class="doc-alert doc-alert-info">
+                    <strong>ℹ️ API Requirement:</strong> The REST endpoint requires the authenticated user to have administrative privileges as defined in your Tyro config.
+                </div>
+
+                <h3 class="doc-section-subtitle">Example Usage</h3>
+                <div class="doc-code-block">
+                    <code>// View recent audit logs
+php artisan tyro:audit-list
+
+// Filter by event type
+php artisan tyro:audit-list --event=role.assigned
+
+// View logs from a specific date range
+php artisan tyro:audit-list --from=2024-06-01 --to=2024-06-30
+
+// Purge old logs (older than 30 days)
+php artisan tyro:audit-purge
+
+// Immediately purge logs older than 7 days
+php artisan tyro:audit-purge --days=7 --force</code>
+                </div>
+
+                <div class="doc-alert doc-alert-success">
+                    <strong>✓ Compliance Ready:</strong> The Audit Trail helps meet compliance requirements and provides visibility into administrative changes for security and forensic purposes.
                 </div>
             </section>
 
