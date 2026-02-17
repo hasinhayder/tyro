@@ -1,8 +1,8 @@
 {
   "info": {
     "name": "Tyro API",
-    "version": "2.1.0",
-    "description": "Collection covering every Tyro package endpoint with sample payloads and scripts to capture the Sanctum token for subsequent requests.",
+    "version": "2.2.0",
+    "description": "Collection covering every Tyro package endpoint with sample payloads and scripts to capture the Sanctum token for subsequent requests. Includes Audit Logs with filtering capabilities.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -878,6 +878,194 @@
                     "{{user_id}}",
                     "roles",
                     "{{role_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Audit Logs",
+          "item": [
+            {
+              "name": "List Audit Logs",
+              "description": "Retrieve audit logs with optional filtering by event, user, and date range",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/audit-logs?per_page=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "audit-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "20",
+                      "description": "Number of results per page (default: 20)"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true,
+                      "description": "Page number for pagination"
+                    },
+                    {
+                      "key": "event",
+                      "value": "",
+                      "disabled": true,
+                      "description": "Filter by event name (e.g., 'created', 'updated', 'deleted')"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "",
+                      "disabled": true,
+                      "description": "Filter by user ID"
+                    },
+                    {
+                      "key": "from",
+                      "value": "",
+                      "disabled": true,
+                      "description": "Filter from date (YYYY-MM-DD)"
+                    },
+                    {
+                      "key": "to",
+                      "value": "",
+                      "disabled": true,
+                      "description": "Filter to date (YYYY-MM-DD)"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter Audit Logs by Event",
+              "description": "List audit logs filtered by event type",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/audit-logs?event=created&per_page=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "audit-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "event",
+                      "value": "created"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter Audit Logs by User",
+              "description": "List audit logs filtered by user ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/audit-logs?user_id={{user_id}}&per_page=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "audit-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "{{user_id}}"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter Audit Logs by Date Range",
+              "description": "List audit logs filtered by date range",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/audit-logs?from=2026-02-01&to=2026-02-17&per_page=20",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "audit-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-02-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-02-17"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    }
                   ]
                 }
               },
