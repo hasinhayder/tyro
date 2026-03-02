@@ -60,6 +60,17 @@ trait HasTyroRoles {
     }
 
     /**
+     * Check if the user has any of the given roles.
+     */
+    public function hasAnyRole(array $roles): bool {
+        $userRoles = $this->tyroRoleSlugs();
+        if (in_array('*', $userRoles, true)) {
+            return true;
+        }
+        return !empty(array_intersect($roles, $userRoles));
+    }
+
+    /**
      * Check if the user has all of the given roles.
      */
     public function hasRoles(array $roles): bool {

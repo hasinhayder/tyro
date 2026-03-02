@@ -13,7 +13,7 @@
 Tyro is the complete auth and access control toolkit that works everywhere in your Laravel application:
 
 -   **Complete Authentication & Authorization.** Out-of-the-box user authentication with Sanctum, role-based access control, fine-grained privilege management, and Laravel Gate integration. Works seamlessly for APIs, web apps, and hybrid applications.
--   **Powerful Role & Privilege System.** Create unlimited roles with granular privileges. Check permissions in controllers, middleware, Blade templates, or anywhere in your code with intuitive helpers like `$user->hasRole()`, `$user->can()`, and `$user->hasPrivileges()`.
+-   **Powerful Role & Privilege System.** Create unlimited roles with granular privileges. Check permissions in controllers, middleware, Blade templates, or anywhere in your code with intuitive helpers like `$user->hasRole()`, `$user->hasRoles()`, `$user->hasAnyRole()`, `$user->can()`, and `$user->hasPrivileges()`.
 -   **40+ Artisan Commands.** Manage users, roles, privileges, and tokens entirely from the CLI. Seed data, suspend users, rotate tokens, audit permissions—all without touching the database directly. Perfect for automation, CI/CD, and incident response.
 -   **Blade Directives for Views.** Use `@userCan`, `@hasRole`, `@hasPrivilege`, `@hasAnyRole`, `@hasAllRoles`, `@hasAnyPrivilege`, and `@hasAllPrivileges` to conditionally render content based on user permissions. Clean, readable templates without PHP logic clutter.
 -   **User Suspension Workflows.** Freeze accounts instantly with optional reasons, automatically revoke all active tokens, and manage suspensions via CLI or REST endpoints.
