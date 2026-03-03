@@ -94,23 +94,58 @@
                 },
             };
         </script>
+        <script>
+            // Initial theme check to prevent flicker
+            if (
+                localStorage.getItem("theme") === "dark" ||
+                (!("theme" in localStorage) &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        </script>
         <style>
+            :root {
+                --bg-main: #ffffff;
+                --text-main: #1e293b;
+                --text-muted: #64748b;
+                --hero-dot: rgba(0, 0, 0, 0.05);
+                --glass-bg: rgba(255, 255, 255, 0.7);
+                --glass-border: rgba(0, 0, 0, 0.08);
+                --nav-bg: rgba(255, 255, 255, 0.8);
+                --nav-border: rgba(0, 0, 0, 0.05);
+            }
+            .dark {
+                --bg-main: #020617;
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --hero-dot: rgba(255, 255, 255, 0.07);
+                --glass-bg: rgba(15, 23, 42, 0.6);
+                --glass-border: rgba(255, 255, 255, 0.08);
+                --nav-bg: rgba(2, 6, 23, 0.85);
+                --nav-border: rgba(255, 255, 255, 0.05);
+            }
             body {
-                background-color: #020617;
-                color: #cbd5e1;
+                background-color: var(--bg-main);
+                color: var(--text-main);
+                transition:
+                    background-color 0.3s ease,
+                    color 0.3s ease;
             }
             .hero-pattern {
                 background-image: radial-gradient(
-                    rgba(255, 255, 255, 0.07) 1px,
+                    var(--hero-dot) 1px,
                     transparent 1px
                 );
                 background-size: 32px 32px;
             }
             .glass-panel {
-                background: rgba(15, 23, 42, 0.6);
+                background: var(--glass-bg);
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
-                border: 1px solid rgba(255, 255, 255, 0.08);
+                border: 1px solid var(--glass-border);
             }
             #navbar {
                 border-bottom: 1px solid transparent;
@@ -122,11 +157,15 @@
                     padding 0.3s ease;
             }
             .navbar-scrolled {
-                background: rgba(2, 6, 23, 0.85) !important;
+                background: var(--nav-bg) !important;
                 backdrop-filter: blur(16px);
-                border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+                border-bottom-color: var(--nav-border) !important;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            }
+            .dark .navbar-scrolled {
                 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            }            ::-webkit-scrollbar {
+            }
+            ::-webkit-scrollbar {
                 width: 8px;
             }
             ::-webkit-scrollbar-track {
@@ -178,7 +217,6 @@
                 display: block;
                 width: 24px;
                 height: 2px;
-                background: #cbd5e1;
                 margin: 5px 0;
                 transition: 0.3s;
             }
@@ -193,7 +231,9 @@
             }
         </style>
     </head>
-    <body class="selection:bg-brand-500/30 selection:text-brand-200">
+    <body
+        class="selection:bg-brand-500/30 selection:text-brand-200 transition-colors duration-300"
+    >
         <!-- Copy Toast -->
         <div
             class="copy-toast fixed bottom-8 left-1/2 bg-slate-800 text-white px-6 py-3 rounded-full font-medium shadow-2xl border border-slate-700 z-[999]"
@@ -203,16 +243,11 @@
         </div>
 
         <!-- Navigation -->
-        <nav
-            class="fixed top-0 left-0 right-0 z-50 py-4"
-            id="navbar"
-        >
-            <div
-                class="w-full mx-auto px-6 flex items-center justify-between"
-            >
+        <nav class="fixed top-0 left-0 right-0 z-50 py-4" id="navbar">
+            <div class="w-full mx-auto px-6 flex items-center justify-between">
                 <a
                     href="#"
-                    class="font-display font-bold text-2xl tracking-tight text-white uppercase flex items-center gap-2"
+                    class="font-display font-bold text-2xl tracking-tight text-slate-900 dark:text-white uppercase flex items-center gap-2"
                 >
                     <div
                         class="w-8 h-8 rounded bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center"
@@ -234,7 +269,7 @@
                             />
                         </svg>
                     </div>
-                    Tyro
+                    <span class="text-slate-900 dark:text-white">Tyro</span>
                 </a>
 
                 <button
@@ -242,40 +277,43 @@
                     id="navToggle"
                     aria-label="Toggle menu"
                 >
-                    <span></span><span></span><span></span>
+                    <span class="bg-slate-900 dark:bg-slate-300"></span>
+                    <span class="bg-slate-900 dark:bg-slate-300"></span>
+                    <span class="bg-slate-900 dark:bg-slate-300"></span>
                 </button>
 
                 <div class="hidden md:flex items-center gap-8" id="navMenu">
                     <a
                         href="#features"
-                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                         >Features</a
                     >
                     <a
                         href="#protecting-routes"
-                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                         >Middleware</a
                     >
                     <a
                         href="#blade-directives"
-                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                         >Blade</a
                     >
                     <a
                         href="#commands"
-                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                         >CLI</a
                     >
                     <a
                         href="doc.html"
-                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                         >Docs</a
                     >
+
                     <a
                         href="https://github.com/hasinhayder/tyro"
                         target="_blank"
                         rel="noopener"
-                        class="text-sm bg-white text-slate-900 font-bold px-5 py-2.5 rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                        class="text-sm bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold px-5 py-2.5 rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors flex items-center gap-2 shadow-[0_0_15px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -295,42 +333,43 @@
 
             <!-- Mobile Menu -->
             <div
-                class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-40 hidden flex-col items-center justify-center gap-8"
+                class="fixed inset-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl z-40 hidden flex-col items-center justify-center gap-8"
                 id="mobileMenu"
             >
                 <a
                     href="#features"
-                    class="text-2xl font-display font-semibold text-white"
+                    class="text-2xl font-display font-semibold text-slate-900 dark:text-white"
                     onclick="closeMobile()"
                     >Features</a
                 >
                 <a
                     href="#protecting-routes"
-                    class="text-2xl font-display font-semibold text-white"
+                    class="text-2xl font-display font-semibold text-slate-900 dark:text-white"
                     onclick="closeMobile()"
                     >Middleware</a
                 >
                 <a
                     href="#blade-directives"
-                    class="text-2xl font-display font-semibold text-white"
+                    class="text-2xl font-display font-semibold text-slate-900 dark:text-white"
                     onclick="closeMobile()"
                     >Blade Directives</a
                 >
                 <a
                     href="#commands"
-                    class="text-2xl font-display font-semibold text-white"
+                    class="text-2xl font-display font-semibold text-slate-900 dark:text-white"
                     onclick="closeMobile()"
                     >CLI Commands</a
                 >
                 <a
                     href="doc.html"
-                    class="text-2xl font-display font-semibold text-brand-400"
+                    class="text-2xl font-display font-semibold text-brand-500 dark:text-brand-400"
                     >Documentation</a
                 >
+
                 <a
                     href="https://github.com/hasinhayder/tyro"
                     target="_blank"
-                    class="text-2xl font-display font-semibold text-white flex items-center gap-3"
+                    class="text-2xl font-display font-semibold text-slate-900 dark:text-white flex items-center gap-3"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -350,7 +389,7 @@
 
         <!-- Hero Section -->
         <section
-            class="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-16 overflow-hidden bg-slate-950 hero-pattern"
+            class="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-16 overflow-hidden bg-white dark:bg-slate-950 hero-pattern"
         >
             <!-- Glowing Orbs -->
             <div
@@ -374,15 +413,15 @@
                 >
                     <!-- Top Left -->
                     <div
-                        class="absolute top-[10%] left-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute top-[10%] left-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
-                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                            class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
                         >
                             45<span class="text-brand-400">+</span>
                         </div>
                         <div
-                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                            class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                         >
                             CLI Commands
                         </div>
@@ -390,15 +429,15 @@
 
                     <!-- Bottom Left -->
                     <div
-                        class="absolute bottom-[20%] left-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute bottom-[20%] left-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
-                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                            class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
                         >
                             7
                         </div>
                         <div
-                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                            class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                         >
                             Blade Directives
                         </div>
@@ -406,15 +445,15 @@
 
                     <!-- Top Right -->
                     <div
-                        class="absolute top-[20%] right-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute top-[20%] right-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
-                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                            class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
                         >
                             100<span class="text-brand-400">%</span>
                         </div>
                         <div
-                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                            class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                         >
                             Audit Trail
                         </div>
@@ -422,15 +461,15 @@
 
                     <!-- Bottom Right -->
                     <div
-                        class="absolute bottom-[10%] right-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute bottom-[10%] right-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
-                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                            class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
                         >
                             API<span class="text-brand-400">+</span>WEB
                         </div>
                         <div
-                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                            class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                         >
                             Ready Support
                         </div>
@@ -442,7 +481,7 @@
                     class="text-center max-w-4xl mx-auto reveal visible relative z-30 py-12"
                 >
                     <div
-                        class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel border border-slate-700/50 text-sm font-medium text-slate-300 mb-10 shadow-lg"
+                        class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel border border-slate-700/50 text-sm font-medium text-slate-700 dark:text-slate-300 mb-10 shadow-lg"
                     >
                         <span class="relative flex h-2.5 w-2.5">
                             <span
@@ -456,7 +495,7 @@
                     </div>
 
                     <h1
-                        class="text-6xl md:text-8xl font-display font-bold tracking-tight text-white mb-8 leading-[1.05]"
+                        class="text-6xl md:text-8xl font-display font-bold tracking-tight text-slate-900 dark:text-white mb-8 leading-[1.05]"
                     >
                         Instant Auth &amp; <br />
                         <span
@@ -467,7 +506,7 @@
                     </h1>
 
                     <p
-                        class="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed"
+                        class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed"
                     >
                         Skip the boilerplate. Tyro provides seamless Sanctum API
                         authentication, granular role-based access control,
@@ -517,7 +556,7 @@
                                 >
                                 <button
                                     onclick="copyCommand('installCmd')"
-                                    class="ml-4 p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                                    class="ml-4 p-2 text-slate-600 dark:text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
                                     aria-label="Copy"
                                 >
                                     <svg
@@ -554,50 +593,58 @@
             <div
                 class="xl:hidden grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto px-6 relative z-30 mb-16 reveal"
             >
-                <div class="glass-panel rounded-2xl p-6 text-center">
+                <div
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                >
                     <div
-                        class="text-3xl font-display font-bold text-white mb-2"
+                        class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
                     >
                         45<span class="text-brand-400">+</span>
                     </div>
                     <div
-                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                        class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                     >
                         CLI Commands
                     </div>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 text-center">
+                <div
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                >
                     <div
-                        class="text-3xl font-display font-bold text-white mb-2"
+                        class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
                     >
                         7
                     </div>
                     <div
-                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                        class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                     >
                         Blade Directives
                     </div>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 text-center">
+                <div
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                >
                     <div
-                        class="text-3xl font-display font-bold text-white mb-2"
+                        class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
                     >
                         100<span class="text-brand-400">%</span>
                     </div>
                     <div
-                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                        class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                     >
                         Audit Trail
                     </div>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 text-center">
+                <div
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                >
                     <div
-                        class="text-3xl font-display font-bold text-white mb-2"
+                        class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
                     >
                         API<span class="text-brand-400">+</span>WEB
                     </div>
                     <div
-                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                        class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest"
                     >
                         Ready Support
                     </div>
@@ -610,12 +657,12 @@
             >
                 <div class="text-center mb-8">
                     <span
-                        class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]"
+                        class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]"
                         >Everything You Need</span
                     >
                 </div>
                 <div
-                    class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 text-slate-400 font-medium px-6 pb-8"
+                    class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 text-slate-600 dark:text-slate-400 font-medium px-6 pb-8"
                 >
                     <div class="flex items-center gap-3 text-lg">
                         <svg
@@ -721,11 +768,13 @@
                         Features
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         Everything You Need. Zero Boilerplate.
                     </h2>
-                    <p class="text-slate-400 text-xl max-w-2xl leading-relaxed">
+                    <p
+                        class="text-slate-600 dark:text-slate-400 text-xl max-w-2xl leading-relaxed"
+                    >
                         Tyro provides a complete, production-ready access
                         control toolkit designed to fit naturally into your
                         Laravel application without restricting your
@@ -762,11 +811,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 Instant API Auth
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Out-of-the-box user authentication via Laravel
                                 Sanctum seamlessly integrated with role-based
                                 access control and Laravel Gate.
@@ -808,11 +859,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 Security Hardened
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Sanctum tokens automatically embed role and
                                 privilege abilities. Built-in suspension
                                 workflows revoke active tokens instantly.
@@ -851,11 +904,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 Granular Privileges
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Create unlimited roles mapped to specific
                                 privileges. Intuitive helpers like
                                 <code class="font-mono text-sm text-brand-300"
@@ -897,11 +952,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 40+ CLI Commands
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Automate everything. Manage users, roles,
                                 privileges, rotate tokens, and view audits
                                 directly from your terminal. Perfect for CI/CD.
@@ -936,11 +993,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 7 Blade Directives
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Keep your views pristine. Conditionally render
                                 UI components using expressive directives like
                                 <code class="font-mono text-sm text-brand-300"
@@ -986,11 +1045,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-xl font-display font-bold text-white mb-3"
+                                class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 Optional REST API
                             </h3>
-                            <p class="text-slate-400 leading-relaxed">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed"
+                            >
                                 Tyro ships with production-ready endpoints for
                                 user, role, and privilege management. Don't need
                                 them? Disable them with a single config flag.
@@ -1030,11 +1091,13 @@
                                 </svg>
                             </div>
                             <h3
-                                class="text-2xl font-display font-bold text-white mb-3"
+                                class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-3"
                             >
                                 100% Audit Trail
                             </h3>
-                            <p class="text-slate-400 leading-relaxed mb-6">
+                            <p
+                                class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6"
+                            >
                                 Never guess who made a change. Tyro meticulously
                                 logs every role assignment, user suspension, and
                                 privilege update for ultimate accountability.
@@ -1068,12 +1131,12 @@
                             class="absolute right-0 top-0 w-64 h-64 bg-blue-500/10 rounded-full mix-blend-screen filter blur-3xl"
                         ></div>
                         <h3
-                            class="text-3xl font-display font-bold text-white mb-4"
+                            class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-4"
                         >
                             Uncompromising Security.
                         </h3>
                         <p
-                            class="text-slate-400 text-lg leading-relaxed max-w-lg mb-8"
+                            class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-lg mb-8"
                         >
                             Stop writing bespoke permission logic. Tyro provides
                             a battle-tested middleware stack, sophisticated
@@ -1106,7 +1169,9 @@
         </section>
 
         <!-- Quick Start Section -->
-        <section class="py-32 relative bg-slate-900 border-t border-slate-800">
+        <section
+            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
+        >
             <div
                 class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwTTEwIDB2NDAiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAyKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')]"
             ></div>
@@ -1118,11 +1183,11 @@
                         Quick Start
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         Zero to Production in 60 Seconds
                     </h2>
-                    <p class="text-slate-400 text-xl">
+                    <p class="text-slate-600 dark:text-slate-400 text-xl">
                         Install the package, run the setup command, and your API
                         is instantly secure.
                     </p>
@@ -1139,7 +1204,9 @@
                             </div>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-xl font-bold text-white mb-4">
+                            <h3
+                                class="text-xl font-bold text-slate-900 dark:text-white mb-4"
+                            >
                                 Require via Composer
                             </h3>
                             <div
@@ -1160,13 +1227,13 @@
                                         ></div>
                                     </div>
                                     <div
-                                        class="ml-4 text-xs font-mono text-slate-500"
+                                        class="ml-4 text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         terminal
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-300"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <span class="text-brand-400">$</span>
                                     composer require hasinhayder/tyro
@@ -1185,7 +1252,9 @@
                             </div>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-xl font-bold text-white mb-4">
+                            <h3
+                                class="text-xl font-bold text-slate-900 dark:text-white mb-4"
+                            >
                                 Run the Intelligent Installer
                             </h3>
                             <div
@@ -1206,34 +1275,36 @@
                                         ></div>
                                     </div>
                                     <div
-                                        class="ml-4 text-xs font-mono text-slate-500"
+                                        class="ml-4 text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         terminal
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-300"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <span class="text-brand-400">$</span> php
                                     artisan tyro:sys-install
                                 </div>
                             </div>
-                            <p class="text-slate-500 text-sm mt-3">
+                            <p
+                                class="text-slate-500 dark:text-slate-400 text-sm mt-3"
+                            >
                                 This command seamlessly wraps
                                 <code
-                                    class="text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
                                     >install:api</code
                                 >,
                                 <code
-                                    class="text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
                                     >migrate</code
                                 >,
                                 <code
-                                    class="text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
                                     >seed-all</code
                                 >, and
                                 <code
-                                    class="text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
                                     >user-prepare</code
                                 >.
                             </p>
@@ -1252,7 +1323,9 @@
         </section>
 
         <!-- API / Role Code Example -->
-        <section class="py-32 relative bg-slate-950 border-t border-slate-800">
+        <section
+            class="py-32 relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
+        >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div>
@@ -1262,11 +1335,13 @@
                             Core API
                         </p>
                         <h2
-                            class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                            class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                         >
                             Elegant Role & Privilege API
                         </h2>
-                        <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                        <p
+                            class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed"
+                        >
                             Check permissions anywhere in your application with
                             a clean, fluent, and highly performant
                             Laravel-native API.
@@ -1291,7 +1366,7 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Native Gate integration with
                                     <code
                                         class="text-brand-300 font-mono text-sm bg-slate-900 px-1 py-0.5 rounded"
@@ -1317,7 +1392,7 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Cached real-time privilege checking across
                                     roles</span
                                 >
@@ -1340,7 +1415,7 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Instant user suspension and token
                                     revocation</span
                                 >
@@ -1363,7 +1438,7 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Zero queries for repeated authorization
                                     checks</span
                                 >
@@ -1392,7 +1467,9 @@
                                     class="w-3 h-3 rounded-full bg-emerald-500/80"
                                 ></div>
                             </div>
-                            <div class="ml-4 text-xs font-mono text-slate-500">
+                            <div
+                                class="ml-4 text-xs font-mono text-slate-500 dark:text-slate-400"
+                            >
                                 ReportController.php
                             </div>
                         </div>
@@ -1429,7 +1506,7 @@ if ($user->isSuspended()) {
         <!-- User Suspension Section -->
         <section
             id="suspension"
-            class="py-32 relative bg-slate-900 border-t border-slate-800"
+            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -1453,7 +1530,9 @@ if ($user->isSuspended()) {
                                     class="w-3 h-3 rounded-full bg-emerald-500/80"
                                 ></div>
                             </div>
-                            <div class="ml-4 text-xs font-mono text-slate-500">
+                            <div
+                                class="ml-4 text-xs font-mono text-slate-500 dark:text-slate-400"
+                            >
                                 AdminController.php
                             </div>
                         </div>
@@ -1490,11 +1569,13 @@ $user->unsuspend();
                             Workflows
                         </p>
                         <h2
-                            class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                            class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                         >
                             User Suspension Workflows
                         </h2>
-                        <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                        <p
+                            class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed"
+                        >
                             Freeze accounts instantly without deleting data.
                             Automatically revoke tokens and manage suspensions
                             effortlessly.
@@ -1519,7 +1600,7 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Instant account suspension with detailed
                                     reason logs</span
                                 >
@@ -1542,7 +1623,7 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Automatic Sanctum token revocation upon
                                     suspension</span
                                 >
@@ -1565,7 +1646,7 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Full CLI support for rapid incident
                                     response</span
                                 >
@@ -1588,7 +1669,7 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >REST API endpoints ready for admin
                                     dashboard integration</span
                                 >
@@ -1602,7 +1683,7 @@ $user->unsuspend();
         <!-- Middleware & Protection (Tabs) -->
         <section
             id="protecting-routes"
-            class="py-32 relative bg-slate-900 border-t border-slate-800"
+            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="text-center mb-16">
@@ -1612,11 +1693,13 @@ $user->unsuspend();
                         Middleware
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         Bulletproof Route Protection
                     </h2>
-                    <p class="text-slate-400 text-xl max-w-2xl mx-auto">
+                    <p
+                        class="text-slate-600 dark:text-slate-400 text-xl max-w-2xl mx-auto"
+                    >
                         Lock down your API endpoints and web routes instantly
                         using powerful built-in middleware for roles,
                         privileges, and token abilities.
@@ -1635,29 +1718,35 @@ $user->unsuspend();
                             <div class="font-mono font-bold text-white mb-1">
                                 role: / roles:
                             </div>
-                            <div class="text-slate-400 text-xs">
+                            <div
+                                class="text-slate-600 dark:text-slate-400 text-xs"
+                            >
                                 Role-based route protection
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="mw-privileges"
                         >
                             <div class="font-mono font-bold mb-1">
                                 privilege: / privileges:
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Privilege-based route protection
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="mw-abilities"
                         >
                             <div class="font-mono font-bold mb-1">
                                 ability: / abilities:
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Sanctum token ability checks
                             </div>
                         </button>
@@ -1668,10 +1757,14 @@ $user->unsuspend();
                         <!-- Roles Panel -->
                         <div class="tab-panel" id="mw-roles">
                             <div class="mb-6">
-                                <h3 class="text-2xl font-bold text-white mb-3">
+                                <h3
+                                    class="text-2xl font-bold text-slate-900 dark:text-white mb-3"
+                                >
                                     Role-Based Protection
                                 </h3>
-                                <p class="text-slate-400 mb-4">
+                                <p
+                                    class="text-slate-600 dark:text-slate-400 mb-4"
+                                >
                                     Restrict routes to users with specific roles
                                     using
                                     <code class="font-mono text-brand-300"
@@ -1691,7 +1784,7 @@ $user->unsuspend();
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="ml-2 text-xs font-mono text-slate-500"
+                                        class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         routes/api.php
                                     </div>
@@ -1719,10 +1812,14 @@ Route::get('/reports', [ReportController::class, 'index'])
                         <!-- Privileges Panel -->
                         <div class="tab-panel hidden" id="mw-privileges">
                             <div class="mb-6">
-                                <h3 class="text-2xl font-bold text-white mb-3">
+                                <h3
+                                    class="text-2xl font-bold text-slate-900 dark:text-white mb-3"
+                                >
                                     Privilege-Based Protection
                                 </h3>
-                                <p class="text-slate-400 mb-4">
+                                <p
+                                    class="text-slate-600 dark:text-slate-400 mb-4"
+                                >
                                     Check for specific privileges using
                                     <code class="font-mono text-brand-300"
                                         >privilege:</code
@@ -1741,7 +1838,7 @@ Route::get('/reports', [ReportController::class, 'index'])
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="ml-2 text-xs font-mono text-slate-500"
+                                        class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         routes/api.php
                                     </div>
@@ -1769,10 +1866,14 @@ Route::middleware(['auth:sanctum', 'role:admin', 'privilege:system.manage'])
                         <!-- Abilities Panel -->
                         <div class="tab-panel hidden" id="mw-abilities">
                             <div class="mb-6">
-                                <h3 class="text-2xl font-bold text-white mb-3">
+                                <h3
+                                    class="text-2xl font-bold text-slate-900 dark:text-white mb-3"
+                                >
                                     Sanctum Token Ability Checks
                                 </h3>
-                                <p class="text-slate-400 mb-4">
+                                <p
+                                    class="text-slate-600 dark:text-slate-400 mb-4"
+                                >
                                     Tyro tokens automatically embed role and
                                     privilege slugs as Sanctum abilities. Check
                                     them directly via
@@ -1789,7 +1890,7 @@ Route::middleware(['auth:sanctum', 'role:admin', 'privilege:system.manage'])
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="ml-2 text-xs font-mono text-slate-500"
+                                        class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         routes/api.php
                                     </div>
@@ -1834,7 +1935,9 @@ if ($request->user()->tokenCan('billing.view')) {
                         <line x1="12" y1="16" x2="12" y2="12" />
                         <line x1="12" y1="8" x2="12.01" y2="8" />
                     </svg>
-                    <p class="text-slate-300 text-sm leading-relaxed">
+                    <p
+                        class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed"
+                    >
                         All middleware automatically returns
                         <code
                             class="font-mono text-brand-300 text-xs px-1 bg-slate-900 rounded"
@@ -1854,7 +1957,7 @@ if ($request->user()->tokenCan('billing.view')) {
         <!-- Blade Directives -->
         <section
             id="blade-directives"
-            class="py-32 relative bg-slate-950 border-t border-slate-800"
+            class="py-32 relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="text-center mb-16">
@@ -1864,11 +1967,13 @@ if ($request->user()->tokenCan('billing.view')) {
                         Template Engine
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         Semantic Blade Directives
                     </h2>
-                    <p class="text-slate-400 text-xl max-w-2xl mx-auto">
+                    <p
+                        class="text-slate-600 dark:text-slate-400 text-xl max-w-2xl mx-auto"
+                    >
                         Keep your views clean. Conditionally render UI
                         components based on user permissions with expressive,
                         easy-to-read tags.
@@ -1886,71 +1991,85 @@ if ($request->user()->tokenCan('billing.view')) {
                             <div class="font-mono font-bold text-white mb-1">
                                 @userCan
                             </div>
-                            <div class="text-slate-400 text-xs">
+                            <div
+                                class="text-slate-600 dark:text-slate-400 text-xs"
+                            >
                                 Gate / privilege check
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasrole"
                         >
                             <div class="font-mono font-bold mb-1">@hasRole</div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Single role check
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasanyrole"
                         >
                             <div class="font-mono font-bold mb-1">
                                 @hasAnyRole
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Any of multiple roles
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasallroles"
                         >
                             <div class="font-mono font-bold mb-1">
                                 @hasAllRoles
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 All roles required
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasprivilege"
                         >
                             <div class="font-mono font-bold mb-1">
                                 @hasPrivilege
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Single privilege
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasanyprivilege"
                         >
                             <div class="font-mono font-bold mb-1">
                                 @hasAnyPrivilege
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 Any of multiple privileges
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
                             data-tab="bd-hasallprivileges"
                         >
                             <div class="font-mono font-bold mb-1">
                                 @hasAllPrivileges
                             </div>
-                            <div class="text-slate-500 text-xs">
+                            <div
+                                class="text-slate-500 dark:text-slate-400 text-xs"
+                            >
                                 All privileges required
                             </div>
                         </button>
@@ -1965,7 +2084,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -1982,7 +2101,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                             </div>
                             <p
-                                class="text-slate-400 text-sm mt-4 leading-relaxed"
+                                class="text-slate-600 dark:text-slate-400 text-sm mt-4 leading-relaxed"
                             >
                                 Hooks into Laravel's native Gate. Since Tyro
                                 registers all privilege slugs as Gate abilities,
@@ -1998,7 +2117,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2025,7 +2144,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2052,7 +2171,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2078,7 +2197,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2104,7 +2223,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2139,7 +2258,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
                                 >
                                     <div
-                                        class="text-xs font-mono text-slate-500"
+                                        class="text-xs font-mono text-slate-500 dark:text-slate-400"
                                     >
                                         Blade Template
                                     </div>
@@ -2173,7 +2292,7 @@ if ($request->user()->tokenCan('billing.view')) {
         <!-- Artisan Commands Accordion -->
         <section
             id="commands"
-            class="py-32 relative bg-slate-900 border-t border-slate-800"
+            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-4xl mx-auto px-6 reveal">
                 <div class="text-center mb-16">
@@ -2183,11 +2302,13 @@ if ($request->user()->tokenCan('billing.view')) {
                         CLI Arsenal
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         40+ Developer Commands
                     </h2>
-                    <p class="text-slate-400 text-xl max-w-2xl mx-auto">
+                    <p
+                        class="text-slate-600 dark:text-slate-400 text-xl max-w-2xl mx-auto"
+                    >
                         Skip the raw SQL. Manage roles, tokens, suspend users,
                         and inspect system states directly from your terminal.
                         Perfect for automation.
@@ -2225,17 +2346,19 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-white font-bold text-xl mb-1"
+                                        class="text-slate-900 dark:text-white font-bold text-xl mb-1"
                                     >
                                         Setup & Installation
                                     </h4>
-                                    <p class="text-slate-500 text-sm">
+                                    <p
+                                        class="text-slate-500 dark:text-slate-400 text-sm"
+                                    >
                                         5 commands
                                     </p>
                                 </div>
                             </div>
                             <svg
-                                class="w-6 h-6 text-slate-500 accordion-chevron"
+                                class="w-6 h-6 text-slate-500 dark:text-slate-400 accordion-chevron"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -2256,7 +2379,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:install</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Run Laravel's install:api, migrate, and
                                         optionally seed
                                     </p>
@@ -2268,7 +2393,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:prepare-user-model</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Automatically add traits to your User
                                         model
                                     </p>
@@ -2280,7 +2407,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:seed</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Run the full TyroSeeder (roles +
                                         bootstrap admin)
                                     </p>
@@ -2292,7 +2421,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:publish-config</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Drop config/tyro.php into your app
                                     </p>
                                 </div>
@@ -2303,7 +2434,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:publish-migrations</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Copy Tyro's migrations into your
                                         database/migrations directory
                                     </p>
@@ -2345,17 +2478,19 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-white font-bold text-xl mb-1"
+                                        class="text-slate-900 dark:text-white font-bold text-xl mb-1"
                                     >
                                         User Management
                                     </h4>
-                                    <p class="text-slate-500 text-sm">
+                                    <p
+                                        class="text-slate-500 dark:text-slate-400 text-sm"
+                                    >
                                         9 commands
                                     </p>
                                 </div>
                             </div>
                             <svg
-                                class="w-6 h-6 text-slate-500 accordion-chevron"
+                                class="w-6 h-6 text-slate-500 dark:text-slate-400 accordion-chevron"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -2376,7 +2511,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-create</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Prompt for name/email/password and
                                         attach the default role
                                     </p>
@@ -2388,7 +2525,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-list</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Inspect users with their role slugs and
                                         suspension status
                                     </p>
@@ -2400,7 +2539,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-list-with-roles</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Display users with their role slugs and
                                         suspension column
                                     </p>
@@ -2412,7 +2553,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-suspend</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Suspend a user with optional reason or
                                         lift with --unsuspend
                                     </p>
@@ -2424,7 +2567,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-unsuspend</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Dedicated shortcut to lift user
                                         suspensions
                                     </p>
@@ -2436,7 +2581,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-suspended</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Show every suspended user, when locked,
                                         and why
                                     </p>
@@ -2448,7 +2595,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:update-user</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Update user details while ensuring you
                                         don't remove the last admin
                                     </p>
@@ -2460,7 +2609,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:delete-user</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Delete a user while ensuring you don't
                                         remove the last admin
                                     </p>
@@ -2472,7 +2623,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-privileges</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Display the real-time privilege table a
                                         user inherits through their roles
                                     </p>
@@ -2517,17 +2670,19 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-white font-bold text-xl mb-1"
+                                        class="text-slate-900 dark:text-white font-bold text-xl mb-1"
                                     >
                                         Role & Privilege Management
                                     </h4>
-                                    <p class="text-slate-500 text-sm">
+                                    <p
+                                        class="text-slate-500 dark:text-slate-400 text-sm"
+                                    >
                                         17 commands
                                     </p>
                                 </div>
                             </div>
                             <svg
-                                class="w-6 h-6 text-slate-500 accordion-chevron"
+                                class="w-6 h-6 text-slate-500 dark:text-slate-400 accordion-chevron"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -2548,7 +2703,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-list</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Display all roles with user counts
                                     </p>
                                 </div>
@@ -2559,7 +2716,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-list-with-privileges</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Display roles alongside their attached
                                         privilege slugs and user counts
                                     </p>
@@ -2571,7 +2730,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-create</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Manage custom roles (protected slugs
                                         cannot be renamed or deleted)
                                     </p>
@@ -2583,7 +2744,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:update-role</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Update existing role details
                                     </p>
                                 </div>
@@ -2594,7 +2757,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:delete-role</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Delete a role (protected slugs cannot be
                                         deleted)
                                     </p>
@@ -2606,7 +2771,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-assign</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Attach a role to a user by email/ID
                                     </p>
                                 </div>
@@ -2617,7 +2784,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-remove</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Detach a role from a user
                                     </p>
                                 </div>
@@ -2628,7 +2797,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:role-users</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         List all users currently attached to a
                                         given role
                                     </p>
@@ -2640,7 +2811,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-roles</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Display a specific user's roles and
                                         attached privileges
                                     </p>
@@ -2652,7 +2825,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:seed-roles</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Reapply the default role catalogue
                                     </p>
                                 </div>
@@ -2663,7 +2838,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:flush-roles</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Truncate the roles + pivot tables
                                         without re-seeding
                                     </p>
@@ -2675,7 +2852,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:privilege-list</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         List every privilege and which roles
                                         currently own it
                                     </p>
@@ -2687,7 +2866,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:privilege-create</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Create new privilege records
                                     </p>
                                 </div>
@@ -2698,7 +2879,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:update-privilege</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Edit existing privilege records
                                     </p>
                                 </div>
@@ -2709,7 +2892,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:delete-privilege</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Remove privilege records
                                     </p>
                                 </div>
@@ -2720,7 +2905,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:privilege-attach</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Attach privileges to roles via slug or
                                         ID
                                     </p>
@@ -2732,7 +2919,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:privilege-detach</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Detach privileges from roles
                                     </p>
                                 </div>
@@ -2770,17 +2959,19 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-white font-bold text-xl mb-1"
+                                        class="text-slate-900 dark:text-white font-bold text-xl mb-1"
                                     >
                                         Token Management
                                     </h4>
-                                    <p class="text-slate-500 text-sm">
+                                    <p
+                                        class="text-slate-500 dark:text-slate-400 text-sm"
+                                    >
                                         6 commands
                                     </p>
                                 </div>
                             </div>
                             <svg
-                                class="w-6 h-6 text-slate-500 accordion-chevron"
+                                class="w-6 h-6 text-slate-500 dark:text-slate-400 accordion-chevron"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -2801,7 +2992,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:login</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Mint a Sanctum token using user ID or
                                         email (respects suspensions)
                                     </p>
@@ -2813,7 +3006,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:user-token</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Mint a Sanctum token by user ID/email
                                         without password prompt
                                     </p>
@@ -2825,7 +3020,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:me</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Paste a Sanctum token and see which
                                         user/abilities it belongs to
                                     </p>
@@ -2837,7 +3034,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:logout</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Revoke a single token for a given user
                                     </p>
                                 </div>
@@ -2848,7 +3047,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:logout-all</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Revoke every token for a given user
                                     </p>
                                 </div>
@@ -2859,7 +3060,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:auth-logout-all-users</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Revoke every Sanctum token for every
                                         user (emergency rotation)
                                     </p>
@@ -2905,17 +3108,19 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-white font-bold text-xl mb-1"
+                                        class="text-slate-900 dark:text-white font-bold text-xl mb-1"
                                     >
                                         Utilities & Information
                                     </h4>
-                                    <p class="text-slate-500 text-sm">
+                                    <p
+                                        class="text-slate-500 dark:text-slate-400 text-sm"
+                                    >
                                         7 commands
                                     </p>
                                 </div>
                             </div>
                             <svg
-                                class="w-6 h-6 text-slate-500 accordion-chevron"
+                                class="w-6 h-6 text-slate-500 dark:text-slate-400 accordion-chevron"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -2936,7 +3141,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:seed-privileges</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Reapply Tyro's default privilege catalog
                                         and role mappings
                                     </p>
@@ -2948,7 +3155,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:purge-privileges</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Remove all privileges and detach them
                                         from every role
                                     </p>
@@ -2960,7 +3169,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:version</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Echo the current Tyro version from
                                         configuration
                                     </p>
@@ -2972,7 +3183,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:postman-collection</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Open (or print) the official Postman
                                         collection URL
                                     </p>
@@ -2984,7 +3197,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:star</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Opens the GitHub repo so you can give
                                         Tyro a ⭐
                                     </p>
@@ -2996,7 +3211,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:doc</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Opens the documentation site (or prints
                                         the URL with --no-open)
                                     </p>
@@ -3008,7 +3225,9 @@ if ($request->user()->tokenCan('billing.view')) {
                                         class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
                                         >tyro:about</code
                                     >
-                                    <p class="text-slate-400 text-sm">
+                                    <p
+                                        class="text-slate-600 dark:text-slate-400 text-sm"
+                                    >
                                         Summarises Tyro's mission, author, and
                                         useful links
                                     </p>
@@ -3023,7 +3242,7 @@ if ($request->user()->tokenCan('billing.view')) {
         <!-- Compliance / Audit Trail Section -->
         <section
             id="audit"
-            class="py-32 relative bg-slate-950 border-t border-slate-800"
+            class="py-32 relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -3044,23 +3263,25 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="w-3 h-3 rounded-full bg-emerald-500/80"
                                 ></div>
                             </div>
-                            <div class="ml-4 text-xs font-mono text-slate-500">
+                            <div
+                                class="ml-4 text-xs font-mono text-slate-500 dark:text-slate-400"
+                            >
                                 Terminal
                             </div>
                         </div>
                         <div
-                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed text-slate-300"
+                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed text-slate-700 dark:text-slate-300"
                         >
-                            <pre><code class="language-bash"><span class="text-slate-500"># View recent audit logs</span>
+                            <pre><code class="language-bash"><span class="text-slate-500 dark:text-slate-400"># View recent audit logs</span>
 <span class="text-brand-400">$</span> php artisan tyro:audit-list
 
-<span class="text-slate-500"># Filter by event type</span>
+<span class="text-slate-500 dark:text-slate-400"># Filter by event type</span>
 <span class="text-brand-400">$</span> php artisan tyro:audit-list --event=user.suspended
 
-<span class="text-slate-500"># Purge logs immediately (7 days)</span>
+<span class="text-slate-500 dark:text-slate-400"># Purge logs immediately (7 days)</span>
 <span class="text-brand-400">$</span> php artisan tyro:audit-purge --days=7 --force
 
-<span class="text-slate-500"># Access via REST API</span>
+<span class="text-slate-500 dark:text-slate-400"># Access via REST API</span>
 <span class="text-brand-400">$</span> curl -H "Authorization: Bearer {token}" \
      "https://api.example.com/api/audit-logs"</code></pre>
                         </div>
@@ -3072,11 +3293,13 @@ if ($request->user()->tokenCan('billing.view')) {
                             Compliance
                         </p>
                         <h2
-                            class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                            class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                         >
                             Comprehensive Audit Trail
                         </h2>
-                        <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                        <p
+                            class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed"
+                        >
                             Track every administrative action natively to ensure
                             total compliance and accountability.
                         </p>
@@ -3100,7 +3323,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Log user suspensions, role assignments, and
                                     privilege edits</span
                                 >
@@ -3123,7 +3346,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Capture identity, timestamps, IP addresses,
                                     and User-Agents</span
                                 >
@@ -3146,7 +3369,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Detailed JSON diffs of before/after value
                                     changes</span
                                 >
@@ -3169,7 +3392,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-300"
+                                <span class="text-slate-700 dark:text-slate-300"
                                     >Rest API and CLI access to audit logs with
                                     filtering options</span
                                 >
@@ -3183,7 +3406,7 @@ if ($request->user()->tokenCan('billing.view')) {
         <!-- FAQ Section -->
         <section
             id="faq"
-            class="py-32 relative bg-slate-950 border-t border-slate-800"
+            class="py-32 relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-4xl mx-auto px-6 reveal">
                 <div class="text-center mb-16">
@@ -3193,11 +3416,11 @@ if ($request->user()->tokenCan('billing.view')) {
                         Support
                     </p>
                     <h2
-                        class="text-4xl md:text-5xl font-display font-bold text-white mb-6"
+                        class="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
                     >
                         Frequently Asked Questions
                     </h2>
-                    <p class="text-slate-400 text-xl">
+                    <p class="text-slate-600 dark:text-slate-400 text-xl">
                         Everything you need to know about Tyro and how it works.
                     </p>
                 </div>
@@ -3211,11 +3434,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >What is Tyro and why should I use it?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3227,7 +3451,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Tyro is the ultimate Authentication,
                                 Authorization, and Role & Privilege Management
@@ -3253,11 +3477,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >What are the requirements to use Tyro?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3269,7 +3494,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Tyro requires PHP 8.2 or higher, Laravel 12.0 or
                                 higher, and Laravel Sanctum 4.0 or higher. It's
@@ -3288,11 +3513,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >How do I install Tyro?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3304,7 +3530,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Installation is simple: run
                                 <code
@@ -3331,11 +3557,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >What artisan commands does Tyro provide?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3347,7 +3574,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Tyro ships with 40+ artisan commands for
                                 managing users, roles, privileges, tokens, and
@@ -3386,12 +3613,13 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >How does the role and privilege system
                                 work?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3403,7 +3631,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Tyro uses a flexible role-privilege system.
                                 Roles (like "admin", "editor") can have multiple
@@ -3433,11 +3661,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >Can I customize Tyro's behavior?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3449,7 +3678,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Absolutely! Publish the config file with
                                 <code class="text-brand-300"
@@ -3473,11 +3702,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >How do I suspend a user?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3489,7 +3719,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Use
                                 <code class="text-brand-300"
@@ -3526,11 +3756,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >Is Tyro suitable for production use?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3542,7 +3773,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Yes! Tyro is battle-tested and ships with the
                                 same security hardening, middleware stack, and
@@ -3567,11 +3798,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >Does Tyro include audit logging?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3583,7 +3815,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Yes! Tyro includes comprehensive audit logging
                                 that tracks all administrative actions—including
@@ -3613,11 +3845,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >What do I need to do when updating Tyro?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3629,7 +3862,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 When updating Tyro from an older version,
                                 <strong>you must run migrations</strong> to
@@ -3664,11 +3897,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             class="w-full flex items-center justify-between p-6 text-left"
                             onclick="toggleAccordion(this)"
                         >
-                            <span class="text-white font-bold text-lg"
+                            <span
+                                class="text-slate-900 dark:text-white font-bold text-lg"
                                 >Where can I get help or report issues?</span
                             >
                             <svg
-                                class="w-5 h-5 text-slate-500 accordion-chevron transition-transform duration-300"
+                                class="w-5 h-5 text-slate-500 dark:text-slate-400 accordion-chevron transition-transform duration-300"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -3680,7 +3914,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         </button>
                         <div class="accordion-content">
                             <div
-                                class="p-6 pt-0 text-slate-400 leading-relaxed"
+                                class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Visit the
                                 <a
@@ -3708,18 +3942,18 @@ if ($request->user()->tokenCan('billing.view')) {
 
         <!-- Bottom CTA -->
         <section
-            class="py-32 relative bg-slate-900 border-t border-slate-800 text-center overflow-hidden"
+            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-center overflow-hidden"
         >
             <div
                 class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwTTEwIDB2NDAiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAyKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')] [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]"
             ></div>
             <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
                 <h2
-                    class="text-4xl md:text-6xl font-display font-bold text-white mb-6"
+                    class="text-4xl md:text-6xl font-display font-bold text-slate-900 dark:text-white mb-6"
                 >
                     Ready to Secure Your App?
                 </h2>
-                <p class="text-slate-400 text-xl mb-12">
+                <p class="text-slate-600 dark:text-slate-400 text-xl mb-12">
                     Join developers who save weeks on authentication and
                     authorization overhead using Tyro.
                 </p>
@@ -3746,7 +3980,7 @@ if ($request->user()->tokenCan('billing.view')) {
                 </div>
 
                 <div
-                    class="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 font-medium"
+                    class="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600 dark:text-slate-400 font-medium"
                 >
                     <a
                         href="https://github.com/hasinhayder/tyro"
@@ -3807,7 +4041,7 @@ if ($request->user()->tokenCan('billing.view')) {
                             Tyro
                         </a>
                         <p
-                            class="text-slate-500 text-sm leading-relaxed max-w-xs"
+                            class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs"
                         >
                             The essential authentication, authorization, and
                             RBAC toolkit engineered specifically for Laravel 12.
@@ -3815,7 +4049,7 @@ if ($request->user()->tokenCan('billing.view')) {
                     </div>
                     <div>
                         <h4
-                            class="text-white font-bold text-sm uppercase tracking-wider mb-6"
+                            class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6"
                         >
                             Resources
                         </h4>
@@ -3823,7 +4057,7 @@ if ($request->user()->tokenCan('billing.view')) {
                             <li>
                                 <a
                                     href="doc.html"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >Documentation</a
                                 >
                             </li>
@@ -3832,7 +4066,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     href="https://github.com/hasinhayder/tyro/"
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >GitHub</a
                                 >
                             </li>
@@ -3841,7 +4075,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     href="https://github.com/hasinhayder/tyro/issues"
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >Issues</a
                                 >
                             </li>
@@ -3849,7 +4083,7 @@ if ($request->user()->tokenCan('billing.view')) {
                     </div>
                     <div>
                         <h4
-                            class="text-white font-bold text-sm uppercase tracking-wider mb-6"
+                            class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6"
                         >
                             Community
                         </h4>
@@ -3859,7 +4093,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     href="https://github.com/hasinhayder/tyro/discussions"
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >Discussions</a
                                 >
                             </li>
@@ -3868,7 +4102,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     href="https://github.com/hasinhayder/tyro/blob/main/CONTRIBUTING.md"
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >Contributing</a
                                 >
                             </li>
@@ -3877,7 +4111,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     href="https://github.com/hasinhayder"
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-slate-500 text-sm hover:text-brand-400 transition-colors"
+                                    class="text-slate-500 dark:text-slate-400 text-sm hover:text-brand-400 transition-colors"
                                     >Author</a
                                 >
                             </li>
@@ -3885,7 +4119,7 @@ if ($request->user()->tokenCan('billing.view')) {
                     </div>
                 </div>
                 <div
-                    class="border-t border-slate-800/50 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500"
+                    class="border-t border-slate-800/50 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400"
                 >
                     <p>
                         Released under the
@@ -3912,11 +4146,70 @@ if ($request->user()->tokenCan('billing.view')) {
         </footer>
 
         <!-- Scripts -->
+        <!-- Floating Theme Toggle -->
+        <button
+            id="themeToggle"
+            class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xl border border-slate-200 dark:border-slate-700 hover:scale-110 transition-all duration-300 flex items-center justify-center cursor-pointer"
+            aria-label="Toggle theme"
+        >
+            <svg
+                class="w-6 h-6 block dark:hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+                class="w-6 h-6 hidden dark:block"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path
+                    d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                ></path>
+            </svg>
+        </button>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
         <script src="https://unpkg.com/highlightjs-blade/dist/blade.min.js"></script>
         <script>
             // Init highlight.js
             hljs.highlightAll();
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById("themeToggle");
+
+            function toggleTheme() {
+                if (document.documentElement.classList.contains("dark")) {
+                    document.documentElement.classList.remove("dark");
+                    localStorage.setItem("theme", "light");
+                } else {
+                    document.documentElement.classList.add("dark");
+                    localStorage.setItem("theme", "dark");
+                }
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener("click", toggleTheme);
+            }
 
             // Navbar scroll effect
             window.addEventListener("scroll", () => {
