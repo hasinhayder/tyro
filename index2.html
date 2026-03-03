@@ -112,13 +112,21 @@
                 -webkit-backdrop-filter: blur(12px);
                 border: 1px solid rgba(255, 255, 255, 0.08);
             }
-            .navbar-scrolled {
-                background: rgba(2, 6, 23, 0.85);
-                backdrop-filter: blur(16px);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            #navbar {
+                border-bottom: 1px solid transparent;
+                transition:
+                    background-color 0.3s ease,
+                    backdrop-filter 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease,
+                    padding 0.3s ease;
             }
-            ::-webkit-scrollbar {
+            .navbar-scrolled {
+                background: rgba(2, 6, 23, 0.85) !important;
+                backdrop-filter: blur(16px);
+                border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            }            ::-webkit-scrollbar {
                 width: 8px;
             }
             ::-webkit-scrollbar-track {
@@ -196,11 +204,11 @@
 
         <!-- Navigation -->
         <nav
-            class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4"
+            class="fixed top-0 left-0 right-0 z-50 py-4"
             id="navbar"
         >
             <div
-                class="max-w-7xl mx-auto px-6 flex items-center justify-between"
+                class="w-full mx-auto px-6 flex items-center justify-between"
             >
                 <a
                     href="#"
@@ -342,7 +350,7 @@
 
         <!-- Hero Section -->
         <section
-            class="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-slate-950 hero-pattern"
+            class="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-16 overflow-hidden bg-slate-950 hero-pattern"
         >
             <!-- Glowing Orbs -->
             <div
@@ -357,8 +365,82 @@
                 style="animation-delay: 4s"
             ></div>
 
-            <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
-                <div class="text-center max-w-4xl mx-auto reveal visible">
+            <div
+                class="w-full mx-auto px-6 relative z-10 flex-1 flex flex-col justify-center"
+            >
+                <!-- Floating Cards Container (Desktop Only) -->
+                <div
+                    class="hidden xl:block absolute inset-0 pointer-events-none z-20"
+                >
+                    <!-- Top Left -->
+                    <div
+                        class="absolute top-[10%] left-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                    >
+                        <div
+                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                        >
+                            45<span class="text-brand-400">+</span>
+                        </div>
+                        <div
+                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                        >
+                            CLI Commands
+                        </div>
+                    </div>
+
+                    <!-- Bottom Left -->
+                    <div
+                        class="absolute bottom-[20%] left-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                    >
+                        <div
+                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                        >
+                            7
+                        </div>
+                        <div
+                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                        >
+                            Blade Directives
+                        </div>
+                    </div>
+
+                    <!-- Top Right -->
+                    <div
+                        class="absolute top-[20%] right-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                    >
+                        <div
+                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                        >
+                            100<span class="text-brand-400">%</span>
+                        </div>
+                        <div
+                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                        >
+                            Audit Trail
+                        </div>
+                    </div>
+
+                    <!-- Bottom Right -->
+                    <div
+                        class="absolute bottom-[10%] right-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                    >
+                        <div
+                            class="text-4xl font-display font-bold text-white mb-2 tracking-tight"
+                        >
+                            API<span class="text-brand-400">+</span>WEB
+                        </div>
+                        <div
+                            class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+                        >
+                            Ready Support
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Content -->
+                <div
+                    class="text-center max-w-4xl mx-auto reveal visible relative z-30 py-12"
+                >
                     <div
                         class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel border border-slate-700/50 text-sm font-medium text-slate-300 mb-10 shadow-lg"
                     >
@@ -370,13 +452,13 @@
                                 class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-500"
                             ></span>
                         </span>
-                        Trusted by 650+ Developers • Laravel 12 Ready
+                        Trusted by 650+ Developers &bull; Laravel 12 Ready
                     </div>
 
                     <h1
-                        class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight text-white mb-8 leading-[1.1]"
+                        class="text-6xl md:text-8xl font-display font-bold tracking-tight text-white mb-8 leading-[1.05]"
                     >
-                        Instant Auth & <br />
+                        Instant Auth &amp; <br />
                         <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-amber-400 to-brand-500 animate-gradient"
                             >Powerful RBAC</span
@@ -390,12 +472,11 @@
                         Skip the boilerplate. Tyro provides seamless Sanctum API
                         authentication, granular role-based access control,
                         router protection, and a comprehensive audit trail out
-                        of the box. Your Swiss Army knife for building secure
-                        Laravel applications in minutes, not weeks.
+                        of the box.
                     </p>
 
                     <div
-                        class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
+                        class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12"
                     >
                         <a
                             href="#features"
@@ -409,12 +490,12 @@
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="2.5"
+                                stroke-width="3"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                             >
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
                             </svg>
                         </a>
 
@@ -457,88 +538,171 @@
                                             height="13"
                                             rx="2"
                                             ry="2"
-                                        />
+                                        ></rect>
                                         <path
                                             d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-                                        />
+                                        ></path>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Floating Stats Grid -->
+            <!-- Mobile Stats Fallback -->
+            <div
+                class="xl:hidden grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto px-6 relative z-30 mb-16 reveal"
+            >
+                <div class="glass-panel rounded-2xl p-6 text-center">
+                    <div
+                        class="text-3xl font-display font-bold text-white mb-2"
+                    >
+                        45<span class="text-brand-400">+</span>
+                    </div>
+                    <div
+                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                    >
+                        CLI Commands
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl p-6 text-center">
+                    <div
+                        class="text-3xl font-display font-bold text-white mb-2"
+                    >
+                        7
+                    </div>
+                    <div
+                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                    >
+                        Blade Directives
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl p-6 text-center">
+                    <div
+                        class="text-3xl font-display font-bold text-white mb-2"
+                    >
+                        100<span class="text-brand-400">%</span>
+                    </div>
+                    <div
+                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                    >
+                        Audit Trail
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl p-6 text-center">
+                    <div
+                        class="text-3xl font-display font-bold text-white mb-2"
+                    >
+                        API<span class="text-brand-400">+</span>WEB
+                    </div>
+                    <div
+                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+                    >
+                        Ready Support
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Features Banner -->
+            <div
+                class="w-full relative z-30 mt-auto pt-10 border-t border-slate-800/50 reveal"
+            >
+                <div class="text-center mb-8">
+                    <span
+                        class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]"
+                        >Everything You Need</span
+                    >
+                </div>
                 <div
-                    class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto border-t border-slate-800/60 pt-12 reveal"
+                    class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 text-slate-400 font-medium px-6 pb-8"
                 >
-                    <div
-                        class="glass-panel rounded-2xl p-6 text-center transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden group"
-                    >
-                        <div
-                            class="absolute inset-0 bg-brand-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                        ></div>
-                        <div
-                            class="text-4xl font-display font-bold text-white mb-2 relative z-10"
+                    <div class="flex items-center gap-3 text-lg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-brand-500"
                         >
-                            45<span class="text-brand-400">+</span>
-                        </div>
-                        <div
-                            class="text-xs font-semibold text-slate-400 uppercase tracking-widest relative z-10"
-                        >
-                            CLI Commands
-                        </div>
+                            <path
+                                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                            />
+                        </svg>
+                        Authentication
                     </div>
-                    <div
-                        class="glass-panel rounded-2xl p-6 text-center transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden group"
-                    >
-                        <div
-                            class="absolute inset-0 bg-brand-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                        ></div>
-                        <div
-                            class="text-4xl font-display font-bold text-white mb-2 relative z-10"
+                    <div class="flex items-center gap-3 text-lg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-brand-500"
                         >
-                            7
-                        </div>
-                        <div
-                            class="text-xs font-semibold text-slate-400 uppercase tracking-widest relative z-10"
-                        >
-                            Blade Directives
-                        </div>
+                            <rect
+                                x="3"
+                                y="11"
+                                width="18"
+                                height="11"
+                                rx="2"
+                                ry="2"
+                            />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Authorization
                     </div>
-                    <div
-                        class="glass-panel rounded-2xl p-6 text-center transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden group"
-                    >
-                        <div
-                            class="absolute inset-0 bg-brand-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                        ></div>
-                        <div
-                            class="text-4xl font-display font-bold text-white mb-2 relative z-10"
+                    <div class="flex items-center gap-3 text-lg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-brand-500"
                         >
-                            100<span class="text-brand-400">%</span>
-                        </div>
-                        <div
-                            class="text-xs font-semibold text-slate-400 uppercase tracking-widest relative z-10"
-                        >
-                            Audit Trail
-                        </div>
+                            <path
+                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                            />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                        Audit Trail
                     </div>
-                    <div
-                        class="glass-panel rounded-2xl p-6 text-center transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden group"
-                    >
-                        <div
-                            class="absolute inset-0 bg-brand-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                        ></div>
-                        <div
-                            class="text-4xl font-display font-bold text-white mb-2 relative z-10"
+                    <div class="flex items-center gap-3 text-lg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-brand-500"
                         >
-                            API<span class="text-brand-400 text-2xl">+</span>WEB
-                        </div>
-                        <div
-                            class="text-xs font-semibold text-slate-400 uppercase tracking-widest relative z-10"
-                        >
-                            Ready Support
-                        </div>
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                            />
+                        </svg>
+                        Highly Configurable
                     </div>
                 </div>
             </div>
