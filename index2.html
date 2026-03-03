@@ -20,6 +20,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link
             rel="stylesheet"
+            id="hl-theme"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
         />
         <script>
@@ -96,14 +97,20 @@
         </script>
         <script>
             // Initial theme check to prevent flicker
-            if (
+            const isDark =
                 localStorage.getItem("theme") === "dark" ||
                 (!("theme" in localStorage) &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches)
-            ) {
+                    window.matchMedia("(prefers-color-scheme: dark)").matches);
+            if (isDark) {
                 document.documentElement.classList.add("dark");
+                document.write(
+                    '<link rel="stylesheet" id="hl-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />',
+                );
             } else {
                 document.documentElement.classList.remove("dark");
+                document.write(
+                    '<link rel="stylesheet" id="hl-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" />',
+                );
             }
         </script>
         <style>
@@ -116,6 +123,18 @@
                 --glass-border: rgba(0, 0, 0, 0.08);
                 --nav-bg: rgba(255, 255, 255, 0.8);
                 --nav-border: rgba(0, 0, 0, 0.05);
+                --code-bg: #f1f5f9;
+                --code-text: #334155;
+                --terminal-bg: #f8fafc;
+                --terminal-header: #f1f5f9;
+                --terminal-dot: #cbd5e1;
+                --inline-code-bg: #e2e8f0;
+                --inline-code-text: #b45309;
+                --glow-orb-brand: rgba(217, 119, 6, 0.15);
+                --glow-orb-purple: rgba(147, 51, 234, 0.1);
+                --glow-orb-blue: rgba(59, 130, 246, 0.08);
+                --card-border: rgba(226, 232, 240, 1);
+                --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
             }
             .dark {
                 --bg-main: #020617;
@@ -126,6 +145,18 @@
                 --glass-border: rgba(255, 255, 255, 0.08);
                 --nav-bg: rgba(2, 6, 23, 0.85);
                 --nav-border: rgba(255, 255, 255, 0.05);
+                --code-bg: #0d1117;
+                --code-text: #e6edf3;
+                --terminal-bg: #0d1117;
+                --terminal-header: #0a0d14;
+                --terminal-dot: #374151;
+                --inline-code-bg: #1e293b;
+                --inline-code-text: #fbbf24;
+                --glow-orb-brand: rgba(217, 119, 6, 0.2);
+                --glow-orb-purple: rgba(147, 51, 234, 0.2);
+                --glow-orb-blue: rgba(59, 130, 246, 0.1);
+                --card-border: rgba(51, 65, 85, 1);
+                --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
             }
             body {
                 background-color: var(--bg-main);
@@ -169,13 +200,22 @@
                 width: 8px;
             }
             ::-webkit-scrollbar-track {
-                background: #0f172a;
+                background: #f1f5f9;
             }
             ::-webkit-scrollbar-thumb {
-                background: #334155;
+                background: #cbd5e1;
                 border-radius: 4px;
             }
             ::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+            .dark ::-webkit-scrollbar-track {
+                background: #0f172a;
+            }
+            .dark ::-webkit-scrollbar-thumb {
+                background: #334155;
+            }
+            .dark ::-webkit-scrollbar-thumb:hover {
                 background: #475569;
             }
 
@@ -190,6 +230,39 @@
             .accordion-content.open {
                 max-height: 2000px;
                 opacity: 1;
+            }
+
+            /* Light mode specific overrides */
+            .terminal-window {
+                background: var(--terminal-bg);
+            }
+            .terminal-header-bar {
+                background: var(--terminal-header);
+            }
+            .terminal-dot {
+                background: var(--terminal-dot);
+            }
+            .code-block-wrapper {
+                background: var(--code-bg);
+            }
+            .code-text {
+                color: var(--code-text);
+            }
+            .inline-code {
+                background: var(--inline-code-bg);
+                color: var(--inline-code-text);
+            }
+            .glow-orb-brand {
+                background: var(--glow-orb-brand);
+            }
+            .glow-orb-purple {
+                background: var(--glow-orb-purple);
+            }
+            .glow-orb-blue {
+                background: var(--glow-orb-blue);
+            }
+            .card-enhanced-shadow {
+                box-shadow: var(--card-shadow);
             }
             .copy-toast {
                 transform: translateX(-50%) translateY(100px);
@@ -236,7 +309,7 @@
     >
         <!-- Copy Toast -->
         <div
-            class="copy-toast fixed bottom-8 left-1/2 bg-slate-800 text-white px-6 py-3 rounded-full font-medium shadow-2xl border border-slate-700 z-[999]"
+            class="copy-toast fixed bottom-8 left-1/2 bg-slate-800 text-white px-6 py-3 rounded-full font-medium shadow-2xl border border-slate-800 z-[999]"
             id="copyToast"
         >
             Copied to clipboard!
@@ -393,14 +466,14 @@
         >
             <!-- Glowing Orbs -->
             <div
-                class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-500/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob pointer-events-none"
+                class="glow-orb-brand absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full filter blur-[100px] opacity-60 animate-blob pointer-events-none"
             ></div>
             <div
-                class="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-purple-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob pointer-events-none"
+                class="glow-orb-purple absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full filter blur-[100px] opacity-60 animate-blob pointer-events-none"
                 style="animation-delay: 2s"
             ></div>
             <div
-                class="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob pointer-events-none"
+                class="glow-orb-blue absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full filter blur-[100px] opacity-60 animate-blob pointer-events-none"
                 style="animation-delay: 4s"
             ></div>
 
@@ -413,7 +486,7 @@
                 >
                     <!-- Top Left -->
                     <div
-                        class="absolute top-[10%] left-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute top-[10%] left-[8%] glass-panel rounded-3xl p-6 text-center shadow-xl card-enhanced-shadow border border-slate-200/80 dark:border-slate-800/50 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
                             class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
@@ -429,7 +502,7 @@
 
                     <!-- Bottom Left -->
                     <div
-                        class="absolute bottom-[20%] left-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute bottom-[20%] left-[12%] glass-panel rounded-3xl p-6 text-center shadow-xl card-enhanced-shadow border border-slate-200/80 dark:border-slate-800/50 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
                             class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
@@ -445,7 +518,7 @@
 
                     <!-- Top Right -->
                     <div
-                        class="absolute top-[20%] right-[8%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute top-[20%] right-[8%] glass-panel rounded-3xl p-6 text-center shadow-xl card-enhanced-shadow border border-slate-200/80 dark:border-slate-800/50 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
                             class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
@@ -461,7 +534,7 @@
 
                     <!-- Bottom Right -->
                     <div
-                        class="absolute bottom-[10%] right-[12%] glass-panel rounded-3xl p-6 text-center shadow-2xl border border-slate-200 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
+                        class="absolute bottom-[10%] right-[12%] glass-panel rounded-3xl p-6 text-center shadow-xl card-enhanced-shadow border border-slate-200/80 dark:border-slate-800/50 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl w-52 pointer-events-auto transform hover:-translate-y-1 transition-all duration-300"
                     >
                         <div
                             class="text-4xl font-display font-bold text-slate-900 dark:text-white mb-2 tracking-tight"
@@ -481,7 +554,7 @@
                     class="text-center max-w-4xl mx-auto reveal visible relative z-30 py-12"
                 >
                     <div
-                        class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel border border-slate-700/50 text-sm font-medium text-slate-700 dark:text-slate-300 mb-10 shadow-lg"
+                        class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel border border-slate-200 dark:border-slate-800/50 text-sm font-medium text-slate-700 dark:text-slate-300 mb-10 shadow-lg bg-white/80 dark:bg-slate-900/60"
                     >
                         <span class="relative flex h-2.5 w-2.5">
                             <span
@@ -543,20 +616,20 @@
                                 class="absolute -inset-0.5 bg-gradient-to-r from-brand-500 to-slate-700 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"
                             ></div>
                             <div
-                                class="relative flex items-center bg-slate-900 border border-slate-700 rounded-2xl px-6 py-4 w-full"
+                                class="relative flex items-center bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-6 py-4 w-full"
                             >
                                 <span
                                     class="text-brand-500 mr-4 font-mono font-bold"
                                     >$</span
                                 >
                                 <code
-                                    class="text-slate-200 font-mono text-sm md:text-base flex-1 text-left"
+                                    class="text-slate-700 dark:text-slate-300 font-mono text-sm md:text-base flex-1 text-left"
                                     id="installCmd"
                                     >composer require hasinhayder/tyro</code
                                 >
                                 <button
                                     onclick="copyCommand('installCmd')"
-                                    class="ml-4 p-2 text-slate-600 dark:text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                                    class="ml-4 p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors"
                                     aria-label="Copy"
                                 >
                                     <svg
@@ -594,7 +667,7 @@
                 class="xl:hidden grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto px-6 relative z-30 mb-16 reveal"
             >
                 <div
-                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/50 shadow-lg"
                 >
                     <div
                         class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
@@ -608,7 +681,7 @@
                     </div>
                 </div>
                 <div
-                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/50 shadow-lg"
                 >
                     <div
                         class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
@@ -622,7 +695,7 @@
                     </div>
                 </div>
                 <div
-                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/50 shadow-lg"
                 >
                     <div
                         class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
@@ -636,7 +709,7 @@
                     </div>
                 </div>
                 <div
-                    class="glass-panel rounded-2xl p-6 text-center bg-white/60 dark:bg-slate-900/60"
+                    class="glass-panel rounded-2xl p-6 text-center bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/50 shadow-lg"
                 >
                     <div
                         class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2"
@@ -653,7 +726,7 @@
 
             <!-- Bottom Features Banner -->
             <div
-                class="w-full relative z-30 mt-auto pt-10 border-t border-slate-800/50 reveal"
+                class="w-full relative z-30 mt-auto pt-10 border-t border-slate-200 dark:border-slate-800/50 reveal"
             >
                 <div class="text-center mb-8">
                     <span
@@ -758,7 +831,7 @@
         <!-- Features Section -->
         <section
             id="features"
-            class="py-32 relative bg-slate-950 border-t border-slate-900"
+            class="py-32 relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="mb-20">
@@ -785,14 +858,14 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                     <!-- Feature 1 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -827,14 +900,14 @@
 
                     <!-- Feature 2 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -875,14 +948,14 @@
 
                     <!-- Feature 3 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -927,14 +1000,14 @@
 
                     <!-- Feature 4 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -968,14 +1041,14 @@
 
                     <!-- Feature 5 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -1015,14 +1088,14 @@
 
                     <!-- Feature 6 -->
                     <div
-                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-900/80 transition-colors border border-slate-800 hover:border-slate-700"
+                        class="group relative glass-panel rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-colors border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-800"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                         ></div>
                         <div class="relative z-10">
                             <div
-                                class="w-14 h-14 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
+                                class="w-14 h-14 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center mb-6 text-brand-400"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -1063,7 +1136,7 @@
                 <!-- Highlight Card -->
                 <div class="grid lg:grid-cols-5 gap-6">
                     <div
-                        class="lg:col-span-2 glass-panel rounded-3xl p-8 border border-slate-800 relative overflow-hidden"
+                        class="lg:col-span-2 glass-panel rounded-3xl p-8 border border-slate-200 dark:border-slate-800 relative overflow-hidden"
                     >
                         <div class="absolute inset-0 bg-brand-500/5"></div>
                         <div class="relative z-10">
@@ -1125,7 +1198,7 @@
                     </div>
 
                     <div
-                        class="lg:col-span-3 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center relative overflow-hidden"
+                        class="lg:col-span-3 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center relative overflow-hidden"
                     >
                         <div
                             class="absolute right-0 top-0 w-64 h-64 bg-blue-500/10 rounded-full mix-blend-screen filter blur-3xl"
@@ -1210,20 +1283,20 @@
                                 Require via Composer
                             </h3>
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-2xl"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div class="flex gap-2">
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                     </div>
                                     <div
@@ -1235,7 +1308,10 @@
                                 <div
                                     class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
-                                    <span class="text-brand-400">$</span>
+                                    <span
+                                        class="text-brand-500 dark:text-brand-400 font-bold"
+                                        >$</span
+                                    >
                                     composer require hasinhayder/tyro
                                 </div>
                             </div>
@@ -1258,20 +1334,20 @@
                                 Run the Intelligent Installer
                             </h3>
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-2xl"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div class="flex gap-2">
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                         <div
-                                            class="w-3 h-3 rounded-full bg-slate-700"
+                                            class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"
                                         ></div>
                                     </div>
                                     <div
@@ -1283,8 +1359,11 @@
                                 <div
                                     class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
-                                    <span class="text-brand-400">$</span> php
-                                    artisan tyro:sys-install
+                                    <span
+                                        class="text-brand-500 dark:text-brand-400 font-bold"
+                                        >$</span
+                                    >
+                                    php artisan tyro:sys-install
                                 </div>
                             </div>
                             <p
@@ -1292,19 +1371,19 @@
                             >
                                 This command seamlessly wraps
                                 <code
-                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-brand-400 font-mono text-xs"
                                     >install:api</code
                                 >,
                                 <code
-                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-brand-400 font-mono text-xs"
                                     >migrate</code
                                 >,
                                 <code
-                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-brand-400 font-mono text-xs"
                                     >seed-all</code
                                 >, and
                                 <code
-                                    class="text-slate-600 dark:text-slate-400 bg-slate-800 px-1 rounded"
+                                    class="text-brand-400 font-mono text-xs"
                                     >user-prepare</code
                                 >.
                             </p>
@@ -1366,7 +1445,8 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Native Gate integration with
                                     <code
                                         class="text-brand-300 font-mono text-sm bg-slate-900 px-1 py-0.5 rounded"
@@ -1392,7 +1472,8 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Cached real-time privilege checking across
                                     roles</span
                                 >
@@ -1415,7 +1496,8 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Instant user suspension and token
                                     revocation</span
                                 >
@@ -1438,7 +1520,8 @@
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Zero queries for repeated authorization
                                     checks</span
                                 >
@@ -1448,23 +1531,23 @@
 
                     <!-- Code Window -->
                     <div
-                        class="rounded-2xl overflow-hidden border border-slate-700 bg-slate-900 shadow-2xl relative group"
+                        class="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative group"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                         ></div>
                         <div
-                            class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117] relative z-10"
+                            class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14] relative z-10"
                         >
                             <div class="flex gap-2">
                                 <div
-                                    class="w-3 h-3 rounded-full bg-rose-500/80"
+                                    class="w-3 h-3 rounded-full bg-rose-400 dark:bg-rose-500/80"
                                 ></div>
                                 <div
-                                    class="w-3 h-3 rounded-full bg-amber-500/80"
+                                    class="w-3 h-3 rounded-full bg-amber-400 dark:bg-amber-500/80"
                                 ></div>
                                 <div
-                                    class="w-3 h-3 rounded-full bg-emerald-500/80"
+                                    class="w-3 h-3 rounded-full bg-emerald-400 dark:bg-emerald-500/80"
                                 ></div>
                             </div>
                             <div
@@ -1474,7 +1557,7 @@
                             </div>
                         </div>
                         <div
-                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed"
+                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed text-slate-700 dark:text-slate-300"
                         >
                             <pre><code class="language-php">if ($request->user()->can('reports.run')) {
     // User has the privilege through their roles
@@ -1506,28 +1589,28 @@ if ($user->isSuspended()) {
         <!-- User Suspension Section -->
         <section
             id="suspension"
-            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
+            class="py-32 relative bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div
-                        class="order-2 lg:order-1 rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 shadow-2xl relative group"
+                        class="order-2 lg:order-1 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative group"
                     >
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                         ></div>
                         <div
-                            class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117] relative z-10"
+                            class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14] relative z-10"
                         >
                             <div class="flex gap-2">
                                 <div
-                                    class="w-3 h-3 rounded-full bg-rose-500/80"
+                                    class="w-3 h-3 rounded-full bg-rose-400 dark:bg-rose-500/80"
                                 ></div>
                                 <div
-                                    class="w-3 h-3 rounded-full bg-amber-500/80"
+                                    class="w-3 h-3 rounded-full bg-amber-400 dark:bg-amber-500/80"
                                 ></div>
                                 <div
-                                    class="w-3 h-3 rounded-full bg-emerald-500/80"
+                                    class="w-3 h-3 rounded-full bg-emerald-400 dark:bg-emerald-500/80"
                                 ></div>
                             </div>
                             <div
@@ -1537,7 +1620,7 @@ if ($user->isSuspended()) {
                             </div>
                         </div>
                         <div
-                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed"
+                            class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed text-slate-700 dark:text-slate-300"
                         >
                             <pre><code class="language-php">// Suspend a user with reason
 $user->suspend('Policy violation');
@@ -1600,7 +1683,8 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Instant account suspension with detailed
                                     reason logs</span
                                 >
@@ -1623,7 +1707,8 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Automatic Sanctum token revocation upon
                                     suspension</span
                                 >
@@ -1646,7 +1731,8 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Full CLI support for rapid incident
                                     response</span
                                 >
@@ -1669,7 +1755,8 @@ $user->unsuspend();
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >REST API endpoints ready for admin
                                     dashboard integration</span
                                 >
@@ -1683,7 +1770,7 @@ $user->unsuspend();
         <!-- Middleware & Protection (Tabs) -->
         <section
             id="protecting-routes"
-            class="py-32 relative bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
+            class="py-32 relative bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="text-center mb-16">
@@ -1712,23 +1799,25 @@ $user->unsuspend();
                         class="flex lg:flex-col gap-3 lg:w-72 flex-shrink-0 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide"
                     >
                         <button
-                            class="tab-btn active w-full text-left px-5 py-4 rounded-xl border border-brand-500 bg-slate-800 transition-all"
+                            class="tab-btn active w-full text-left px-5 py-4 rounded-xl border border-brand-500 bg-brand-500 dark:bg-slate-800 transition-all"
                             data-tab="mw-roles"
                         >
                             <div class="font-mono font-bold text-white mb-1">
                                 role: / roles:
                             </div>
                             <div
-                                class="text-slate-600 dark:text-slate-400 text-xs"
+                                class="text-white/80 dark:text-slate-400 text-xs"
                             >
                                 Role-based route protection
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="mw-privileges"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 privilege: / privileges:
                             </div>
                             <div
@@ -1738,10 +1827,12 @@ $user->unsuspend();
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="mw-abilities"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 ability: / abilities:
                             </div>
                             <div
@@ -1778,10 +1869,10 @@ $user->unsuspend();
                                 </p>
                             </div>
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -1790,7 +1881,7 @@ $user->unsuspend();
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-php">// Require exactly one role
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
@@ -1832,10 +1923,10 @@ Route::get('/reports', [ReportController::class, 'index'])
                                 </p>
                             </div>
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -1844,7 +1935,7 @@ Route::get('/reports', [ReportController::class, 'index'])
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-php">// Require one specific privilege
 Route::middleware(['auth:sanctum', 'privilege:reports.run'])
@@ -1884,10 +1975,10 @@ Route::middleware(['auth:sanctum', 'role:admin', 'privilege:system.manage'])
                                 </p>
                             </div>
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="ml-2 text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -1896,7 +1987,7 @@ Route::middleware(['auth:sanctum', 'role:admin', 'privilege:system.manage'])
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-php">// Check token abilities directly
 Route::middleware(['auth:sanctum', 'ability:admin'])
@@ -1917,7 +2008,7 @@ if ($request->user()->tokenCan('billing.view')) {
                 </div>
 
                 <div
-                    class="mt-8 glass-panel border border-brand-500/30 bg-brand-500/5 rounded-xl p-5 flex items-start gap-4"
+                    class="mt-8 glass-panel border border-brand-500/30 bg-brand-50/50 dark:bg-brand-500/5 rounded-xl p-5 flex items-start gap-4"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1940,12 +2031,12 @@ if ($request->user()->tokenCan('billing.view')) {
                     >
                         All middleware automatically returns
                         <code
-                            class="font-mono text-brand-300 text-xs px-1 bg-slate-900 rounded"
+                            class="font-mono text-brand-400 text-xs bg-slate-900 dark:bg-slate-800 px-1 py-0.5 rounded"
                             >403 Forbidden</code
                         >
                         for unauthorized requests and
                         <code
-                            class="font-mono text-brand-300 text-xs px-1 bg-slate-900 rounded"
+                            class="font-mono text-brand-400 text-xs bg-slate-900 dark:bg-slate-800 px-1 py-0.5 rounded"
                             >401 Unauthenticated</code
                         >
                         for missing or invalid tokens.
@@ -1985,7 +2076,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         class="flex lg:flex-col gap-2 lg:w-72 flex-shrink-0 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide"
                     >
                         <button
-                            class="tab-btn active w-full text-left px-5 py-4 rounded-xl border border-brand-500 bg-slate-800 transition-all"
+                            class="tab-btn active w-full text-left px-5 py-4 rounded-xl border border-brand-500 bg-slate-100 dark:bg-slate-800 transition-all"
                             data-tab="bd-usercan"
                         >
                             <div class="font-mono font-bold text-white mb-1">
@@ -1998,10 +2089,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasrole"
                         >
-                            <div class="font-mono font-bold mb-1">@hasRole</div>
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
+                                @hasRole
+                            </div>
                             <div
                                 class="text-slate-500 dark:text-slate-400 text-xs"
                             >
@@ -2009,10 +2104,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasanyrole"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 @hasAnyRole
                             </div>
                             <div
@@ -2022,10 +2119,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasallroles"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 @hasAllRoles
                             </div>
                             <div
@@ -2035,10 +2134,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasprivilege"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 @hasPrivilege
                             </div>
                             <div
@@ -2048,10 +2149,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasanyprivilege"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 @hasAnyPrivilege
                             </div>
                             <div
@@ -2061,10 +2164,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             </div>
                         </button>
                         <button
-                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-800/50 transition-all"
+                            class="tab-btn w-full text-left px-5 py-4 rounded-xl border border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             data-tab="bd-hasallprivileges"
                         >
-                            <div class="font-mono font-bold mb-1">
+                            <div
+                                class="font-mono font-bold mb-1 text-slate-800 dark:text-white"
+                            >
                                 @hasAllPrivileges
                             </div>
                             <div
@@ -2078,10 +2183,10 @@ if ($request->user()->tokenCan('billing.view')) {
                     <div class="flex-1 min-w-0">
                         <div class="tab-panel" id="bd-usercan">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2090,7 +2195,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Check if user has a specific ability via Gate --}}
 @userCan('edit-posts')
@@ -2101,7 +2206,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                 </div>
                             </div>
                             <p
-                                class="text-slate-600 dark:text-slate-400 text-sm mt-4 leading-relaxed"
+                                class="text-slate-600 dark:text-slate-600 dark:text-slate-400 text-sm mt-4 leading-relaxed"
                             >
                                 Hooks into Laravel's native Gate. Since Tyro
                                 registers all privilege slugs as Gate abilities,
@@ -2111,10 +2216,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasrole">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2123,7 +2228,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Show content only for admins --}}
 @hasRole('admin')
@@ -2138,10 +2243,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasanyrole">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2150,7 +2255,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Check if user has ANY of the roles --}}
 @hasAnyRole('admin', 'editor', 'moderator')
@@ -2165,10 +2270,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasallroles">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2177,7 +2282,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Require ALL specified roles --}}
 @hasAllRoles('admin', 'super-admin')
@@ -2191,10 +2296,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasprivilege">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2203,7 +2308,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Check for a specific privilege --}}
 @hasPrivilege('delete-users')
@@ -2217,10 +2322,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasanyprivilege">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2229,7 +2334,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Check for ANY of the privileges --}}
 @hasAnyPrivilege('edit-posts', 'delete-posts', 'publish-posts')
@@ -2252,10 +2357,10 @@ if ($request->user()->tokenCan('billing.view')) {
 
                         <div class="tab-panel hidden" id="bd-hasallprivileges">
                             <div
-                                class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg"
+                                class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d1117] shadow-lg"
                             >
                                 <div
-                                    class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117]"
+                                    class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14]"
                                 >
                                     <div
                                         class="text-xs font-mono text-slate-500 dark:text-slate-400"
@@ -2264,7 +2369,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     </div>
                                 </div>
                                 <div
-                                    class="p-5 overflow-x-auto text-sm font-mono"
+                                    class="p-5 overflow-x-auto text-sm font-mono text-slate-700 dark:text-slate-300"
                                 >
                                     <pre><code class="language-blade">{{-- Require ALL specified privileges --}}
 @hasAllPrivileges('create-invoices', 'approve-invoices')
@@ -2318,7 +2423,7 @@ if ($request->user()->tokenCan('billing.view')) {
                 <div class="space-y-4">
                     <!-- Setup & Installation -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-600"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -2326,7 +2431,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         >
                             <div class="flex items-center gap-5">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-brand-400"
+                                    class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-brand-400"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -2369,14 +2474,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </svg>
                         </button>
                         <div
-                            class="accordion-content bg-slate-900/50 border-t border-slate-800/50"
+                            class="accordion-content bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/50"
                         >
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:install</code
                                     >
                                     <p
@@ -2390,7 +2495,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:prepare-user-model</code
                                     >
                                     <p
@@ -2404,7 +2509,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:seed</code
                                     >
                                     <p
@@ -2418,7 +2523,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:publish-config</code
                                     >
                                     <p
@@ -2431,7 +2536,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:publish-migrations</code
                                     >
                                     <p
@@ -2447,7 +2552,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- User Management -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-600"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -2455,7 +2560,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         >
                             <div class="flex items-center gap-5">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-brand-400"
+                                    class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-brand-400"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -2501,14 +2606,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </svg>
                         </button>
                         <div
-                            class="accordion-content bg-slate-900/50 border-t border-slate-800/50"
+                            class="accordion-content bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/50"
                         >
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-create</code
                                     >
                                     <p
@@ -2522,7 +2627,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-list</code
                                     >
                                     <p
@@ -2536,7 +2641,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-list-with-roles</code
                                     >
                                     <p
@@ -2550,7 +2655,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-suspend</code
                                     >
                                     <p
@@ -2564,7 +2669,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-unsuspend</code
                                     >
                                     <p
@@ -2578,7 +2683,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-suspended</code
                                     >
                                     <p
@@ -2592,7 +2697,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:update-user</code
                                     >
                                     <p
@@ -2606,7 +2711,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:delete-user</code
                                     >
                                     <p
@@ -2620,7 +2725,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-privileges</code
                                     >
                                     <p
@@ -2636,7 +2741,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- Role & Privilege Management -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-600"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -2644,7 +2749,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         >
                             <div class="flex items-center gap-5">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-brand-400"
+                                    class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-brand-400"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -2693,14 +2798,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </svg>
                         </button>
                         <div
-                            class="accordion-content bg-slate-900/50 border-t border-slate-800/50"
+                            class="accordion-content bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/50"
                         >
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-list</code
                                     >
                                     <p
@@ -2713,7 +2818,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-list-with-privileges</code
                                     >
                                     <p
@@ -2727,7 +2832,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-create</code
                                     >
                                     <p
@@ -2741,7 +2846,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:update-role</code
                                     >
                                     <p
@@ -2754,7 +2859,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:delete-role</code
                                     >
                                     <p
@@ -2768,7 +2873,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-assign</code
                                     >
                                     <p
@@ -2781,7 +2886,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-remove</code
                                     >
                                     <p
@@ -2794,7 +2899,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:role-users</code
                                     >
                                     <p
@@ -2808,7 +2913,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-roles</code
                                     >
                                     <p
@@ -2822,7 +2927,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:seed-roles</code
                                     >
                                     <p
@@ -2835,7 +2940,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:flush-roles</code
                                     >
                                     <p
@@ -2849,7 +2954,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:privilege-list</code
                                     >
                                     <p
@@ -2863,7 +2968,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:privilege-create</code
                                     >
                                     <p
@@ -2876,7 +2981,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:update-privilege</code
                                     >
                                     <p
@@ -2889,7 +2994,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:delete-privilege</code
                                     >
                                     <p
@@ -2902,7 +3007,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:privilege-attach</code
                                     >
                                     <p
@@ -2916,7 +3021,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:privilege-detach</code
                                     >
                                     <p
@@ -2931,7 +3036,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- Token Management -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-600"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -2939,7 +3044,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         >
                             <div class="flex items-center gap-5">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-brand-400"
+                                    class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-brand-400"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -2982,14 +3087,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </svg>
                         </button>
                         <div
-                            class="accordion-content bg-slate-900/50 border-t border-slate-800/50"
+                            class="accordion-content bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/50"
                         >
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:login</code
                                     >
                                     <p
@@ -3003,7 +3108,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:user-token</code
                                     >
                                     <p
@@ -3017,7 +3122,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:me</code
                                     >
                                     <p
@@ -3031,7 +3136,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:logout</code
                                     >
                                     <p
@@ -3044,7 +3149,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:logout-all</code
                                     >
                                     <p
@@ -3057,7 +3162,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:auth-logout-all-users</code
                                     >
                                     <p
@@ -3073,7 +3178,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- Utilities & Information -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-600"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3081,7 +3186,7 @@ if ($request->user()->tokenCan('billing.view')) {
                         >
                             <div class="flex items-center gap-5">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-brand-400"
+                                    class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-brand-400"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -3131,14 +3236,14 @@ if ($request->user()->tokenCan('billing.view')) {
                             </svg>
                         </button>
                         <div
-                            class="accordion-content bg-slate-900/50 border-t border-slate-800/50"
+                            class="accordion-content bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/50"
                         >
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:seed-privileges</code
                                     >
                                     <p
@@ -3152,7 +3257,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:purge-privileges</code
                                     >
                                     <p
@@ -3166,7 +3271,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:version</code
                                     >
                                     <p
@@ -3180,7 +3285,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:postman-collection</code
                                     >
                                     <p
@@ -3194,7 +3299,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:star</code
                                     >
                                     <p
@@ -3208,7 +3313,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:doc</code
                                     >
                                     <p
@@ -3222,7 +3327,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                     class="flex flex-col sm:flex-row gap-3 items-start"
                                 >
                                     <code
-                                        class="font-mono text-brand-300 text-sm bg-slate-950 border border-slate-800 px-2 py-1 rounded whitespace-nowrap"
+                                        class="font-mono text-brand-300 text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded whitespace-nowrap text-slate-700 dark:text-slate-300"
                                         >tyro:about</code
                                     >
                                     <p
@@ -3247,10 +3352,10 @@ if ($request->user()->tokenCan('billing.view')) {
             <div class="max-w-7xl mx-auto px-6 reveal">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div
-                        class="order-2 lg:order-1 rounded-2xl overflow-hidden border border-slate-700 bg-slate-900 shadow-2xl relative"
+                        class="order-2 lg:order-1 rounded-2xl overflow-hidden border border-slate-800 bg-white dark:bg-[#0d1117] shadow-2xl dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative"
                     >
                         <div
-                            class="flex items-center px-4 py-3 border-b border-slate-800 bg-[#0d1117] relative z-10"
+                            class="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0a0d14] relative z-10"
                         >
                             <div class="flex gap-2">
                                 <div
@@ -3272,17 +3377,17 @@ if ($request->user()->tokenCan('billing.view')) {
                         <div
                             class="p-6 overflow-x-auto relative z-10 text-sm font-mono leading-relaxed text-slate-700 dark:text-slate-300"
                         >
-                            <pre><code class="language-bash"><span class="text-slate-500 dark:text-slate-400"># View recent audit logs</span>
-<span class="text-brand-400">$</span> php artisan tyro:audit-list
+                            <pre><code class="language-bash"><span class="text-slate-500 dark:text-slate-500 dark:text-slate-400"># View recent audit logs</span>
+<span class="text-brand-500 dark:text-brand-400 font-bold">$</span> php artisan tyro:audit-list
 
-<span class="text-slate-500 dark:text-slate-400"># Filter by event type</span>
-<span class="text-brand-400">$</span> php artisan tyro:audit-list --event=user.suspended
+<span class="text-slate-500 dark:text-slate-500 dark:text-slate-400"># Filter by event type</span>
+<span class="text-brand-500 dark:text-brand-400 font-bold">$</span> php artisan tyro:audit-list --event=user.suspended
 
-<span class="text-slate-500 dark:text-slate-400"># Purge logs immediately (7 days)</span>
-<span class="text-brand-400">$</span> php artisan tyro:audit-purge --days=7 --force
+<span class="text-slate-500 dark:text-slate-500 dark:text-slate-400"># Purge logs immediately (7 days)</span>
+<span class="text-brand-500 dark:text-brand-400 font-bold">$</span> php artisan tyro:audit-purge --days=7 --force
 
-<span class="text-slate-500 dark:text-slate-400"># Access via REST API</span>
-<span class="text-brand-400">$</span> curl -H "Authorization: Bearer {token}" \
+<span class="text-slate-500 dark:text-slate-500 dark:text-slate-400"># Access via REST API</span>
+<span class="text-brand-500 dark:text-brand-400 font-bold">$</span> curl -H "Authorization: Bearer {token}" \
      "https://api.example.com/api/audit-logs"</code></pre>
                         </div>
                     </div>
@@ -3323,7 +3428,8 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Log user suspensions, role assignments, and
                                     privilege edits</span
                                 >
@@ -3346,7 +3452,8 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Capture identity, timestamps, IP addresses,
                                     and User-Agents</span
                                 >
@@ -3369,7 +3476,8 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Detailed JSON diffs of before/after value
                                     changes</span
                                 >
@@ -3392,7 +3500,8 @@ if ($request->user()->tokenCan('billing.view')) {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <span class="text-slate-700 dark:text-slate-300"
+                                <span
+                                    class="text-slate-700 dark:text-slate-700 dark:text-slate-300"
                                     >Rest API and CLI access to audit logs with
                                     filtering options</span
                                 >
@@ -3428,7 +3537,7 @@ if ($request->user()->tokenCan('billing.view')) {
                 <div class="space-y-4">
                     <!-- FAQ 1 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3471,7 +3580,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 2 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3507,7 +3616,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 3 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3534,12 +3643,12 @@ if ($request->user()->tokenCan('billing.view')) {
                             >
                                 Installation is simple: run
                                 <code
-                                    class="bg-slate-800 text-brand-300 px-1.5 py-0.5 rounded"
+                                    class="text-brand-400 font-mono text-sm"
                                     >composer require hasinhayder/tyro</code
                                 >
                                 followed by
                                 <code
-                                    class="bg-slate-800 text-brand-300 px-1.5 py-0.5 rounded"
+                                    class="text-brand-400 font-mono text-sm"
                                     >php artisan tyro:install</code
                                 >. The install command automatically sets up
                                 Sanctum, runs migrations, seeds default roles
@@ -3551,7 +3660,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 4 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3579,25 +3688,25 @@ if ($request->user()->tokenCan('billing.view')) {
                                 Tyro ships with 40+ artisan commands for
                                 managing users, roles, privileges, tokens, and
                                 more. Key commands include:
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:user-create</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:role-assign</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:user-suspend</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:privilege-create</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:privilege-attach</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:user-token</code
                                 >, and
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >tyro:auth-logout-all-users</code
                                 >. Every command supports non-interactive flags
                                 for automation.
@@ -3607,7 +3716,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 5 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3639,13 +3748,13 @@ if ($request->user()->tokenCan('billing.view')) {
                                 Users are assigned roles, and they inherit all
                                 privileges from those roles. You can check
                                 permissions using
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >$user->can('privilege.name')</code
                                 >,
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >$user->hasRole('role-slug')</code
                                 >, or middleware like
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >ability:admin,reports.run</code
                                 >. Sanctum tokens automatically include all role
                                 and privilege slugs as abilities.
@@ -3655,7 +3764,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 6 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3681,7 +3790,7 @@ if ($request->user()->tokenCan('billing.view')) {
                                 class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Absolutely! Publish the config file with
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >php artisan vendor:publish
                                     --tag=tyro-config</code
                                 >
@@ -3696,7 +3805,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 7 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3722,26 +3831,26 @@ if ($request->user()->tokenCan('billing.view')) {
                                 class="p-6 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed"
                             >
                                 Use
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >php artisan tyro:user-suspend
                                     --user=email@example.com --reason="Policy
                                     violation"</code
                                 >
                                 or call
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >$user->suspend('reason')</code
                                 >
                                 in your code. Suspension automatically revokes
                                 all Sanctum tokens and prevents login. To lift a
                                 suspension, use
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >php artisan tyro:user-unsuspend</code
                                 >
                                 or
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >$user->unsuspend()</code
                                 >. Check suspension status with
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >$user->isSuspended()</code
                                 >.
                             </div>
@@ -3750,7 +3859,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 8 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3792,7 +3901,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 9 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3825,10 +3934,10 @@ if ($request->user()->tokenCan('billing.view')) {
                                 action, when it happened, IP address, user
                                 agent, and before/after values. You can view
                                 logs via
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >php artisan tyro:audit-list</code
                                 >, purge old logs with
-                                <code class="text-brand-300"
+                                <code class="text-brand-400 font-mono text-sm"
                                     >php artisan tyro:audit-purge</code
                                 >, or access them via the REST API. Audit trails
                                 are essential for compliance and forensic
@@ -3839,7 +3948,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 10 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3868,16 +3977,16 @@ if ($request->user()->tokenCan('billing.view')) {
                                 <strong>you must run migrations</strong> to
                                 apply any new database changes. After running
                                 <code
-                                    class="bg-slate-800 text-brand-300 px-1.5 py-0.5 rounded"
+                                    class="text-brand-400 font-mono text-sm"
                                     >composer update hasinhayder/tyro</code
                                 >, immediately run
                                 <code
-                                    class="bg-slate-800 text-brand-300 px-1.5 py-0.5 rounded"
+                                    class="text-brand-400 font-mono text-sm"
                                     >php artisan migrate</code
                                 >
                                 (or
                                 <code
-                                    class="bg-slate-800 text-brand-300 px-1.5 py-0.5 rounded"
+                                    class="text-brand-400 font-mono text-sm"
                                     >php artisan migrate
                                     --path=vendor/hasinhayder/tyro/database/migrations</code
                                 >
@@ -3891,7 +4000,7 @@ if ($request->user()->tokenCan('billing.view')) {
 
                     <!-- FAQ 11 -->
                     <div
-                        class="glass-panel border border-slate-700 rounded-2xl overflow-hidden"
+                        class="glass-panel border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
                     >
                         <button
                             class="w-full flex items-center justify-between p-6 text-left"
@@ -3959,14 +4068,14 @@ if ($request->user()->tokenCan('billing.view')) {
                 </p>
 
                 <div
-                    class="inline-flex flex-col sm:flex-row items-center gap-4 border border-slate-700 bg-slate-950 p-2 rounded-2xl mb-8"
+                    class="inline-flex flex-col sm:flex-row items-center gap-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-2 shadow-xl rounded-2xl mb-8"
                 >
                     <div class="flex items-center px-6 py-3">
                         <span class="text-brand-500 mr-4 font-mono font-bold"
                             >$</span
                         >
                         <code
-                            class="text-slate-200 font-mono"
+                            class="text-slate-700 dark:text-slate-200 font-mono"
                             id="installCmdFooter"
                             >composer require hasinhayder/tyro</code
                         >
@@ -3986,21 +4095,21 @@ if ($request->user()->tokenCan('billing.view')) {
                         href="https://github.com/hasinhayder/tyro"
                         target="_blank"
                         rel="noopener"
-                        class="hover:text-white transition-colors"
+                        class="hover:text-brand-500 dark:hover:text-white transition-colors"
                         >GitHub Repository</a
                     >
-                    <span class="text-slate-700">•</span>
+                    <span class="text-slate-700 dark:text-slate-700">•</span>
                     <a
                         href="doc.html"
-                        class="hover:text-white transition-colors"
+                        class="hover:text-brand-500 dark:hover:text-white transition-colors"
                         >Official Documentation</a
                     >
-                    <span class="text-slate-700">•</span>
+                    <span class="text-slate-700 dark:text-slate-700">•</span>
                     <a
                         href="https://github.com/hasinhayder/tyro/issues"
                         target="_blank"
                         rel="noopener"
-                        class="hover:text-white transition-colors"
+                        class="hover:text-brand-500 dark:hover:text-white transition-colors"
                         >Report an Issue</a
                     >
                 </div>
@@ -4009,14 +4118,14 @@ if ($request->user()->tokenCan('billing.view')) {
 
         <!-- Footer -->
         <footer
-            class="bg-slate-950 border-t border-slate-800 py-16 px-6 relative"
+            class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-16 px-6 relative"
         >
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-3 gap-12 mb-12">
                     <div>
                         <a
                             href="#"
-                            class="font-display font-bold text-2xl tracking-tight text-white uppercase flex items-center gap-2 mb-4"
+                            class="font-display font-bold text-2xl tracking-tight dark:text-white uppercase flex items-center gap-2 mb-4"
                         >
                             <div
                                 class="w-8 h-8 rounded bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center"
@@ -4119,7 +4228,7 @@ if ($request->user()->tokenCan('billing.view')) {
                     </div>
                 </div>
                 <div
-                    class="border-t border-slate-800/50 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400"
+                    class="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400"
                 >
                     <p>
                         Released under the
@@ -4198,12 +4307,19 @@ if ($request->user()->tokenCan('billing.view')) {
             const themeToggle = document.getElementById("themeToggle");
 
             function toggleTheme() {
+                const hlTheme = document.getElementById("hl-theme");
                 if (document.documentElement.classList.contains("dark")) {
                     document.documentElement.classList.remove("dark");
                     localStorage.setItem("theme", "light");
+                    if (hlTheme)
+                        hlTheme.href =
+                            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css";
                 } else {
                     document.documentElement.classList.add("dark");
                     localStorage.setItem("theme", "dark");
+                    if (hlTheme)
+                        hlTheme.href =
+                            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css";
                 }
             }
 
@@ -4255,7 +4371,8 @@ if ($request->user()->tokenCan('billing.view')) {
                         );
                         b.classList.add(
                             "border-transparent",
-                            "hover:bg-slate-800/50",
+                            "hover:bg-slate-100",
+                            "dark:hover:bg-slate-800",
                         );
                         b.querySelector("div:first-child").classList.remove(
                             "text-white",
@@ -4269,7 +4386,8 @@ if ($request->user()->tokenCan('billing.view')) {
                     );
                     btn.classList.remove(
                         "border-transparent",
-                        "hover:bg-slate-800/50",
+                        "hover:bg-slate-100",
+                        "dark:hover:bg-slate-800",
                     );
                     btn.querySelector("div:first-child").classList.add(
                         "text-white",
