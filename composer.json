@@ -1,6 +1,6 @@
 {
     "name": "hasinhayder/tyro",
-    "description": "Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12",
+    "description": "Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12 & 13",
     "keywords": [
         "laravel",
         "authentication",
@@ -17,13 +17,16 @@
     "type": "library",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.0",
-        "laravel/sanctum": "^4.0"
+        "illuminate/auth": "^12.0 || ^13.0",
+        "illuminate/database": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "laravel/sanctum": "^4.0 || ^5.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.25",
-        "nunomaduro/collision": "^8.6",
-        "orchestra/testbench": "^10.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "laravel/pint": "^1.27",
+        "nunomaduro/collision": "^8.6 || ^9.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0"
     },
@@ -49,6 +52,9 @@
             "providers": [
                 "HasinHayder\\Tyro\\Providers\\TyroServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "1.5.x-dev"
         }
     },
     "config": {
