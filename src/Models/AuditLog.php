@@ -102,6 +102,10 @@ class AuditLog extends Model
                 return "Flushed all roles and assignments";
             case 'privileges.purged':
                 return "Purged all ({$new['deleted_count']}) privileges";
+            case 'user.login':
+                return "User logged in";
+            case 'user.logout':
+                return "User logged out";
             default:
                 return $this->event;
         }
