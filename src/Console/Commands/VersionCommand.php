@@ -12,7 +12,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = "1.4.0"; //added hasAnyRole() Support. Now Users can check if they have any of the given roles with a single method call. 
+        $version = "1.5.0"; //Laravel 13 Support 
         
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -32,6 +32,7 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+//1.5.0 - Laravel 13 Support
 //1.4.0 - added hasAnyRole() Support. Now Users can check if they have any of the given roles with a single method call.
 //1.3.1 - log user's email change for audit log
 //1.3.0 - audit Trail and Consitent Naming for the commands with backward compatibility
