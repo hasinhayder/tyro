@@ -253,8 +253,58 @@ body {
     50% { transform: translateY(-15px) rotate(2deg); }
 }
 
+.floating-card {
+    position: absolute;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: start;
+    gap: 14px;
+    z-index: 5;
+    pointer-events: none;
+    animation: float-card 6s infinite ease-in-out;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+[data-theme="dark"] .floating-card {
+    background: rgba(17, 24, 39, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.floating-card-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--hero-orange-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hero-orange);
+}
+
+.floating-card-info h5 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.floating-card-info p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+@keyframes float-card {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
 @media (max-width: 1024px) {
-    .floating-code { display: none; }
+    .floating-code, .floating-card { display: none; }
 }
 
 .hero-container {
@@ -792,6 +842,16 @@ body {
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-text);
+}
+
+.cmd-category-header .cmd-count {
+    background: var(--hero-orange-dim);
+    color: var(--hero-orange);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: auto;
 }
 
 .cmd-list-full {
