@@ -8,10 +8,8 @@ use HasinHayder\Tyro\Support\TyroCache;
 use HasinHayder\Tyro\Tests\TestCase;
 use Illuminate\Support\Facades\Cache;
 
-class HasTyroRolesTest extends TestCase
-{
-    public function test_user_can_returns_true_when_role_has_privilege(): void
-    {
+class HasTyroRolesTest extends TestCase {
+    public function test_user_can_returns_true_when_role_has_privilege(): void {
         $userClass = config('tyro.models.user');
         $user = $userClass::factory()->create();
 
@@ -27,16 +25,14 @@ class HasTyroRolesTest extends TestCase
         $this->assertTrue($user->fresh()->can('reports.generate'));
     }
 
-    public function test_user_can_falls_back_to_gate_when_privilege_missing(): void
-    {
+    public function test_user_can_falls_back_to_gate_when_privilege_missing(): void {
         $userClass = config('tyro.models.user');
         $user = $userClass::factory()->create();
 
         $this->assertFalse($user->can('nonexistent.privilege'));
     }
 
-    public function test_role_slug_cache_requires_invalidation(): void
-    {
+    public function test_role_slug_cache_requires_invalidation(): void {
         config(['cache.default' => 'array', 'tyro.cache.store' => 'array', 'tyro.cache.enabled' => true]);
         Cache::store('array')->clear();
 
@@ -55,8 +51,7 @@ class HasTyroRolesTest extends TestCase
         $this->assertFalse($user->fresh()->hasRole('user'));
     }
 
-    public function test_privilege_cache_flushes_when_role_cache_cleared(): void
-    {
+    public function test_privilege_cache_flushes_when_role_cache_cleared(): void {
         config(['cache.default' => 'array', 'tyro.cache.store' => 'array', 'tyro.cache.enabled' => true]);
         Cache::store('array')->clear();
 

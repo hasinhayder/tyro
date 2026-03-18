@@ -8,12 +8,10 @@ use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class TyroCache
-{
+class TyroCache {
     protected static array $runtimeVersions = [];
 
-    public static function rememberRoleSlugs($userId, callable $resolver): array
-    {
+    public static function rememberRoleSlugs($userId, callable $resolver): array {
         if (! static::enabled() || ! $userId) {
             return $resolver();
         }
@@ -21,8 +19,7 @@ class TyroCache
         return static::remember(static::rolesKey($userId), $resolver);
     }
 
-    public static function rememberPrivilegeSlugs($userId, callable $resolver): array
-    {
+    public static function rememberPrivilegeSlugs($userId, callable $resolver): array {
         if (! static::enabled() || ! $userId) {
             return $resolver();
         }
@@ -30,8 +27,7 @@ class TyroCache
         return static::remember(static::privilegesKey($userId), $resolver);
     }
 
-    public static function forgetUser($user): void
-    {
+    public static function forgetUser($user): void {
         if (! $user) {
             return;
         }
@@ -43,20 +39,17 @@ class TyroCache
         static::bumpRuntimeVersion($key);
     }
 
-    public static function forgetUsers(iterable $userIds): void
-    {
+    public static function forgetUsers(iterable $userIds): void {
         foreach ($userIds as $userId) {
             static::forgetUser($userId);
         }
     }
 
-    public static function forgetUsersByRole(Role $role): void
-    {
+    public static function forgetUsersByRole(Role $role): void {
         static::forgetUsersByRoleIds([$role->getKey()]);
     }
 
-    public static function forgetUsersByPrivilege(Privilege $privilege): void
-    {
+    public static function forgetUsersByPrivilege(Privilege $privilege): void {
         $roleIds = DB::table(config('tyro.tables.role_privilege', 'privilege_role'))
             ->where('privilege_id', $privilege->getKey())
             ->pluck('role_id');
@@ -64,8 +57,7 @@ class TyroCache
         static::forgetUsersByRoleIds($roleIds);
     }
 
-    public static function forgetUsersByRoleIds(iterable $roleIds): void
-    {
+    public static function forgetUsersByRoleIds(iterable $roleIds): void {
         $roleIds = collect($roleIds)->filter()->unique();
 
         if ($roleIds->isEmpty()) {
@@ -79,15 +71,13 @@ class TyroCache
         static::forgetUsers($userIds);
     }
 
-    public static function forgetAllUsersWithRoles(): void
-    {
+    public static function forgetAllUsersWithRoles(): void {
         $userIds = DB::table(config('tyro.tables.pivot', 'user_roles'))->pluck('user_id');
 
         static::forgetUsers($userIds);
     }
 
-    public static function runtimeVersion($user): int
-    {
+    public static function runtimeVersion($user): int {
         if (! $user) {
             return 0;
         }
@@ -97,8 +87,7 @@ class TyroCache
         return static::$runtimeVersions[$key] ?? 0;
     }
 
-    protected static function remember(string $key, callable $resolver): array
-    {
+    protected static function remember(string $key, callable $resolver): array {
         $callback = function () use ($resolver) {
             $resolved = $resolver();
 
@@ -118,15 +107,13 @@ class TyroCache
         return static::cacheStore()->remember($key, $ttl, $callback);
     }
 
-    protected static function cacheStore(): CacheRepository
-    {
+    protected static function cacheStore(): CacheRepository {
         $store = config('tyro.cache.store');
 
         return $store ? Cache::store($store) : Cache::store();
     }
 
-    protected static function ttl(): ?int
-    {
+    protected static function ttl(): ?int {
         $ttl = config('tyro.cache.ttl', 300);
 
         if ($ttl === null) {
@@ -138,23 +125,19 @@ class TyroCache
         return $ttl > 0 ? $ttl : null;
     }
 
-    protected static function enabled(): bool
-    {
+    protected static function enabled(): bool {
         return (bool) config('tyro.cache.enabled', true);
     }
 
-    protected static function rolesKey($userId): string
-    {
+    protected static function rolesKey($userId): string {
         return sprintf('tyro:user-%s:roles', $userId);
     }
 
-    protected static function privilegesKey($userId): string
-    {
+    protected static function privilegesKey($userId): string {
         return sprintf('tyro:user-%s:privileges', $userId);
     }
 
-    protected static function bumpRuntimeVersion($user): void
-    {
+    protected static function bumpRuntimeVersion($user): void {
         if (! $user) {
             return;
         }

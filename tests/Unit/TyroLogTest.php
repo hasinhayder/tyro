@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class TyroLogTest extends TestCase
-{
-    public function test_it_silences_when_debug_disabled(): void
-    {
+class TyroLogTest extends TestCase {
+    public function test_it_silences_when_debug_disabled(): void {
         config(['app.debug' => false]);
 
         Log::spy();
@@ -25,8 +23,7 @@ class TyroLogTest extends TestCase
         Log::shouldNotHaveReceived('debug');
     }
 
-    public function test_it_logs_when_debug_enabled(): void
-    {
+    public function test_it_logs_when_debug_enabled(): void {
         config(['app.debug' => true]);
 
         Log::spy();

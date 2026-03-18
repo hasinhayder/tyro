@@ -4,12 +4,10 @@ namespace HasinHayder\Tyro\Tests\Fixtures;
 
 use HasinHayder\Tyro\Console\Commands\InstallCommand;
 
-class FakeInstallCommand extends InstallCommand
-{
+class FakeInstallCommand extends InstallCommand {
     public static array $recorded = [];
 
-    protected function runRequiredCommand(string $command, array $arguments = []): bool
-    {
+    protected function runRequiredCommand(string $command, array $arguments = []): bool {
         self::$recorded[] = [
             'command' => $command,
             'arguments' => $arguments,
@@ -18,8 +16,7 @@ class FakeInstallCommand extends InstallCommand
         return true;
     }
 
-    public static function reset(): void
-    {
+    public static function reset(): void {
         self::$recorded = [];
     }
 }

@@ -198,7 +198,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(0, $exitCode);
         $this->assertStringContainsString('admin@tyro.project', $output);
-        $this->assertStringContainsString('#' . $adminRole->id, $output);
+        $this->assertStringContainsString('#'.$adminRole->id, $output);
         $this->assertStringContainsString($adminRole->name, $output);
     }
 
@@ -526,7 +526,7 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(0, $exitCode);
         $this->assertStringContainsString($user->email, $output);
-        $this->assertStringContainsString('#' . $adminRole->id, $output);
+        $this->assertStringContainsString('#'.$adminRole->id, $output);
         $this->assertStringContainsString($adminRole->name, $output);
     }
 
@@ -644,14 +644,14 @@ class ConsoleCommandTest extends TestCase {
 
     public function test_seed_command_restores_defaults(): void {
         $userClass = config('tyro.models.user');
-        
+
         // Run seed command
         $this->artisan('tyro:seed-all', ['--force' => true])
             ->assertExitCode(0);
 
         // Verify admin user exists
         $this->assertDatabaseHas('users', ['email' => 'admin@tyro.project']);
-        
+
         // Verify all default roles exist
         $this->assertDatabaseHas(config('tyro.tables.roles'), ['slug' => 'admin']);
         $this->assertDatabaseHas(config('tyro.tables.roles'), ['slug' => 'user']);
@@ -659,13 +659,13 @@ class ConsoleCommandTest extends TestCase {
         $this->assertDatabaseHas(config('tyro.tables.roles'), ['slug' => 'editor']);
         $this->assertDatabaseHas(config('tyro.tables.roles'), ['slug' => '*']);
         $this->assertDatabaseHas(config('tyro.tables.roles'), ['slug' => 'super-admin']);
-        
+
         // Verify admin user has admin role
         $adminUser = $userClass::where('email', 'admin@tyro.project')->first();
         $this->assertNotNull($adminUser);
         $adminRole = Role::where('slug', 'admin')->first();
         $this->assertTrue($adminUser->roles->contains($adminRole));
-        
+
         // Verify privileges are seeded
         $this->assertGreaterThan(0, Privilege::count());
         $this->assertGreaterThan(0, DB::table(config('tyro.tables.role_privilege', 'privilege_role'))->count());

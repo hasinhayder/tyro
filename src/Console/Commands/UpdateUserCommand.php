@@ -17,7 +17,7 @@ class UpdateUserCommand extends BaseTyroCommand {
     public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
 
-        if (!$identifier) {
+        if (! $identifier) {
             $this->error('A user identifier is required.');
 
             return self::FAILURE;
@@ -25,7 +25,7 @@ class UpdateUserCommand extends BaseTyroCommand {
 
         $user = $this->findUser($identifier);
 
-        if (!$user) {
+        if (! $user) {
             $this->error('User not found.');
 
             return self::FAILURE;
@@ -55,7 +55,7 @@ class UpdateUserCommand extends BaseTyroCommand {
         $validator = Validator::make([
             'email' => $email,
         ], [
-            'email' => 'required|email|unique:' . $user->getTable() . ',email,' . $user->id,
+            'email' => 'required|email|unique:'.$user->getTable().',email,'.$user->id,
         ]);
 
         if ($validator->fails()) {
@@ -67,7 +67,7 @@ class UpdateUserCommand extends BaseTyroCommand {
         while (true) {
             $passwordInput = $this->option('password');
 
-            if ($passwordInput === null && $this->input->isInteractive() && !app()->runningUnitTests()) {
+            if ($passwordInput === null && $this->input->isInteractive() && ! app()->runningUnitTests()) {
                 $passwordInput = $this->secret('Password (leave blank to keep current)');
             }
 
@@ -90,7 +90,7 @@ class UpdateUserCommand extends BaseTyroCommand {
                 $this->error($error);
             }
 
-            if ($this->option('password') !== null || !$this->input->isInteractive()) {
+            if ($this->option('password') !== null || ! $this->input->isInteractive()) {
                 return self::FAILURE;
             }
 

@@ -5,16 +5,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 use HasinHayder\Tyro\Support\TyroAudit;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class LogoutCommand extends BaseTyroCommand
-{
+class LogoutCommand extends BaseTyroCommand {
     protected $signature = 'tyro:auth-logout {token?} {--token=}';
 
     protected $aliases = ['tyro:logout'];
 
     protected $description = 'Delete a single Sanctum token (log out the corresponding user session)';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $tokenInput = $this->argument('token')
             ?? $this->option('token')
             ?? $this->ask('Paste the full Sanctum token');

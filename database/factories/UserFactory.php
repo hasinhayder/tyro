@@ -9,17 +9,14 @@ use Illuminate\Support\Str;
 /**
  * @extends Factory<\Illuminate\Contracts\Auth\Authenticatable>
  */
-class UserFactory extends Factory
-{
+class UserFactory extends Factory {
     protected static ?string $password = null;
 
-    public function modelName(): string
-    {
+    public function modelName(): string {
         return config('tyro.models.user', 'App\\Models\\User');
     }
 
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -29,8 +26,7 @@ class UserFactory extends Factory
         ];
     }
 
-    public function unverified(): static
-    {
+    public function unverified(): static {
         return $this->state(fn () => [
             'email_verified_at' => null,
         ]);

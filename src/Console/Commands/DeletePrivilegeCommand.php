@@ -4,8 +4,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\TyroCache;
 
-class DeletePrivilegeCommand extends BaseTyroCommand
-{
+class DeletePrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-delete {privilege? : Privilege ID or slug}
         {--force : Skip confirmation prompt}';
 
@@ -13,8 +12,7 @@ class DeletePrivilegeCommand extends BaseTyroCommand
 
     protected $description = 'Delete a Tyro privilege record';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->argument('privilege');
 
         if (! $identifier) {

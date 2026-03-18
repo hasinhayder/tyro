@@ -27,7 +27,7 @@ class PrivilegeTest extends TestCase {
     public function test_list_privileges_returns_seeded_privileges(): void {
         $this->authenticate();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)->get('/api/privileges');
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)->get('/api/privileges');
 
         $response->assertJsonFragment(['slug' => 'report.generate']);
     }
@@ -41,30 +41,30 @@ class PrivilegeTest extends TestCase {
             'description' => 'Generates a bespoke report.',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->post('/api/privileges', $payload);
 
-        $response->assertJson(fn(AssertableJson $json) => $json
+        $response->assertJson(fn (AssertableJson $json) => $json
             ->where('slug', 'report.custom')
             ->where('name', 'Custom Report')
             ->etc());
 
         $privilegeId = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['id'];
 
-        $updateResponse = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $updateResponse = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->put("/api/privileges/{$privilegeId}", [
                 'name' => 'Updated Custom Report',
             ]);
 
-        $updateResponse->assertJson(fn(AssertableJson $json) => $json
+        $updateResponse->assertJson(fn (AssertableJson $json) => $json
             ->where('name', 'Updated Custom Report')
             ->where('id', $privilegeId)
             ->etc());
 
-        $deleteResponse = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $deleteResponse = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->delete("/api/privileges/{$privilegeId}");
 
-        $deleteResponse->assertJson(fn(AssertableJson $json) => $json
+        $deleteResponse->assertJson(fn (AssertableJson $json) => $json
             ->where('error', 0)
             ->where('message', 'privilege has been deleted'));
 
@@ -80,7 +80,7 @@ class PrivilegeTest extends TestCase {
             'name' => 'Publish Content',
         ]);
 
-        $attachResponse = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $attachResponse = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->post("/api/roles/{$role->id}/privileges", [
                 'privilege_id' => $privilege->id,
             ]);
@@ -89,7 +89,7 @@ class PrivilegeTest extends TestCase {
 
         $this->assertTrue($role->fresh()->privileges->contains('id', $privilege->id));
 
-        $detachResponse = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $detachResponse = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->delete("/api/roles/{$role->id}/privileges/{$privilege->id}");
 
         $detachResponse->assertOk();

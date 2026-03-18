@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\Privilege;
 
-class ListPrivilegesCommand extends BaseTyroCommand
-{
+class ListPrivilegesCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-list';
 
     protected $aliases = ['tyro:privileges'];
 
     protected $description = 'Display all Tyro privileges and their roles';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $privileges = Privilege::with('roles:id,name,slug')->get(['id', 'name', 'slug']);
 
         if ($privileges->isEmpty()) {

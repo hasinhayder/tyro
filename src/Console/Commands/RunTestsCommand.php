@@ -4,8 +4,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Symfony\Component\Process\Process;
 
-class RunTestsCommand extends BaseTyroCommand
-{
+class RunTestsCommand extends BaseTyroCommand {
     protected $signature = 'tyro:sys-test
         {--pest : Force Pest}
         {--phpunit : Force PHPUnit}
@@ -19,8 +18,7 @@ class RunTestsCommand extends BaseTyroCommand
 
     protected $description = 'Run your project\'s automated tests (Pest by default)';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $dryRun = (bool) $this->option('dry-run');
         $binary = $this->resolveBinary($dryRun);
 
@@ -57,8 +55,7 @@ class RunTestsCommand extends BaseTyroCommand
         return self::SUCCESS;
     }
 
-    protected function buildCommand(string $binary): array
-    {
+    protected function buildCommand(string $binary): array {
         $command = [PHP_BINARY, $binary];
 
         if ($this->option('coverage')) {
@@ -80,8 +77,7 @@ class RunTestsCommand extends BaseTyroCommand
         return $command;
     }
 
-    protected function resolveBinary(bool $allowMissing = false): ?string
-    {
+    protected function resolveBinary(bool $allowMissing = false): ?string {
         $candidates = [];
 
         if ($this->option('phpunit')) {

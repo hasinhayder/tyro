@@ -5,8 +5,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 use HasinHayder\Tyro\Models\Privilege;
 use HasinHayder\Tyro\Support\TyroCache;
 
-class UpdatePrivilegeCommand extends BaseTyroCommand
-{
+class UpdatePrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-update {--privilege=} {--name=} {--slug=} {--description=}';
 
     protected $aliases = ['tyro:update-privilege'];
@@ -15,8 +14,7 @@ class UpdatePrivilegeCommand extends BaseTyroCommand
 
     // protected $aliases = ['tyro:update:privilege'];
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('privilege') ?? $this->ask('Privilege ID or slug');
 
         if (! $identifier) {

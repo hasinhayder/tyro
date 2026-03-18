@@ -5,10 +5,8 @@ namespace HasinHayder\Tyro\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class UserSuspensionController extends Controller
-{
-    public function store(Request $request, $user)
-    {
+class UserSuspensionController extends Controller {
+    public function store(Request $request, $user) {
         $payload = $request->validate([
             'reason' => 'nullable|string|max:65535',
         ]);
@@ -37,8 +35,7 @@ class UserSuspensionController extends Controller
         ], 200);
     }
 
-    public function destroy($user)
-    {
+    public function destroy($user) {
         $user = $this->resolveUser($user);
 
         if (! $this->userIsSuspended($user)) {
@@ -59,13 +56,11 @@ class UserSuspensionController extends Controller
         ], 200);
     }
 
-    protected function userClass(): string
-    {
+    protected function userClass(): string {
         return config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }
 
-    protected function resolveUser($user)
-    {
+    protected function resolveUser($user) {
         if ($user instanceof \Illuminate\Contracts\Auth\Authenticatable) {
             return $user;
         }
@@ -73,8 +68,7 @@ class UserSuspensionController extends Controller
         return $this->userClass()::query()->findOrFail($user);
     }
 
-    protected function userIsSuspended($user): bool
-    {
+    protected function userIsSuspended($user): bool {
         if (method_exists($user, 'isSuspended')) {
             return $user->isSuspended();
         }

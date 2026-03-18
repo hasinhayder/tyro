@@ -2,14 +2,12 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class RoleUsersCommand extends BaseTyroCommand
-{
+class RoleUsersCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-users {role? : Role ID or slug}';
 
     protected $description = 'Display every user assigned to the given Tyro role';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->argument('role') ?? $this->ask('Role ID or slug');
 
         if (! $identifier) {

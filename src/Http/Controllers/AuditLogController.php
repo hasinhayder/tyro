@@ -5,10 +5,8 @@ namespace HasinHayder\Tyro\Http\Controllers;
 use HasinHayder\Tyro\Models\AuditLog;
 use Illuminate\Http\Request;
 
-class AuditLogController extends TyroController
-{
-    public function index(Request $request)
-    {
+class AuditLogController extends TyroController {
+    public function index(Request $request) {
         $query = AuditLog::query()->latest();
 
         if ($request->has('event')) {
@@ -31,6 +29,7 @@ class AuditLogController extends TyroController
 
         $logs->getCollection()->transform(function ($log) {
             $log->summary = $log->summary;
+
             return $log;
         });
 

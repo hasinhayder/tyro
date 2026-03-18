@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class AuditLog extends Model
-{
+class AuditLog extends Model {
     public $timestamps = false;
 
     protected $fillable = [
@@ -28,24 +27,21 @@ class AuditLog extends Model
         'created_at' => 'datetime',
     ];
 
-    public function getTable()
-    {
+    public function getTable() {
         return config('tyro.tables.audit_logs', 'tyro_audit_logs');
     }
 
-    public function user(): BelongsTo
-    {
+    public function user(): BelongsTo {
         $userClass = config('tyro.models.user', 'App\Models\User');
+
         return $this->belongsTo($userClass, 'user_id');
     }
 
-    public function auditable(): MorphTo
-    {
+    public function auditable(): MorphTo {
         return $this->morphTo();
     }
 
-    public function getSummaryAttribute(): string
-    {
+    public function getSummaryAttribute(): string {
         $target = $this->auditable_type ? basename($this->auditable_type) : 'System';
         $new = $this->new_values ?? [];
         $old = $this->old_values ?? [];
@@ -59,7 +55,8 @@ class AuditLog extends Model
                 return "Created role \"{$new['slug']}\" ({$new['name']})";
             case 'role.updated':
                 $changes = array_keys($new);
-                return "Updated role \"{$this->auditable_id}\": " . implode(', ', $changes);
+
+                return "Updated role \"{$this->auditable_id}\": ".implode(', ', $changes);
             case 'role.deleted':
                 return "Deleted role \"{$old['slug']}\"";
             case 'privilege.created':
@@ -73,7 +70,7 @@ class AuditLog extends Model
             case 'privilege.detached':
                 return "Detached privilege \"{$new['privilege_slug']}\" from role #{$this->auditable_id}";
             case 'user.suspended':
-                return "Suspended user #{$this->auditable_id}" . ($new['suspension_reason'] ? " reason: {$new['suspension_reason']}" : "");
+                return "Suspended user #{$this->auditable_id}".($new['suspension_reason'] ? " reason: {$new['suspension_reason']}" : '');
             case 'user.unsuspended':
                 return "Unsuspended user #{$this->auditable_id}";
             case 'user.created':
@@ -83,6 +80,7 @@ class AuditLog extends Model
             case 'user.email_changed':
                 $oldEmail = $old['email'] ?? 'unknown';
                 $newEmail = $new['email'] ?? 'unknown';
+
                 return "Changed user email from \"{$oldEmail}\" to \"{$newEmail}\"";
             case 'user.deleted':
                 return "Deleted user \"{$old['email']}\"";
@@ -97,15 +95,15 @@ class AuditLog extends Model
             case 'system.seeded':
                 return "Seeded system: {$new['type']}";
             case 'system.installed':
-                return "Installed Tyro";
+                return 'Installed Tyro';
             case 'roles.flushed':
-                return "Flushed all roles and assignments";
+                return 'Flushed all roles and assignments';
             case 'privileges.purged':
                 return "Purged all ({$new['deleted_count']}) privileges";
             case 'user.login':
-                return "User logged in";
+                return 'User logged in';
             case 'user.logout':
-                return "User logged out";
+                return 'User logged out';
             default:
                 return $this->event;
         }

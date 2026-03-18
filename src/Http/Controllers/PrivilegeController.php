@@ -8,15 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
 
-class PrivilegeController extends Controller
-{
-    public function index()
-    {
+class PrivilegeController extends Controller {
+    public function index() {
         return Privilege::with('roles:id,name,slug')->get();
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $data = $request->validate([
             'name' => ['required', 'string'],
             'slug' => ['required', 'string', 'max:255', Rule::unique(config('tyro.tables.privileges', 'privileges'), 'slug')],
@@ -28,13 +25,11 @@ class PrivilegeController extends Controller
         return $privilege->fresh('roles:id,name,slug');
     }
 
-    public function show(Privilege $privilege)
-    {
+    public function show(Privilege $privilege) {
         return $privilege->load('roles:id,name,slug');
     }
 
-    public function update(Request $request, Privilege $privilege)
-    {
+    public function update(Request $request, Privilege $privilege) {
         $data = $request->validate([
             'name' => ['sometimes', 'string'],
             'slug' => ['sometimes', 'string', 'max:255', Rule::unique(config('tyro.tables.privileges', 'privileges'), 'slug')->ignore($privilege->id)],
@@ -52,8 +47,7 @@ class PrivilegeController extends Controller
         return $privilege->fresh('roles:id,name,slug');
     }
 
-    public function destroy(Privilege $privilege)
-    {
+    public function destroy(Privilege $privilege) {
         TyroCache::forgetUsersByPrivilege($privilege);
         $privilege->roles()->detach();
         $privilege->delete();

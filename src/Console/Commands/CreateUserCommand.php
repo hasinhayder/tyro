@@ -4,7 +4,6 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\PasswordRules;
 use HasinHayder\Tyro\Support\TyroAudit;
-use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -20,7 +19,7 @@ class CreateUserCommand extends BaseTyroCommand {
         $name = $this->option('name') ?? $this->ask('Name (optional)', null);
         $email = $this->option('email') ?? $this->ask('Email');
 
-        if (!$email) {
+        if (! $email) {
             $this->error('Email is required.');
 
             return self::FAILURE;
@@ -49,7 +48,7 @@ class CreateUserCommand extends BaseTyroCommand {
         $password = $this->option('password') ?? $this->secret('Password (leave blank to auto-generate)');
         $generatedPassword = false;
 
-        if (!$password) {
+        if (! $password) {
             $password = Str::random(16);
             $generatedPassword = true;
         } else {

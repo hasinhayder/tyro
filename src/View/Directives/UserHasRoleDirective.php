@@ -13,7 +13,7 @@ class UserHasRoleDirective {
         $handler = function (string $role) {
             $user = auth()->user();
 
-            if (!$user) {
+            if (! $user) {
                 return false;
             }
 

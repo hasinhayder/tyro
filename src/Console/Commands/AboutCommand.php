@@ -14,7 +14,7 @@ class AboutCommand extends BaseTyroCommand {
 
         $this->info('Tyro for Laravel');
         $this->line(str_repeat('-', 50));
-        $this->line('• Version: ' . $version);
+        $this->line('• Version: '.$version);
         $this->line('• Author: Hasin Hayder (@hasinhayder)');
         $this->newLine();
         $this->line('Tyro is the ultimate Authentication, Authorization, and');

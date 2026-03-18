@@ -1,18 +1,18 @@
 <?php
 
-use HasinHayder\Tyro\Http\Controllers\TyroController;
 use HasinHayder\Tyro\Http\Controllers\AuditLogController;
 use HasinHayder\Tyro\Http\Controllers\PrivilegeController;
 use HasinHayder\Tyro\Http\Controllers\RoleController;
 use HasinHayder\Tyro\Http\Controllers\RolePrivilegeController;
+use HasinHayder\Tyro\Http\Controllers\TyroController;
 use HasinHayder\Tyro\Http\Controllers\UserController;
 use HasinHayder\Tyro\Http\Controllers\UserRoleController;
 use HasinHayder\Tyro\Http\Controllers\UserSuspensionController;
 use Illuminate\Support\Facades\Route;
 
-$guardMiddleware = 'auth:' . config('tyro.guard', 'sanctum');
-$adminAbilities = 'ability:' . implode(',', config('tyro.abilities.admin', ['admin', 'super-admin']));
-$userAbilities = 'ability:' . implode(',', config('tyro.abilities.user_update', ['admin', 'super-admin', 'user']));
+$guardMiddleware = 'auth:'.config('tyro.guard', 'sanctum');
+$adminAbilities = 'ability:'.implode(',', config('tyro.abilities.admin', ['admin', 'super-admin']));
+$userAbilities = 'ability:'.implode(',', config('tyro.abilities.user_update', ['admin', 'super-admin', 'user']));
 
 Route::get('tyro', [TyroController::class, 'tyro'])->name('tyro.info');
 Route::get('tyro/version', [TyroController::class, 'version'])->name('tyro.version');

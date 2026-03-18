@@ -18,7 +18,7 @@ abstract class TestCase extends Orchestra {
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'HasinHayder\\Tyro\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+            return 'HasinHayder\\Tyro\\Database\\Factories\\'.class_basename($modelName).'Factory';
         });
 
         $this->artisan('migrate', ['--database' => 'testing'])->run();
@@ -26,8 +26,8 @@ abstract class TestCase extends Orchestra {
     }
 
     protected function defineDatabaseMigrations(): void {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        $this->loadMigrationsFrom(dirname(__DIR__) . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(dirname(__DIR__).'/database/migrations');
     }
 
     protected function defineEnvironment($app): void {

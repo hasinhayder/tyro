@@ -6,8 +6,7 @@ use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class RolePrivilege extends Pivot
-{
+class RolePrivilege extends Pivot {
     use HasFactory;
 
     protected $table = 'privilege_role';
@@ -16,8 +15,7 @@ class RolePrivilege extends Pivot
 
     public $timestamps = true;
 
-    protected static function booted(): void
-    {
+    protected static function booted(): void {
         static::saved(function (self $pivot): void {
             TyroCache::forgetUsersByRoleIds([$pivot->role_id]);
         });
@@ -27,8 +25,7 @@ class RolePrivilege extends Pivot
         });
     }
 
-    public function getTable()
-    {
+    public function getTable() {
         return config('tyro.tables.role_privilege', parent::getTable());
     }
 }

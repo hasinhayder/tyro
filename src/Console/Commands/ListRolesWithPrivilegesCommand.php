@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\Role;
 
-class ListRolesWithPrivilegesCommand extends BaseTyroCommand
-{
+class ListRolesWithPrivilegesCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-list-with-privileges';
 
     protected $aliases = ['tyro:roles-with-privileges'];
 
     protected $description = 'Display each role along with its attached privileges';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $roles = Role::query()
             ->with(['privileges:id,slug,name'])
             ->withCount('users')

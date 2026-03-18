@@ -56,6 +56,7 @@ trait HasTyroRoles {
      */
     public function hasRole(string $role): bool {
         $userRoles = $this->tyroRoleSlugs();
+
         return in_array($role, $userRoles, true) || in_array('*', $userRoles, true);
     }
 
@@ -67,7 +68,8 @@ trait HasTyroRoles {
         if (in_array('*', $userRoles, true)) {
             return true;
         }
-        return !empty(array_intersect($roles, $userRoles));
+
+        return ! empty(array_intersect($roles, $userRoles));
     }
 
     /**
@@ -78,6 +80,7 @@ trait HasTyroRoles {
         if (in_array('*', $userRoles, true)) {
             return true;
         }
+
         return empty(array_diff($roles, $userRoles));
     }
 
@@ -88,14 +91,15 @@ trait HasTyroRoles {
     public function privileges(): Collection {
         if ($this->relationLoaded('roles')) {
             $roles = $this->roles;
-            if ($roles->isNotEmpty() && !$roles->first()->relationLoaded('privileges')) {
+            if ($roles->isNotEmpty() && ! $roles->first()->relationLoaded('privileges')) {
                 $roles->load('privileges');
             }
         } else {
             $roles = $this->roles()->with('privileges')->get();
         }
+
         return $roles
-            ->flatMap(fn(Role $role) => $role->privileges)
+            ->flatMap(fn (Role $role) => $role->privileges)
             ->unique('id')
             ->values();
     }
@@ -108,6 +112,7 @@ trait HasTyroRoles {
         if (in_array('*', $userPrivileges, true)) {
             return true;
         }
+
         return empty(array_diff($privileges, $userPrivileges));
     }
 
@@ -122,6 +127,7 @@ trait HasTyroRoles {
         if (is_string($ability) && $this->hasRole($ability)) {
             return true;
         }
+
         return Gate::forUser($this)->check($ability, $arguments);
     }
 
@@ -130,6 +136,7 @@ trait HasTyroRoles {
      */
     public function hasPrivilege(string $ability): bool {
         $userPrivileges = $this->tyroPrivilegeSlugs();
+
         return in_array($ability, $userPrivileges, true) || in_array('*', $userPrivileges, true);
     }
 
@@ -138,12 +145,12 @@ trait HasTyroRoles {
      */
     public function tyroRoleSlugs(): array {
         $userId = $this->getKey();
-        
+
         // Return empty array if user doesn't have an ID yet (e.g., during model introspection)
         if ($userId === null) {
             return [];
         }
-        
+
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroRoleSlugsCache !== null && $this->tyroRoleSlugsVersion === $runtimeVersion) {
             return $this->tyroRoleSlugsCache;
@@ -153,6 +160,7 @@ trait HasTyroRoles {
 
         $this->tyroRoleSlugsCache = $slugs;
         $this->tyroRoleSlugsVersion = $runtimeVersion;
+
         return $slugs;
     }
 
@@ -161,12 +169,12 @@ trait HasTyroRoles {
      */
     public function tyroPrivilegeSlugs(): array {
         $userId = $this->getKey();
-        
+
         // Return empty array if user doesn't have an ID yet (e.g., during model introspection)
         if ($userId === null) {
             return [];
         }
-        
+
         $runtimeVersion = TyroCache::runtimeVersion($userId);
         if ($this->tyroPrivilegeSlugsCache !== null && $this->tyroPrivilegeSlugsVersion === $runtimeVersion) {
             return $this->tyroPrivilegeSlugsCache;
@@ -176,6 +184,7 @@ trait HasTyroRoles {
 
         $this->tyroPrivilegeSlugsCache = $slugs;
         $this->tyroPrivilegeSlugsVersion = $runtimeVersion;
+
         return $slugs;
     }
 
@@ -194,9 +203,9 @@ trait HasTyroRoles {
             }
         } else {
             // Handle privilege slugs
-            if ($this->relationLoaded('roles') && $this->roles->every(fn($role) => $role->relationLoaded('privileges'))) {
+            if ($this->relationLoaded('roles') && $this->roles->every(fn ($role) => $role->relationLoaded('privileges'))) {
                 $slugs = $this->roles
-                    ->flatMap(fn(Role $role) => $role->privileges)
+                    ->flatMap(fn (Role $role) => $role->privileges)
                     ->pluck('slug')
                     ->all();
             } else {
@@ -204,7 +213,7 @@ trait HasTyroRoles {
                     return $this->roles()
                         ->with('privileges:id,slug')
                         ->get()
-                        ->flatMap(fn(Role $role) => $role->privileges)
+                        ->flatMap(fn (Role $role) => $role->privileges)
                         ->pluck('slug')
                         ->all();
                 });
@@ -278,6 +287,7 @@ trait HasTyroRoles {
      */
     public function getSuspensionReason(): ?string {
         $reason = $this->suspension_reason ?? null;
+
         return $reason !== null ? (string) $reason : null;
     }
 }

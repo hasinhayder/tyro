@@ -7,17 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
-class TyroAudit
-{
+class TyroAudit {
     /**
      * Log an audit event.
-     *
-     * @param string $event
-     * @param Model|null $auditable
-     * @param array|null $oldValues
-     * @param array|null $newValues
-     * @param array $metadata
-     * @return AuditLog|null
      */
     public static function log(
         string $event,
@@ -26,12 +18,12 @@ class TyroAudit
         ?array $newValues = null,
         array $metadata = []
     ): ?AuditLog {
-        if (!config('tyro.audit.enabled', true)) {
+        if (! config('tyro.audit.enabled', true)) {
             return null;
         }
 
         $userId = Auth::guard(config('tyro.guard'))->id() ?? Auth::id();
-        
+
         $defaultMetadata = [
             'ip' => Request::ip(),
             'user_agent' => Request::userAgent(),

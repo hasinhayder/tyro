@@ -2,10 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-use Illuminate\Support\Carbon;
-
-class SuspendUserCommand extends BaseTyroCommand
-{
+class SuspendUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-suspend
         {--user= : User ID or email address}
         {--reason= : Optional suspension reason}
@@ -16,8 +13,7 @@ class SuspendUserCommand extends BaseTyroCommand
 
     protected $description = 'Suspend or unsuspend a Tyro user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
 
         if (! $identifier) {
@@ -64,8 +60,7 @@ class SuspendUserCommand extends BaseTyroCommand
         return self::SUCCESS;
     }
 
-    protected function liftSuspension($user): int
-    {
+    protected function liftSuspension($user): int {
         $isSuspended = method_exists($user, 'isSuspended')
             ? $user->isSuspended()
             : (bool) ($user->suspended_at ?? false);
@@ -91,8 +86,7 @@ class SuspendUserCommand extends BaseTyroCommand
         return self::SUCCESS;
     }
 
-    protected function revokeTokens($user): void
-    {
+    protected function revokeTokens($user): void {
         // Deprecated: tokens are revoked in $user->suspend()
     }
 }

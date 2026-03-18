@@ -15,7 +15,7 @@ class FlushRolesCommand extends BaseTyroCommand {
     protected $description = 'Truncate the roles and pivot tables without re-seeding them';
 
     public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('This will truncate roles and user role assignments. Continue?', false)) {
+        if (! $this->option('force') && ! $this->confirm('This will truncate roles and user role assignments. Continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

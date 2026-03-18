@@ -13,7 +13,7 @@ class UserHasRolesDirective {
         $handler = function (...$roles) {
             $user = auth()->user();
 
-            if (!$user || !method_exists($user, 'hasRoles')) {
+            if (! $user || ! method_exists($user, 'hasRoles')) {
                 return false;
             }
 

@@ -24,11 +24,11 @@ class UserRoleTest extends TestCase {
     }
 
     public function test_roles_are_listed_for_user(): void {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->get('/api/users/1/roles');
 
-        $response->assertJson(fn(AssertableJson $json) => $json
-            ->has('roles.0', fn($json) => $json
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('roles.0', fn ($json) => $json
                 ->where('slug', 'admin')
                 ->etc())
             ->etc());
@@ -42,7 +42,7 @@ class UserRoleTest extends TestCase {
         ]);
         $newUser->roles()->attach(Role::where('slug', 'user')->first());
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->post("/api/users/{$newUser->id}/roles", ['role_id' => Role::where('slug', 'customer')->first()->id]);
 
         $payload = $response->json();
@@ -60,12 +60,12 @@ class UserRoleTest extends TestCase {
         $customer = Role::where('slug', 'customer')->first();
         $userRole = Role::where('slug', 'user')->first();
 
-        $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->post("/api/users/{$newUser->id}/roles", ['role_id' => $customer->id]);
-        $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->post("/api/users/{$newUser->id}/roles", ['role_id' => $userRole->id]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
             ->delete("/api/users/{$newUser->id}/roles/{$customer->id}");
 
         $payload = $response->json();

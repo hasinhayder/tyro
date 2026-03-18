@@ -5,16 +5,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 use HasinHayder\Tyro\Support\TyroAudit;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class LogoutAllUsersCommand extends BaseTyroCommand
-{
+class LogoutAllUsersCommand extends BaseTyroCommand {
     protected $signature = 'tyro:auth-logout-all-users {--force : Skip the confirmation prompt}';
 
     protected $aliases = ['tyro:logout-all-users'];
 
     protected $description = 'Revoke every Sanctum token issued for all users';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $count = PersonalAccessToken::count();
 
         if ($count === 0) {

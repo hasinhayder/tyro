@@ -14,7 +14,7 @@ class SeedPrivilegesCommand extends BaseTyroCommand {
     protected $description = 'Seed default privilege definitions and role assignments';
 
     public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('This will seed the privileges and role mappings. Are you sure to continue?', false)) {
+        if (! $this->option('force') && ! $this->confirm('This will seed the privileges and role mappings. Are you sure to continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

@@ -8,10 +8,8 @@ use HasinHayder\Tyro\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Sanctum;
 
-class PrivilegeMiddlewareTest extends TestCase
-{
-    public function test_privilege_middleware_blocks_when_privilege_missing(): void
-    {
+class PrivilegeMiddlewareTest extends TestCase {
+    public function test_privilege_middleware_blocks_when_privilege_missing(): void {
         Route::middleware(['auth:sanctum', 'privilege:report.generate'])
             ->get('/tyro/middleware/privilege-block', fn () => response()->json(['ok' => true]));
 
@@ -23,8 +21,7 @@ class PrivilegeMiddlewareTest extends TestCase
         $this->getJson('/tyro/middleware/privilege-block')->assertForbidden();
     }
 
-    public function test_privilege_middleware_allows_user_with_required_privilege(): void
-    {
+    public function test_privilege_middleware_allows_user_with_required_privilege(): void {
         Route::middleware(['auth:sanctum', 'privilege:report.generate'])
             ->get('/tyro/middleware/privilege-allow', fn () => response()->json(['ok' => true]));
 
@@ -38,8 +35,7 @@ class PrivilegeMiddlewareTest extends TestCase
             ->assertJson(['ok' => true]);
     }
 
-    public function test_privileges_middleware_allows_when_any_privilege_matches(): void
-    {
+    public function test_privileges_middleware_allows_when_any_privilege_matches(): void {
         Route::middleware(['auth:sanctum', 'privileges:billing.view,users.manage'])
             ->get('/tyro/middleware/privileges-any', fn () => response()->json(['ok' => true]));
 
@@ -51,8 +47,7 @@ class PrivilegeMiddlewareTest extends TestCase
         $this->getJson('/tyro/middleware/privileges-any')->assertOk();
     }
 
-    public function test_privileges_middleware_blocks_when_no_privileges_match(): void
-    {
+    public function test_privileges_middleware_blocks_when_no_privileges_match(): void {
         Route::middleware(['auth:sanctum', 'privileges:users.manage,roles.manage'])
             ->get('/tyro/middleware/privileges-block', fn () => response()->json(['ok' => true]));
 

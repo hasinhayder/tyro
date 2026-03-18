@@ -7,10 +7,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class EnsureTyroRole
-{
-    public function handle(Request $request, Closure $next, string ...$roles)
-    {
+class EnsureTyroRole {
+    public function handle(Request $request, Closure $next, string ...$roles) {
         $user = $request->user();
 
         if (! $user) {
@@ -35,8 +33,7 @@ class EnsureTyroRole
         return $next($request);
     }
 
-    private function normalize(array $roles): Collection
-    {
+    private function normalize(array $roles): Collection {
         return collect($roles)
             ->flatMap(function ($chunk) {
                 $parts = is_string($chunk) ? explode(',', $chunk) : (array) $chunk;
@@ -48,8 +45,7 @@ class EnsureTyroRole
             ->values();
     }
 
-    private function resolveRoleSlugs(Request $request, $user): Collection
-    {
+    private function resolveRoleSlugs(Request $request, $user): Collection {
         if ($request->attributes->has('tyro.role_slugs')) {
             return $request->attributes->get('tyro.role_slugs');
         }
@@ -81,8 +77,7 @@ class EnsureTyroRole
         return $empty;
     }
 
-    private function matchesRole(Collection $ownedRoles, string $requiredRole): bool
-    {
+    private function matchesRole(Collection $ownedRoles, string $requiredRole): bool {
         if ($requiredRole === '*') {
             return true;
         }

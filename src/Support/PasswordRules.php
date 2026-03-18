@@ -8,8 +8,7 @@ class PasswordRules {
     /**
      * Get the validation rules for password.
      *
-     * @param array $userData Optional user data (name, email) for checking against password
-     * @return array
+     * @param  array  $userData  Optional user data (name, email) for checking against password
      */
     public static function get(array $userData = []): array {
         $rules = [];
@@ -50,7 +49,7 @@ class PasswordRules {
 
         // Max length
         if ($maxLength = config('tyro.password.max_length')) {
-            $rules[] = 'max:' . $maxLength;
+            $rules[] = 'max:'.$maxLength;
         }
 
         // Confirmation
@@ -59,7 +58,7 @@ class PasswordRules {
         }
 
         // User info check
-        if (config('tyro.password.disallow_user_info', false) && !empty($userData)) {
+        if (config('tyro.password.disallow_user_info', false) && ! empty($userData)) {
             $rules[] = function ($attribute, $value, $fail) use ($userData) {
                 $name = $userData['name'] ?? '';
                 $email = $userData['email'] ?? '';

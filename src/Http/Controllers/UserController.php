@@ -60,7 +60,7 @@ class UserController extends Controller {
         $userClass = $this->userClass();
         $user = $userClass::where('email', $creds['email'])->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response(['error' => 1, 'message' => 'invalid credentials'], 401);
         }
 
@@ -89,7 +89,7 @@ class UserController extends Controller {
             $request->validate([
                 'password' => PasswordRules::get([
                     'name' => $request->name ?? $user->name,
-                    'email' => $request->email ?? $user->email
+                    'email' => $request->email ?? $user->email,
                 ]),
             ]);
         }

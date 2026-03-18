@@ -32,30 +32,24 @@ class Role extends Model {
 
     /**
      * Check if the role has a specific privilege by slug.
-     *
-     * @param string $privilegeSlug
-     * @return bool
      */
     public function hasPrivilege(string $privilegeSlug): bool {
         // Use eager-loaded data if available to avoid N+1 queries
         if ($this->relationLoaded('privileges')) {
             return $this->privileges->contains('slug', $privilegeSlug);
         }
-        
+
         return $this->privileges()->where('slug', $privilegeSlug)->exists();
     }
 
     /**
      * Check if the role has all of the specified privileges by slug.
-     *
-     * @param array $privilegeSlugs
-     * @return bool
      */
     public function hasPrivileges(array $privilegeSlugs): bool {
         $rolePrivilegeSlugs = $this->privileges()->pluck('slug')->toArray();
 
         foreach ($privilegeSlugs as $slug) {
-            if (!in_array($slug, $rolePrivilegeSlugs)) {
+            if (! in_array($slug, $rolePrivilegeSlugs)) {
                 return false;
             }
         }

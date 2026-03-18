@@ -47,7 +47,7 @@ class ListUsersCommand extends BaseTyroCommand {
                     $displayName ?: '—',
                     $user->email,
                     $roles ?: '—',
-                    $isSuspended ? trim('Yes ' . ($reason ? sprintf('(%s)', $reason) : '')) : 'No',
+                    $isSuspended ? trim('Yes '.($reason ? sprintf('(%s)', $reason) : '')) : 'No',
                     $this->formatTimestamp($user->created_at),
                     $this->formatTimestamp($user->updated_at),
                 ];
@@ -58,7 +58,7 @@ class ListUsersCommand extends BaseTyroCommand {
     }
 
     protected function formatTimestamp($value): string {
-        if (!$value) {
+        if (! $value) {
             return 'N/A';
         }
 

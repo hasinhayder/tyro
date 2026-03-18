@@ -2,14 +2,12 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class UserPrivilegesCommand extends BaseTyroCommand
-{
+class UserPrivilegesCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-privileges {user? : User ID or email}';
 
     protected $description = 'Display the privileges inherited by a specific user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->argument('user') ?? $this->ask('User ID or email');
 
         if (! $identifier) {

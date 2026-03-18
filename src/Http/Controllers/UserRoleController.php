@@ -3,21 +3,17 @@
 namespace HasinHayder\Tyro\Http\Controllers;
 
 use HasinHayder\Tyro\Models\Role;
-use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class UserRoleController extends Controller
-{
-    public function index($user)
-    {
+class UserRoleController extends Controller {
+    public function index($user) {
         $user = $this->resolveUser($user);
 
         return $user->load('roles');
     }
 
-    public function store(Request $request, $user)
-    {
+    public function store(Request $request, $user) {
         $user = $this->resolveUser($user);
         $data = $request->validate([
             'role_id' => 'required|integer',
@@ -31,16 +27,14 @@ class UserRoleController extends Controller
         return $user->load('roles');
     }
 
-    public function destroy($user, Role $role)
-    {
+    public function destroy($user, Role $role) {
         $user = $this->resolveUser($user);
         $user->removeRole($role);
 
         return $user->load('roles');
     }
 
-    protected function resolveUser($user)
-    {
+    protected function resolveUser($user) {
         $class = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
         if ($user instanceof $class) {

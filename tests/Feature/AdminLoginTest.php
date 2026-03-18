@@ -12,7 +12,7 @@ class AdminLoginTest extends TestCase {
             'password' => 'tyro',
         ]);
 
-        $response->assertJson(fn(AssertableJson $json) => $json
+        $response->assertJson(fn (AssertableJson $json) => $json
             ->where('error', 0)
             ->has('token')
             ->etc());
@@ -24,7 +24,7 @@ class AdminLoginTest extends TestCase {
             'password' => 'wrong-password',
         ]);
 
-        $response->assertJson(fn(AssertableJson $json) => $json
+        $response->assertJson(fn (AssertableJson $json) => $json
             ->where('error', 1)
             ->missing('token')
             ->has('message'));
@@ -44,7 +44,7 @@ class AdminLoginTest extends TestCase {
         ]);
 
         $response->assertStatus(423)
-            ->assertJson(fn(AssertableJson $json) => $json
+            ->assertJson(fn (AssertableJson $json) => $json
                 ->where('error', 1)
                 ->where('message', 'user is suspended'));
     }

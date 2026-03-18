@@ -4,10 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    public function up(): void
-    {
+return new class extends Migration {
+    public function up(): void {
         $userTable = config('tyro.tables.users', 'users');
 
         Schema::table($userTable, function (Blueprint $table) use ($userTable) {
@@ -21,8 +19,7 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
-    {
+    public function down(): void {
         $userTable = config('tyro.tables.users', 'users');
 
         Schema::table($userTable, function (Blueprint $table) use ($userTable) {

@@ -22,11 +22,11 @@ class InstallCommand extends BaseTyroCommand {
             return self::SUCCESS;
         }
 
-        if (!$this->runRequiredCommand('install:api')) {
+        if (! $this->runRequiredCommand('install:api')) {
             return self::FAILURE;
         }
 
-        if (!$this->runRequiredCommand('tyro:user-prepare')) {
+        if (! $this->runRequiredCommand('tyro:user-prepare')) {
             return self::FAILURE;
         }
 
@@ -36,22 +36,22 @@ class InstallCommand extends BaseTyroCommand {
             $arguments['--force'] = true;
         }
 
-        if (!$this->runRequiredCommand('migrate', $arguments)) {
+        if (! $this->runRequiredCommand('migrate', $arguments)) {
             return self::FAILURE;
         }
 
         if ($this->input->isInteractive()) {
             if ($this->confirm('Seed Tyro roles, privileges, and the bootstrap admin user now?', true)) {
-                if (!$this->runRequiredCommand('tyro:seed-all', ['--force' => true])) {
+                if (! $this->runRequiredCommand('tyro:seed-all', ['--force' => true])) {
                     return self::FAILURE;
                 }
             }
         } else {
-            if (!$this->runRequiredCommand('tyro:seed-roles', ['--force' => true])) {
+            if (! $this->runRequiredCommand('tyro:seed-roles', ['--force' => true])) {
                 return self::FAILURE;
             }
 
-            if (!$this->runRequiredCommand('tyro:seed-privileges', ['--force' => true])) {
+            if (! $this->runRequiredCommand('tyro:seed-privileges', ['--force' => true])) {
                 return self::FAILURE;
             }
         }

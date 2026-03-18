@@ -13,7 +13,7 @@ class UserCanDirective {
         $handler = function (string $ability) {
             $user = auth()->user();
 
-            if (!$user) {
+            if (! $user) {
                 return false;
             }
 

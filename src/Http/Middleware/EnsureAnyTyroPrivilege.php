@@ -7,10 +7,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class EnsureAnyTyroPrivilege
-{
-    public function handle(Request $request, Closure $next, string ...$privileges)
-    {
+class EnsureAnyTyroPrivilege {
+    public function handle(Request $request, Closure $next, string ...$privileges) {
         $user = $request->user();
 
         if (! $user) {
@@ -36,8 +34,7 @@ class EnsureAnyTyroPrivilege
         return $next($request);
     }
 
-    private function normalize(array $privileges): Collection
-    {
+    private function normalize(array $privileges): Collection {
         return collect($privileges)
             ->flatMap(function ($chunk) {
                 $parts = is_string($chunk) ? explode(',', $chunk) : (array) $chunk;
@@ -49,8 +46,7 @@ class EnsureAnyTyroPrivilege
             ->values();
     }
 
-    private function resolvePrivilegeSlugs($user): Collection
-    {
+    private function resolvePrivilegeSlugs($user): Collection {
         if (method_exists($user, 'tyroPrivilegeSlugs')) {
             return collect($user->tyroPrivilegeSlugs());
         }

@@ -13,7 +13,7 @@ class UserHasPrivilegeDirective {
         $handler = function (string $privilege) {
             $user = auth()->user();
 
-            if (!$user) {
+            if (! $user) {
                 return false;
             }
 

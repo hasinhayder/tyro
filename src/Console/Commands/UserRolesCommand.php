@@ -2,14 +2,12 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class UserRolesCommand extends BaseTyroCommand
-{
+class UserRolesCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-roles {user? : User ID or email}';
 
     protected $description = 'Display a user\'s Tyro roles and their attached privileges';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->argument('user') ?? $this->ask('User ID or email');
 
         if (! $identifier) {

@@ -5,10 +5,8 @@ namespace HasinHayder\Tyro\Database\Seeders;
 use HasinHayder\Tyro\Models\Role;
 use Illuminate\Database\Seeder;
 
-class RoleSeeder extends Seeder
-{
-    public function run(): void
-    {
+class RoleSeeder extends Seeder {
+    public function run(): void {
         $roles = [
             ['name' => 'Administrator', 'slug' => 'admin'],
             ['name' => 'User', 'slug' => 'user'],

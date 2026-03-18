@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Privilege>
  */
-class PrivilegeFactory extends Factory
-{
+class PrivilegeFactory extends Factory {
     protected $model = Privilege::class;
 
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'name' => $this->faker->unique()->words(2, true),
             'slug' => $this->faker->unique()->slug(2),

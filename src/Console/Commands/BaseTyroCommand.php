@@ -8,22 +8,18 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Process\Process;
 
-abstract class BaseTyroCommand extends Command
-{
-    protected function userClass(): string
-    {
+abstract class BaseTyroCommand extends Command {
+    protected function userClass(): string {
         return (string) config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }
 
-    protected function newUserQuery()
-    {
+    protected function newUserQuery() {
         $class = $this->userClass();
 
         return $class::query();
     }
 
-    protected function findUser(?string $identifier): ?Model
-    {
+    protected function findUser(?string $identifier): ?Model {
         if (! $identifier) {
             return null;
         }
@@ -37,8 +33,7 @@ abstract class BaseTyroCommand extends Command
         return $query->where('email', $identifier)->first();
     }
 
-    protected function findRole(?string $identifier): ?Role
-    {
+    protected function findRole(?string $identifier): ?Role {
         if (! $identifier) {
             return null;
         }
@@ -50,8 +45,7 @@ abstract class BaseTyroCommand extends Command
         return Role::query()->where('slug', $identifier)->first();
     }
 
-    protected function findPrivilege(?string $identifier): ?Privilege
-    {
+    protected function findPrivilege(?string $identifier): ?Privilege {
         if (! $identifier) {
             return null;
         }
@@ -63,13 +57,11 @@ abstract class BaseTyroCommand extends Command
         return Privilege::query()->where('slug', $identifier)->first();
     }
 
-    protected function defaultRole(): ?Role
-    {
+    protected function defaultRole(): ?Role {
         return Role::where('slug', config('tyro.default_user_role_slug', 'user'))->first();
     }
 
-    protected function openUrl(string $url): bool
-    {
+    protected function openUrl(string $url): bool {
         $command = match (PHP_OS_FAMILY) {
             'Darwin' => ['open', $url],
             'Windows' => ['cmd', '/c', 'start', '', $url],
@@ -88,8 +80,7 @@ abstract class BaseTyroCommand extends Command
         }
     }
 
-    protected function abilitiesForUser(Model $user): array
-    {
+    protected function abilitiesForUser(Model $user): array {
         if (! method_exists($user, 'roles')) {
             return ['*'];
         }

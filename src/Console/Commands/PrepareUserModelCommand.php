@@ -14,7 +14,7 @@ class PrepareUserModelCommand extends BaseTyroCommand {
     public function handle(): int {
         $path = $this->option('path') ?: app_path('Models/User.php');
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             $this->error(sprintf('User model not found at %s.', $path));
 
             return self::FAILURE;
@@ -45,13 +45,13 @@ class PrepareUserModelCommand extends BaseTyroCommand {
             'HasinHayder\\Tyro\\Concerns\\HasTyroRoles',
         ];
 
-        $missing = array_filter($imports, fn($import) => !Str::contains($contents, "use {$import};"));
+        $missing = array_filter($imports, fn ($import) => ! Str::contains($contents, "use {$import};"));
 
         if (empty($missing)) {
             return $contents;
         }
 
-        if (!preg_match('/namespace\s+[^;]+;\s*/', $contents, $namespaceMatch, PREG_OFFSET_CAPTURE)) {
+        if (! preg_match('/namespace\s+[^;]+;\s*/', $contents, $namespaceMatch, PREG_OFFSET_CAPTURE)) {
             return $contents;
         }
 
@@ -72,20 +72,20 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         $insert = '';
 
         foreach ($missing as $import) {
-            $insert .= 'use ' . $import . ';' . $lineEnding;
+            $insert .= 'use '.$import.';'.$lineEnding;
         }
 
         if ($insertionPoint === $namespaceEnd) {
-            $insert = $lineEnding . $lineEnding . $insert;
-        } elseif (!str_ends_with(substr($contents, 0, $insertionPoint), $lineEnding)) {
-            $insert = $lineEnding . $insert;
+            $insert = $lineEnding.$lineEnding.$insert;
+        } elseif (! str_ends_with(substr($contents, 0, $insertionPoint), $lineEnding)) {
+            $insert = $lineEnding.$insert;
         }
 
-        return substr_replace($contents, $insert . $lineEnding, $insertionPoint, 0);
+        return substr_replace($contents, $insert.$lineEnding, $insertionPoint, 0);
     }
 
     protected function ensureTraitUsage(string $contents): string {
-        if (!preg_match('/class\s+User[^\{]*\{/', $contents, $classMatch, PREG_OFFSET_CAPTURE)) {
+        if (! preg_match('/class\s+User[^\{]*\{/', $contents, $classMatch, PREG_OFFSET_CAPTURE)) {
             return $contents;
         }
 
@@ -101,8 +101,8 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         if (preg_match('/use\s+[^;]*HasApiTokens[^;]*;/', $classBody, $match, PREG_OFFSET_CAPTURE)) {
             $line = $match[0][0];
 
-            if (!Str::contains($line, 'HasTyroRoles')) {
-                $replacement = rtrim(substr($line, 0, -1)) . ', HasTyroRoles;';
+            if (! Str::contains($line, 'HasTyroRoles')) {
+                $replacement = rtrim(substr($line, 0, -1)).', HasTyroRoles;';
 
                 return substr_replace($contents, $replacement, $classStart + $match[0][1], strlen($line));
             }
@@ -113,8 +113,8 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         if (preg_match('/use\s+[^;]*HasTyroRoles[^;]*;/', $classBody, $match, PREG_OFFSET_CAPTURE)) {
             $line = $match[0][0];
 
-            if (!Str::contains($line, 'HasApiTokens')) {
-                $replacement = preg_replace('/use\s+/', 'use HasApiTokens, ', rtrim(substr($line, 0, -1)), 1) . ';';
+            if (! Str::contains($line, 'HasApiTokens')) {
+                $replacement = preg_replace('/use\s+/', 'use HasApiTokens, ', rtrim(substr($line, 0, -1)), 1).';';
 
                 return substr_replace($contents, $replacement, $classStart + $match[0][1], strlen($line));
             }
@@ -123,7 +123,7 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         }
 
         $lineEnding = str_contains($contents, "\r\n") ? "\r\n" : "\n";
-        $insertion = $lineEnding . '    use HasApiTokens, HasTyroRoles;' . $lineEnding . $lineEnding;
+        $insertion = $lineEnding.'    use HasApiTokens, HasTyroRoles;'.$lineEnding.$lineEnding;
 
         return substr_replace($contents, $insertion, $classStart, 0);
     }

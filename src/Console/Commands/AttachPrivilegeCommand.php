@@ -2,10 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-use HasinHayder\Tyro\Support\TyroCache;
-
-class AttachPrivilegeCommand extends BaseTyroCommand
-{
+class AttachPrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-attach {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
 
@@ -13,8 +10,7 @@ class AttachPrivilegeCommand extends BaseTyroCommand
 
     protected $description = 'Attach a privilege to a Tyro role';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $privilegeIdentifier = $this->argument('privilege');
         $roleIdentifier = $this->argument('role');
 

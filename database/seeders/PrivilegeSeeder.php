@@ -7,10 +7,8 @@ use HasinHayder\Tyro\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
-class PrivilegeSeeder extends Seeder
-{
-    public function run(): void
-    {
+class PrivilegeSeeder extends Seeder {
+    public function run(): void {
         $definitions = [
             [
                 'name' => 'Generate Reports',

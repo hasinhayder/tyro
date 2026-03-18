@@ -2,18 +2,14 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-use HasinHayder\Tyro\Support\TyroCache;
-
-class AssignRoleCommand extends BaseTyroCommand
-{
+class AssignRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-assign {--user=} {--role=}';
 
     protected $aliases = ['tyro:assign-role'];
 
     protected $description = 'Attach a role to a user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $userIdentifier = $this->option('user') ?? $this->ask('User ID or email');
         $roleIdentifier = $this->option('role') ?? $this->ask('Role ID or slug');
 

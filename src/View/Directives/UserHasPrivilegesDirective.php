@@ -13,7 +13,7 @@ class UserHasPrivilegesDirective {
         $handler = function (...$privileges) {
             $user = auth()->user();
 
-            if (!$user || !method_exists($user, 'hasPrivileges')) {
+            if (! $user || ! method_exists($user, 'hasPrivileges')) {
                 return false;
             }
 

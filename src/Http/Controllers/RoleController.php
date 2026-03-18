@@ -7,15 +7,12 @@ use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class RoleController extends Controller
-{
-    public function index()
-    {
+class RoleController extends Controller {
+    public function index() {
         return Role::all();
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $data = $request->validate([
             'name' => 'required|string',
             'slug' => 'required|string',
@@ -30,13 +27,11 @@ class RoleController extends Controller
         return response(['error' => 1, 'message' => 'role already exists'], 409);
     }
 
-    public function show(Role $role)
-    {
+    public function show(Role $role) {
         return $role;
     }
 
-    public function update(Request $request, ?Role $role = null)
-    {
+    public function update(Request $request, ?Role $role = null) {
         if (! $role) {
             return response(['error' => 1, 'message' => 'role doesn\'t exist'], 404);
         }
@@ -60,8 +55,7 @@ class RoleController extends Controller
         return $role;
     }
 
-    public function destroy(Role $role)
-    {
+    public function destroy(Role $role) {
         $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
         if (in_array($role->slug, $protected, true)) {
             return response(['error' => 1, 'message' => 'you cannot delete this role'], 422);

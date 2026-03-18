@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Illuminate\Support\Carbon;
 
-class SuspendedUsersCommand extends BaseTyroCommand
-{
+class SuspendedUsersCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-suspended';
 
     protected $aliases = ['tyro:suspended-users'];
 
     protected $description = 'List every Tyro user currently suspended';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $users = $this->newUserQuery()
             ->whereNotNull('suspended_at')
             ->orderByDesc('suspended_at')
@@ -41,8 +39,7 @@ class SuspendedUsersCommand extends BaseTyroCommand
         return self::SUCCESS;
     }
 
-    protected function formatTimestamp($value): string
-    {
+    protected function formatTimestamp($value): string {
         if (! $value) {
             return 'N/A';
         }

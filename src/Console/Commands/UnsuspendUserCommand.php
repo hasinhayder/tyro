@@ -2,8 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-class UnsuspendUserCommand extends BaseTyroCommand
-{
+class UnsuspendUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-unsuspend
         {--user= : User ID or email address}
         {--force : Skip confirmation prompts}';
@@ -12,8 +11,7 @@ class UnsuspendUserCommand extends BaseTyroCommand
 
     protected $description = 'Lift the suspension for a Tyro user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
 
         if (! $identifier) {

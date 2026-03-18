@@ -6,16 +6,14 @@ use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\Support\TyroAudit;
 use HasinHayder\Tyro\Support\TyroCache;
 
-class DeleteUserCommand extends BaseTyroCommand
-{
+class DeleteUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-delete {--user=} {--force}';
 
     protected $aliases = ['tyro:delete-user'];
 
     protected $description = 'Delete a user while respecting the admin guardrails';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
         $user = $this->findUser($identifier);
 

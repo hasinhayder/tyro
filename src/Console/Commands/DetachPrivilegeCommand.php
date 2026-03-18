@@ -2,10 +2,7 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-use HasinHayder\Tyro\Support\TyroCache;
-
-class DetachPrivilegeCommand extends BaseTyroCommand
-{
+class DetachPrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-detach {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
 
@@ -13,8 +10,7 @@ class DetachPrivilegeCommand extends BaseTyroCommand
 
     protected $description = 'Detach a privilege from a Tyro role';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $privilegeIdentifier = $this->argument('privilege');
         $roleIdentifier = $this->argument('role');
 

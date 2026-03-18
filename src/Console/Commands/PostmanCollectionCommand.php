@@ -12,10 +12,10 @@ class PostmanCollectionCommand extends BaseTyroCommand {
     private const COLLECTION_URL = 'https://github.com/hasinhayder/tyro/blob/main/Tyro.postman_collection.json';
 
     public function handle(): int {
-        if (!$this->option('no-open') && $this->openUrl(self::COLLECTION_URL)) {
+        if (! $this->option('no-open') && $this->openUrl(self::COLLECTION_URL)) {
             $this->info('Opening the Tyro Postman collection...');
         } else {
-            $this->line('Postman collection: ' . self::COLLECTION_URL);
+            $this->line('Postman collection: '.self::COLLECTION_URL);
         }
 
         return self::SUCCESS;

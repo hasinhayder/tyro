@@ -6,15 +6,12 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class TyroLog
-{
-    public function handle(Request $request, Closure $next)
-    {
+class TyroLog {
+    public function handle(Request $request, Closure $next) {
         return $next($request);
     }
 
-    public function terminate($request, $response): void
-    {
+    public function terminate($request, $response): void {
         if (! config('app.debug', false)) {
             return;
         }

@@ -23,7 +23,7 @@ class LoginCommand extends BaseTyroCommand {
         $password = $this->option('password') ?? $this->secret('Password');
         $tokenName = $this->option('name') ?: 'Tyro CLI Token';
 
-        if (!$identifier || !$password) {
+        if (! $identifier || ! $password) {
             $this->error('A user identifier and password are required.');
 
             return self::FAILURE;
@@ -31,7 +31,7 @@ class LoginCommand extends BaseTyroCommand {
 
         $user = $this->findUser($identifier);
 
-        if (!$user || !Hash::check($password, $user->password)) {
+        if (! $user || ! Hash::check($password, $user->password)) {
             $this->error('Invalid credentials.');
 
             return self::FAILURE;
@@ -48,7 +48,7 @@ class LoginCommand extends BaseTyroCommand {
 
             $message = 'User is suspended.';
             if ($reason) {
-                $message .= ' Reason: ' . $reason;
+                $message .= ' Reason: '.$reason;
             }
 
             $this->error($message);
@@ -65,7 +65,7 @@ class LoginCommand extends BaseTyroCommand {
 
         TyroAudit::log('user.token_created', $user, null, ['token_name' => $tokenName]);
 
-        $this->info('Token: ' . $token);
+        $this->info('Token: '.$token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));
 
         return self::SUCCESS;

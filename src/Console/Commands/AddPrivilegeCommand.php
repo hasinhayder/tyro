@@ -4,8 +4,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\Privilege;
 
-class AddPrivilegeCommand extends BaseTyroCommand
-{
+class AddPrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-create {slug? : Unique slug for the privilege}
         {--name= : Readable name for the privilege}
         {--description= : Optional description for the privilege}';
@@ -14,8 +13,7 @@ class AddPrivilegeCommand extends BaseTyroCommand
 
     protected $description = 'Create a new Tyro privilege record';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $slug = $this->argument('slug') ?? $this->ask('Privilege slug');
 
         if (! $slug) {

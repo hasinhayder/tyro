@@ -15,7 +15,7 @@ class QuickTokenCommand extends BaseTyroCommand {
         $identifier = $this->argument('user') ?? $this->ask('User ID or email');
         $tokenName = $this->option('name') ?: 'Tyro Quick Token';
 
-        if (!$identifier) {
+        if (! $identifier) {
             $this->error('A user identifier is required.');
 
             return self::FAILURE;
@@ -23,7 +23,7 @@ class QuickTokenCommand extends BaseTyroCommand {
 
         $user = $this->findUser($identifier);
 
-        if (!$user) {
+        if (! $user) {
             $this->error('User not found.');
 
             return self::FAILURE;
@@ -40,7 +40,7 @@ class QuickTokenCommand extends BaseTyroCommand {
 
             $message = 'User is suspended.';
             if ($reason) {
-                $message .= ' Reason: ' . $reason;
+                $message .= ' Reason: '.$reason;
             }
 
             $this->error($message);
@@ -56,10 +56,10 @@ class QuickTokenCommand extends BaseTyroCommand {
 
         TyroAudit::log('user.token_created', $user, null, [
             'token_name' => $tokenName,
-            'type' => 'quick_token'
+            'type' => 'quick_token',
         ]);
 
-        $this->info('Token: ' . $token);
+        $this->info('Token: '.$token);
         $this->line(sprintf('User #%s (%s) now has a new token named "%s".', $user->id, $user->email, $tokenName));
 
         return self::SUCCESS;

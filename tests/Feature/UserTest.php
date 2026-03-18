@@ -35,7 +35,7 @@ class UserTest extends TestCase {
             'password' => 'testpassword123',
         ]);
 
-        $response->assertJson(fn(AssertableJson $json) => $json
+        $response->assertJson(fn (AssertableJson $json) => $json
             ->where('email', 'test@test.com')
             ->where('name', 'Test User')
             ->etc());
@@ -46,7 +46,7 @@ class UserTest extends TestCase {
             'password' => 'testpassword123',
         ]);
 
-        $duplicate->assertJson(fn(AssertableJson $json) => $json->where('error', 1)->where('message', 'user already exists'));
+        $duplicate->assertJson(fn (AssertableJson $json) => $json->where('error', 1)->where('message', 'user already exists'));
     }
 
     public function test_user_login_and_update_self(): void {
@@ -63,10 +63,10 @@ class UserTest extends TestCase {
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $update = $this->withHeader('Authorization', 'Bearer ' . $data['token'])
-            ->put('/api/users/' . $data['id'], ['name' => 'Mini Me']);
+        $update = $this->withHeader('Authorization', 'Bearer '.$data['token'])
+            ->put('/api/users/'.$data['id'], ['name' => 'Mini Me']);
 
-        $update->assertJson(fn(AssertableJson $json) => $json->where('name', 'Mini Me')->etc());
+        $update->assertJson(fn (AssertableJson $json) => $json->where('name', 'Mini Me')->etc());
     }
 
     public function test_admin_can_update_any_user_and_delete(): void {
@@ -78,22 +78,22 @@ class UserTest extends TestCase {
 
         $this->loginAdmin();
 
-        $update = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->put('/api/users/' . $target->id, ['name' => 'Admin Updated']);
+        $update = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->put('/api/users/'.$target->id, ['name' => 'Admin Updated']);
 
-        $update->assertJson(fn(AssertableJson $json) => $json->where('name', 'Admin Updated')->etc());
+        $update->assertJson(fn (AssertableJson $json) => $json->where('name', 'Admin Updated')->etc());
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->delete('/api/users/' . $target->id);
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->delete('/api/users/'.$target->id);
 
-        $response->assertJson(fn(AssertableJson $json) => $json->where('error', 0)->where('message', 'user deleted'));
+        $response->assertJson(fn (AssertableJson $json) => $json->where('error', 0)->where('message', 'user deleted'));
     }
 
     public function test_cannot_delete_last_admin(): void {
         $this->loginAdmin();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->delete('/api/users/' . $this->userId);
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->delete('/api/users/'.$this->userId);
 
         $response->assertStatus(409);
     }
@@ -110,11 +110,11 @@ class UserTest extends TestCase {
 
         $this->loginAdmin();
 
-        $suspend = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->postJson('/api/users/' . $target->id . '/suspend', ['reason' => 'Policy review']);
+        $suspend = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->postJson('/api/users/'.$target->id.'/suspend', ['reason' => 'Policy review']);
 
         $suspend->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json
+            ->assertJson(fn (AssertableJson $json) => $json
                 ->where('status', 'suspended')
                 ->where('reason', 'Policy review')
                 ->where('revoked_tokens', 2)
@@ -123,11 +123,11 @@ class UserTest extends TestCase {
         $this->assertNotNull($target->fresh()->suspended_at);
         $this->assertSame(0, $target->fresh()->tokens()->count());
 
-        $unsuspend = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->delete('/api/users/' . $target->id . '/suspend');
+        $unsuspend = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->delete('/api/users/'.$target->id.'/suspend');
 
         $unsuspend->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json
+            ->assertJson(fn (AssertableJson $json) => $json
                 ->where('status', 'active')
                 ->etc());
 
@@ -159,8 +159,8 @@ class UserTest extends TestCase {
 
         $token = json_decode($login->getContent(), true, 512, JSON_THROW_ON_ERROR)['token'];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->postJson('/api/users/' . $target->id . '/suspend', ['reason' => 'Nope']);
+        $response = $this->withHeader('Authorization', 'Bearer '.$token)
+            ->postJson('/api/users/'.$target->id.'/suspend', ['reason' => 'Nope']);
 
         $response->assertStatus(403);
         $this->assertNull($target->fresh()->suspended_at);
@@ -193,8 +193,8 @@ class UserTest extends TestCase {
         $token = $loginData['token'];
 
         // Try to update the user and set email_verified_at
-        $update = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->put('/api/users/' . $userId, [
+        $update = $this->withHeader('Authorization', 'Bearer '.$token)
+            ->put('/api/users/'.$userId, [
                 'name' => 'Verified User',
                 'email_verified_at' => now()->toDateTimeString(),
             ]);
@@ -239,8 +239,8 @@ class UserTest extends TestCase {
         $token = $loginData['token'];
 
         // Try to update user 2 with email_verified_at (should fail authorization)
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->put('/api/users/' . $user2Id, [
+        $response = $this->withHeader('Authorization', 'Bearer '.$token)
+            ->put('/api/users/'.$user2Id, [
                 'name' => 'Hacked User Two',
                 'email_verified_at' => now()->toDateTimeString(),
             ]);

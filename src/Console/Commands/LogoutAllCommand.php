@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\TyroAudit;
 
-class LogoutAllCommand extends BaseTyroCommand
-{
+class LogoutAllCommand extends BaseTyroCommand {
     protected $signature = 'tyro:auth-logout-all {--user=} {--force}';
 
     protected $aliases = ['tyro:logout-all'];
 
     protected $description = 'Delete every Sanctum token for a specific user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');
 
         if (! $identifier) {

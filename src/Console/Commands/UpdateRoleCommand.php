@@ -6,16 +6,14 @@ use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\Support\TyroCache;
 use Illuminate\Support\Str;
 
-class UpdateRoleCommand extends BaseTyroCommand
-{
+class UpdateRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-update {--role=} {--name=} {--slug=}';
 
     protected $aliases = ['tyro:update-role'];
 
     protected $description = 'Update a role name or slug';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('role') ?? $this->ask('Role ID or slug');
 
         if (! $identifier) {

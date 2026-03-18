@@ -14,13 +14,13 @@ class SeedCommand extends BaseTyroCommand {
     protected $description = 'Seed default roles, privileges, and bootstrap admin user';
 
     public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('This will seed roles, privileges, and the admin user. Are you sure to continue?', false)) {
+        if (! $this->option('force') && ! $this->confirm('This will seed roles, privileges, and the admin user. Are you sure to continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;
         }
 
-        $seeder = new TyroSeeder();
+        $seeder = new TyroSeeder;
         $seeder->setContainer($this->laravel)->setCommand($this);
         $seeder->run();
         TyroCache::forgetAllUsersWithRoles();

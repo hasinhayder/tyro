@@ -4,8 +4,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Models\AuditLog;
 
-class ListAuditLogsCommand extends BaseTyroCommand
-{
+class ListAuditLogsCommand extends BaseTyroCommand {
     protected $signature = 'tyro:audit-list 
                             {--limit=20 : Number of logs to display} 
                             {--event= : Filter by event type}
@@ -16,8 +15,7 @@ class ListAuditLogsCommand extends BaseTyroCommand
 
     protected $description = 'Display recent Tyro audit logs';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $query = AuditLog::query()->latest();
 
         if ($event = $this->option('event')) {
@@ -36,6 +34,7 @@ class ListAuditLogsCommand extends BaseTyroCommand
 
         if ($logs->isEmpty()) {
             $this->warn('No audit logs found.');
+
             return self::SUCCESS;
         }
 

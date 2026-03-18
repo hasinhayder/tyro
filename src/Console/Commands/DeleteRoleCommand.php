@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use HasinHayder\Tyro\Support\TyroCache;
 
-class DeleteRoleCommand extends BaseTyroCommand
-{
+class DeleteRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-delete {--role=} {--force}';
 
     protected $aliases = ['tyro:delete-role'];
 
     protected $description = 'Delete a role (except the protected ones)';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $identifier = $this->option('role') ?? $this->ask('Role ID or slug');
         $role = $this->findRole($identifier);
 

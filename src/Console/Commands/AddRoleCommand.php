@@ -5,16 +5,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 use HasinHayder\Tyro\Models\Role;
 use Illuminate\Support\Str;
 
-class AddRoleCommand extends BaseTyroCommand
-{
+class AddRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-create {--name=} {--slug=}';
 
     protected $aliases = ['tyro:create-role'];
 
     protected $description = 'Create a new role';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $name = $this->option('name') ?? $this->ask('Role name');
         if (! $name) {
             $this->error('Role name is required.');

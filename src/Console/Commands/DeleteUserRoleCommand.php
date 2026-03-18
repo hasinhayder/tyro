@@ -2,18 +2,14 @@
 
 namespace HasinHayder\Tyro\Console\Commands;
 
-use HasinHayder\Tyro\Support\TyroCache;
-
-class DeleteUserRoleCommand extends BaseTyroCommand
-{
+class DeleteUserRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-remove {--user=} {--role=}';
 
     protected $aliases = ['tyro:delete-user-role'];
 
     protected $description = 'Detach a role from a user';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $userIdentifier = $this->option('user') ?? $this->ask('User ID or email');
         $roleIdentifier = $this->option('role') ?? $this->ask('Role ID or slug');
 

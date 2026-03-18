@@ -4,16 +4,14 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Laravel\Sanctum\PersonalAccessToken;
 
-class MeCommand extends BaseTyroCommand
-{
+class MeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:auth-me {token?} {--token=}';
 
     protected $aliases = ['tyro:me'];
 
     protected $description = 'Inspect which user a given token belongs to';
 
-    public function handle(): int
-    {
+    public function handle(): int {
         $tokenInput = $this->argument('token') ?? $this->option('token') ?? $this->ask('Paste the full Sanctum token');
 
         if (! $tokenInput) {

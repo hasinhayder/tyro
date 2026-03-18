@@ -49,7 +49,6 @@ use HasinHayder\Tyro\Console\Commands\UpdateUserCommand;
 use HasinHayder\Tyro\Console\Commands\UserPrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\UserRolesCommand;
 use HasinHayder\Tyro\Console\Commands\VersionCommand;
-
 use HasinHayder\Tyro\Http\Middleware\EnsureAnyTyroPrivilege;
 use HasinHayder\Tyro\Http\Middleware\EnsureAnyTyroRole;
 use HasinHayder\Tyro\Http\Middleware\EnsureTyroPrivilege;
@@ -72,7 +71,7 @@ use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
 class TyroServiceProvider extends ServiceProvider {
     public function register(): void {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/tyro.php', 'tyro');
+        $this->mergeConfigFrom(__DIR__.'/../../config/tyro.php', 'tyro');
     }
 
     public function boot(): void {
@@ -85,8 +84,8 @@ class TyroServiceProvider extends ServiceProvider {
         $this->registerObservers();
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-            $this->loadFactoriesFrom(__DIR__ . '/../../database/factories');
+            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+            $this->loadFactoriesFrom(__DIR__.'/../../database/factories');
         }
     }
 
@@ -95,7 +94,7 @@ class TyroServiceProvider extends ServiceProvider {
             return;
         }
 
-        if (!config('tyro.load_default_routes', true)) {
+        if (! config('tyro.load_default_routes', true)) {
             return;
         }
 
@@ -104,7 +103,7 @@ class TyroServiceProvider extends ServiceProvider {
             'middleware' => config('tyro.route_middleware', ['api']),
             'as' => config('tyro.route_name_prefix', 'tyro.'),
         ], function (): void {
-            $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+            $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
         });
     }
 
@@ -117,11 +116,11 @@ class TyroServiceProvider extends ServiceProvider {
         $router->aliasMiddleware('role', EnsureTyroRole::class);
         $router->aliasMiddleware('roles', EnsureAnyTyroRole::class);
 
-        if (!array_key_exists('ability', $router->getMiddleware())) {
+        if (! array_key_exists('ability', $router->getMiddleware())) {
             $router->aliasMiddleware('ability', CheckForAnyAbility::class);
         }
 
-        if (!array_key_exists('abilities', $router->getMiddleware())) {
+        if (! array_key_exists('abilities', $router->getMiddleware())) {
             $router->aliasMiddleware('abilities', CheckAbilities::class);
         }
     }
@@ -138,30 +137,30 @@ class TyroServiceProvider extends ServiceProvider {
     }
 
     protected function registerPublishing(): void {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
         $this->publishes([
-            __DIR__ . '/../../config/tyro.php' => config_path('tyro.php'),
+            __DIR__.'/../../config/tyro.php' => config_path('tyro.php'),
         ], 'tyro-config');
 
         $this->publishes([
-            __DIR__ . '/../../database/migrations/' => database_path('migrations'),
+            __DIR__.'/../../database/migrations/' => database_path('migrations'),
         ], 'tyro-migrations');
 
         $this->publishes([
-            __DIR__ . '/../../database/seeders/' => database_path('seeders'),
-            __DIR__ . '/../../database/factories/' => database_path('factories'),
+            __DIR__.'/../../database/seeders/' => database_path('seeders'),
+            __DIR__.'/../../database/factories/' => database_path('factories'),
         ], 'tyro-database');
 
         $this->publishes([
-            __DIR__ . '/../../resources/' => resource_path('vendor/tyro'),
+            __DIR__.'/../../resources/' => resource_path('vendor/tyro'),
         ], 'tyro-assets');
     }
 
     protected function registerCommands(): void {
-        if (!$this->app->runningInConsole() || config('tyro.disable_commands', false)) {
+        if (! $this->app->runningInConsole() || config('tyro.disable_commands', false)) {
             return;
         }
 
