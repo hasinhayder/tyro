@@ -783,6 +783,16 @@ body {
     line-height: 1.8;
     color: #e2e8f0;
     overflow-x: auto;
+    white-space: pre;
+    margin: 0;
+}
+
+.code-block-content code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    white-space: pre;
 }
 
 .code-block-content .cmt { color: #64748b; }
@@ -799,6 +809,28 @@ body {
 
 .code-tab-content { display: none; }
 .code-tab-content.active { display: block; }
+
+/* Preserve code formatting in tabs */
+.code-block-content .code-tab-content {
+    white-space: pre;
+    padding: 0;
+    margin: 0;
+}
+
+/* Tabs wrapper in setup section */
+.code-block-tabs-wrapper {
+    padding: 24px;
+    padding-top: 0;
+}
+
+.code-block-tabs-wrapper .code-block-content {
+    padding: 0;
+    margin: 0;
+}
+
+.code-block-tabs-wrapper .code-block-content.active {
+    display: block;
+}
 
 /* ─── Matrix Grid ─── */
 .matrix-grid {

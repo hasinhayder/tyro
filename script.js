@@ -74,11 +74,22 @@ document.querySelectorAll('.code-block-bar-tab').forEach(tab => {
         const target = tab.dataset.tab;
         const container = tab.closest('.code-block');
 
+        // Find all tabs in this code block
         container.querySelectorAll('.code-block-bar-tab').forEach(t => t.classList.remove('active'));
-        container.querySelectorAll('.code-tab-content').forEach(c => c.classList.remove('active'));
-
         tab.classList.add('active');
-        container.querySelector(`#${target}`)?.classList.add('active');
+
+        // Handle both tab structures:
+        // 1. code-tab-content inside code-block-content
+        // 2. code-block-content as direct children of tabs-wrapper
+        const tabsWrapper = container.querySelector('.code-block-tabs-wrapper');
+        if (tabsWrapper) {
+            tabsWrapper.querySelectorAll('.code-tab-content, .code-block-content').forEach(c => c.classList.remove('active'));
+            const targetEl = tabsWrapper.querySelector(`#${target}`);
+            if (targetEl) targetEl.classList.add('active');
+        } else {
+            container.querySelectorAll('.code-tab-content').forEach(c => c.classList.remove('active'));
+            container.querySelector(`#${target}`)?.classList.add('active');
+        }
     });
 });
 
