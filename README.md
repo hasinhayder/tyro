@@ -1,6 +1,6 @@
 # Tyro
 
-**Tyro** is a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, 7 Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
+**Tyro** is a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12 and 13. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, 7 Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
 
 ### Related Resources
 
@@ -25,7 +25,7 @@ Tyro is the complete auth and access control toolkit that works everywhere in yo
 ## Requirements
 
 -   PHP ^8.2
--   Laravel ^12.0
+-   Laravel 12.0 or Laravel 13
 -   Laravel Sanctum ^4.0
 
 ## Quick start (TL;DR)
@@ -63,7 +63,7 @@ php artisan tyro:sys-install
 
 `tyro:sys-install` is the one command you need to bootstrap Tyro on a fresh project. Under the hood it:
 
-1. Calls Laravel 12's `install:api` so Sanctum's config, migration, and middleware stack are registered.
+1. Calls Laravel's `install:api` so Sanctum's config, migration, and middleware stack are registered.
 2. Runs `php artisan migrate` (respecting `--force` when you provide it) to apply both Laravel's and Tyro's database tables.
 3. Prompts to execute `tyro:seed-all --force`, inserting the default role/privilege catalog plus the bootstrap admin account.
 4. Offers to run `tyro:user-prepare` immediately if you skip seeding so the correct traits and imports land on your user model.
