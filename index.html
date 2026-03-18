@@ -29,6 +29,7 @@
             </button>
             <div class="navbar-links" id="navbarLinks">
                 <a href="#features" class="navbar-link">Features</a>
+                <a href="#rbac" class="navbar-link">RBAC</a>
                 <a href="#commands" class="navbar-link">Commands</a>
                 <a href="#directives" class="navbar-link">Directives</a>
                 <a href="doc.html" class="navbar-link">Docs</a>
@@ -340,6 +341,284 @@
                     </div>
                     <h3>Zero Lock-in</h3>
                     <p>Publish config, migrations, and factories. Disable CLI commands or API routes per environment. Adapt to your architecture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ GRANULAR ROLES & PRIVILEGES ═══════ -->
+    <section id="rbac" class="section-block">
+        <div class="section-block-inner">
+            <div class="reveal" style="text-align:center; margin-bottom: 64px;">
+                <span class="section-eyebrow">Fine-Grained Control</span>
+                <h2 class="section-heading">Granular Roles &<br><span class="accent">Privilege Control</span></h2>
+                <p class="section-lead" style="margin:0 auto; max-width: 680px;">The <code style="background: var(--color-bg-secondary); padding: 2px 8px; border-radius: 4px; font-size: 0.9em;">HasTyroRoles</code> trait gives your User model a complete API for checking roles, privileges, and managing access. One trait, endless possibilities.</p>
+            </div>
+
+            <!-- Role Checking Methods -->
+            <div class="feature-split reveal">
+                <div class="split-text-col">
+                    <div class="feature-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Role Methods
+                    </div>
+                    <h3 class="feature-title">Check roles<br><span class="muted">with precision.</span></h3>
+                    <p class="feature-desc">Verify single or multiple roles with intuitive methods. Wildcard support lets you match patterns. All role checks are cached for optimal performance.</p>
+                    <div class="rbac-methods">
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">hasRole()</span>
+                            <span class="rbac-method-desc">Check single role</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">hasRoles()</span>
+                            <span class="rbac-method-desc">Require ALL roles</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">hasAnyRole()</span>
+                            <span class="rbac-method-desc">Match ANY role</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">tyroRoleSlugs()</span>
+                            <span class="rbac-method-desc">Get all role slugs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-code-col">
+                    <div class="code-block">
+                        <div class="code-block-bar">
+                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                            <span class="code-block-bar-label">Role Checks</span>
+                        </div>
+                        <pre class="code-block-content"><code><span class="cmt">// Check if user has a specific role</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'admin'</span>)) {
+    <span class="cmt">// User is an admin</span>
+}
+
+<span class="cmt">// Wildcard matching</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'*-admin'</span>)) {
+    <span class="cmt">// Matches super-admin, content-admin, etc.</span>
+}
+
+<span class="cmt">// Check multiple roles (user must have ALL)</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRoles</span>([<span class="str">'admin'</span>, <span class="str">'billing-manager'</span>])) {
+    <span class="cmt">// User has both roles</span>
+}
+
+<span class="cmt">// Check if user has ANY of the roles</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasAnyRole</span>(<span class="str">'editor'</span>, <span class="str">'author'</span>, <span class="str">'contributor'</span>)) {
+    <span class="cmt">// User has at least one</span>
+}
+
+<span class="cmt">// Get all role slugs (cached)</span>
+<span class="var">$roles</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">tyroRoleSlugs</span>();
+<span class="cmt">// Returns: ['admin', 'editor']</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privilege Checking Methods -->
+            <div class="feature-split reverse reveal" style="margin-top: 120px;">
+                <div class="split-text-col">
+                    <div class="feature-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        Privilege Methods
+                    </div>
+                    <h3 class="feature-title">Fine-grained<br><span class="muted">permissions.</span></h3>
+                    <p class="feature-desc">Privileges are inherited through roles. Check specific abilities like <code>reports.run</code> or <code>users.delete</code>. The unified <code>can()</code> method checks privileges first, then roles, then falls back to Laravel Gate.</p>
+                    <div class="rbac-methods">
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">hasPrivilege()</span>
+                            <span class="rbac-method-desc">Check single privilege</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">hasPrivileges()</span>
+                            <span class="rbac-method-desc">Require ALL privileges</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">can()</span>
+                            <span class="rbac-method-desc">Unified check (Gate)</span>
+                        </div>
+                        <div class="rbac-method">
+                            <span class="rbac-method-name">tyroPrivilegeSlugs()</span>
+                            <span class="rbac-method-desc">Get all privilege slugs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-code-col">
+                    <div class="code-block">
+                        <div class="code-block-bar">
+                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                            <span class="code-block-bar-label">Privilege Checks</span>
+                        </div>
+                        <pre class="code-block-content"><code><span class="cmt">// Check single privilege via Gate integration</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'reports.run'</span>)) {
+    <span class="cmt">// User can run reports</span>
+}
+
+<span class="cmt">// Direct privilege check</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasPrivilege</span>(<span class="str">'users.delete'</span>)) {
+    <span class="cmt">// User has delete-users privilege</span>
+}
+
+<span class="cmt">// Require ALL privileges</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
+    <span class="cmt">// User has BOTH privileges</span>
+}
+
+<span class="cmt">// Get all privilege slugs (cached)</span>
+<span class="var">$privileges</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">tyroPrivilegeSlugs</span>();
+<span class="cmt">// Returns: ['reports.run', 'billing.view', ...]</span>
+
+<span class="cmt">// can() checks privilege, then role, then Gate</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'admin'</span>)) {
+    <span class="cmt">// Checks if user has 'admin' privilege OR 'admin' role</span>
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programmatic Management -->
+            <div class="feature-split reveal" style="margin-top: 120px;">
+                <div class="split-text-col">
+                    <div class="feature-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        Programmatic Control
+                    </div>
+                    <h3 class="feature-title">Manage roles &<br><span class="muted">privileges at runtime.</span></h3>
+                    <p class="feature-desc">Assign and remove roles dynamically. Attach privileges to roles. Build admin panels, self-service portals, or automated permission workflows with the full Role and Privilege model APIs.</p>
+                    <div class="check-list">
+                        <div class="check-item">
+                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Assign/remove roles without detaching existing ones</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Attach/detach privileges to roles</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Role model has hasPrivilege() and hasPrivileges()</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-code-col">
+                    <div class="code-block">
+                        <div class="code-block-bar">
+                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                            <span class="code-block-bar-label">Runtime Management</span>
+                        </div>
+                        <pre class="code-block-content"><code><span class="kw">use</span> <span class="cls">HasinHayder\Tyro\Models\Role</span>;
+<span class="kw">use</span> <span class="cls">HasinHayder\Tyro\Models\Privilege</span>;
+
+<span class="cmt">// Assign role to user</span>
+<span class="var">$role</span> <span class="op">=</span> <span class="cls">Role</span><span class="op">::</span><span class="fn">where</span>(<span class="str">'slug'</span>, <span class="str">'editor'</span>)-><span class="fn">first</span>();
+<span class="var">$user</span><span class="op">-></span><span class="fn">assignRole</span>(<span class="var">$role</span>);
+
+<span class="cmt">// Remove role from user</span>
+<span class="var">$user</span><span class="op">-></span><span class="fn">removeRole</span>(<span class="var">$role</span>);
+
+<span class="cmt">// Attach privilege to role</span>
+<span class="var">$privilege</span> <span class="op">=</span> <span class="cls">Privilege</span><span class="op">::</span><span class="fn">where</span>(<span class="str">'slug'</span>, <span class="str">'reports.export'</span>)-><span class="fn">first</span>();
+<span class="var">$role</span><span class="op">-></span><span class="fn">privileges</span>()-><span class="fn">attach</span>(<span class="var">$privilege</span>-><span class="prop">id</span>);
+
+<span class="cmt">// Detach privilege from role</span>
+<span class="var">$role</span><span class="op">-></span><span class="fn">privileges</span>()-><span class="fn">detach</span>(<span class="var">$privilege</span>-><span class="prop">id</span>);
+
+<span class="cmt">// Check if role has a privilege</span>
+<span class="kw">if</span> (<span class="var">$role</span><span class="op">-></span><span class="fn">hasPrivilege</span>(<span class="str">'reports.run'</span>)) {
+    <span class="cmt">// Role has this privilege</span>
+}
+
+<span class="cmt">// Check if role has ALL privileges</span>
+<span class="kw">if</span> (<span class="var">$role</span><span class="op">-></span><span class="fn">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
+    <span class="cmt">// Role has both</span>
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Method Reference -->
+            <div class="reveal" style="margin-top: 120px;">
+                <h3 style="text-align: center; font-size: 1.25rem; font-weight: 600; margin-bottom: 40px; color: var(--color-text);">HasTyroRoles Trait Reference</h3>
+                <div class="method-reference-grid">
+                    <div class="method-reference-col">
+                        <h4 class="method-col-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Role Methods
+                        </h4>
+                        <div class="method-item">
+                            <code>roles(): BelongsToMany</code>
+                            <span>Eager-loadable relationship</span>
+                        </div>
+                        <div class="method-item">
+                            <code>assignRole(Role $role)</code>
+                            <span>Attach role to user</span>
+                        </div>
+                        <div class="method-item">
+                            <code>removeRole(Role $role)</code>
+                            <span>Detach role from user</span>
+                        </div>
+                        <div class="method-item">
+                            <code>hasRole(string): bool</code>
+                            <span>Check single role (wildcard *)</span>
+                        </div>
+                        <div class="method-item">
+                            <code>hasRoles(array): bool</code>
+                            <span>Require ALL roles</span>
+                        </div>
+                        <div class="method-item">
+                            <code>tyroRoleSlugs(): array</code>
+                            <span>Get all role slugs (cached)</span>
+                        </div>
+                    </div>
+                    <div class="method-reference-col">
+                        <h4 class="method-col-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            Privilege Methods
+                        </h4>
+                        <div class="method-item">
+                            <code>privileges(): Collection</code>
+                            <span>Unique privileges from roles</span>
+                        </div>
+                        <div class="method-item">
+                            <code>hasPrivilege(string): bool</code>
+                            <span>Check single privilege</span>
+                        </div>
+                        <div class="method-item">
+                            <code>hasPrivileges(array): bool</code>
+                            <span>Require ALL privileges</span>
+                        </div>
+                        <div class="method-item">
+                            <code>tyroPrivilegeSlugs(): array</code>
+                            <span>Get all privilege slugs (cached)</span>
+                        </div>
+                        <div class="method-item">
+                            <code>can($ability): bool</code>
+                            <span>Unified check (privilege → role → Gate)</span>
+                        </div>
+                    </div>
+                    <div class="method-reference-col">
+                        <h4 class="method-col-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            Suspension Methods
+                        </h4>
+                        <div class="method-item">
+                            <code>suspend(?string): void</code>
+                            <span>Suspend user, revoke tokens</span>
+                        </div>
+                        <div class="method-item">
+                            <code>unsuspend(): void</code>
+                            <span>Clear suspension status</span>
+                        </div>
+                        <div class="method-item">
+                            <code>isSuspended(): bool</code>
+                            <span>Check suspension status</span>
+                        </div>
+                        <div class="method-item">
+                            <code>getSuspensionReason(): ?string</code>
+                            <span>Get suspension reason</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

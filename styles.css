@@ -1094,6 +1094,100 @@ body {
 
 .code-pill-copy:hover { color: var(--hero-orange); }
 
+/* ─── RBAC Methods ─── */
+.rbac-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.rbac-method {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.rbac-method:hover {
+    border-color: var(--hero-orange);
+}
+
+.rbac-method-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--hero-orange);
+}
+
+.rbac-method-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* ─── Method Reference Grid ─── */
+.method-reference-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.method-reference-col {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.method-col-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.method-col-title svg {
+    color: var(--hero-orange);
+}
+
+.method-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.method-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.method-item code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--hero-orange);
+    background: rgba(255, 95, 31, 0.08);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.method-item span {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
 /* ─── CTA ─── */
 .cta-block {
     padding: 120px 20px;
@@ -1313,6 +1407,7 @@ body {
 
     .stats-container { grid-template-columns: repeat(2, 1fr); }
     .footer-inner { grid-template-columns: 1fr 1fr; }
+    .method-reference-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
