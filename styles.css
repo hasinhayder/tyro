@@ -37,6 +37,32 @@ body {
 
 ::selection { background: var(--hero-orange); color: white; }
 
+/* ─── Scrollbars ─── */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-hover);
+    border-radius: 5px;
+    border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-hover) var(--color-bg);
+}
+
 /* ─── Navbar ─── */
 .navbar {
     position: fixed;
