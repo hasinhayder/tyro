@@ -1,385 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyro Documentation - Authentication, Authorization & RBAC for Laravel 12 and Laravel 13</title>
-    <meta name="description" content="Complete documentation for Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for  and Laravel 13. Installation guides, command references, code examples, and more.">
+    <title>Tyro Documentation — Authentication, Authorization & RBAC for Laravel 12+</title>
+    <meta name="description" content="Complete documentation for Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12+. Installation guides, command references, code examples, and more.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./styles.css">
     <style>
-        /* Documentation-specific styles */
-        .doc-layout {
-            min-height: 100vh;
-            background: var(--color-bg);
+        /* Document Layout Variables */
+        :root {
+            --doc-sidebar-width: 300px;
         }
 
+        /* Override base layout for docs */
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        /* ─── Layout ─── */
+        .doc-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ─── Sidebar ─── */
         .doc-sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 280px;
-            height: 100vh;
-            background: var(--color-bg-secondary);
+            bottom: 0;
+            width: var(--doc-sidebar-width);
+            background-color: var(--color-bg-secondary);
             border-right: 1px solid var(--color-border);
             overflow-y: auto;
-            padding: var(--spacing-lg);
-            z-index: 100;
+            padding: 32px 24px;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
         }
 
-
         .doc-sidebar-header {
-            margin-bottom: var(--spacing-xl);
-            padding-bottom: var(--spacing-lg);
+            margin-bottom: 40px;
+            padding-bottom: 24px;
             border-bottom: 1px solid var(--color-border);
         }
 
         .doc-logo {
-            font-family: var(--font-display);
             font-size: 1.75rem;
             font-weight: 900;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: var(--spacing-xs);
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .doc-logo svg {
+            color: var(--hero-orange);
+            width: 24px;
+            height: 24px;
         }
 
         .doc-version {
-            font-size: 0.875rem;
-            color: var(--color-text-tertiary);
+            display: inline-block;
+            background: var(--hero-orange-dim);
+            color: var(--hero-orange);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
         .doc-nav {
-            list-style: none;
-        }
-
-        .doc-nav-section {
-            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
         }
 
         .doc-nav-title {
             font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--color-text-tertiary);
-            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            color: var(--hero-orange);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .doc-nav-list {
             list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 0;
+            margin: 0;
         }
 
         .doc-nav-link {
             display: block;
-            padding: var(--spacing-xs) var(--spacing-sm);
+            padding: 8px 12px;
             color: var(--color-text-secondary);
             text-decoration: none;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-            font-size: 0.9375rem;
-            margin-bottom: 2px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .doc-nav-link:hover {
-            background: var(--color-bg);
-            color: var(--color-primary);
+            color: var(--color-text);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        [data-theme="light"] .doc-nav-link:hover {
+            background: rgba(0, 0, 0, 0.03);
         }
 
         .doc-nav-link.active {
-            background: var(--color-primary);
-            color: white;
+            color: var(--color-text);
+            background: var(--color-border);
             font-weight: 600;
         }
 
-        .doc-content {
-            margin-left: 280px;
-            padding: var(--spacing-2xl) var(--spacing-3xl);
-            max-width: 1200px;
+        /* ─── Main Content ─── */
+        .doc-main {
+            flex: 1;
+            margin-left: var(--doc-sidebar-width);
+            padding: 64px 48px;
+            max-width: 1000px;
         }
 
         .doc-header {
-            margin-bottom: var(--spacing-3xl);
-            padding-bottom: var(--spacing-xl);
-            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 64px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--color-border);
         }
 
         .doc-title {
-            font-family: var(--font-display);
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 900;
-            margin-bottom: var(--spacing-md);
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--color-text);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
         }
 
         .doc-subtitle {
             font-size: 1.25rem;
             color: var(--color-text-secondary);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .doc-section {
-            margin-bottom: var(--spacing-3xl);
+            margin-bottom: 80px;
+            scroll-margin-top: 40px;
         }
 
         .doc-section-title {
-            font-family: var(--font-display);
             font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-lg);
+            font-weight: 800;
             color: var(--color-text);
-            scroll-margin-top: var(--spacing-xl);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doc-section-title::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: var(--hero-orange);
+            border-radius: 50%;
         }
 
         .doc-section-subtitle {
-            font-family: var(--font-display);
             font-size: 1.5rem;
             font-weight: 700;
-            margin: var(--spacing-xl) 0 var(--spacing-md);
             color: var(--color-text);
-            scroll-margin-top: var(--spacing-xl);
+            margin: 40px 0 16px;
+            letter-spacing: -0.01em;
         }
 
         .doc-text {
-            font-size: 1.0625rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
             color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 16px;
         }
 
-        .doc-code-block {
-            background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-            overflow-x: auto;
-            border: 1px solid #334155;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 8px 24px rgba(2, 6, 23, 0.35);
-            position: relative;
+        .doc-text strong {
+            color: var(--color-text);
         }
 
-        .doc-code-block::before {
-            content: "";
-            position: absolute;
-            inset: 0 auto 0 0;
-            width: 4px;
-            background: linear-gradient(180deg, #22d3ee 0%, #8b5cf6 100%);
-            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        /* Lists */
+        .doc-list {
+            padding-left: 24px;
+            margin-bottom: 24px;
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+        }
+        
+        .doc-list li {
+            margin-bottom: 8px;
+        }
+        
+        .doc-list li strong {
+            color: var(--color-text);
         }
 
-        .doc-code-block code {
-            font-family: "SF Mono", "Monaco", "Consolas", monospace;
-            font-size: 0.9375rem;
-            line-height: 1.7;
-            color: #e2e8f0;
-            display: block;
-            white-space: pre;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        /* Syntax highlighting classes */
-        .doc-code-block .kw { color: #f472b6; } /* Keywords - pink */
-        .doc-code-block .str { color: #86efac; } /* Strings - green */
-        .doc-code-block .cm { color: #94a3b8; } /* Comments - muted blue */
-        .doc-code-block .num { color: #fbbf24; } /* Numbers - amber */
-        .doc-code-block .fn { color: #60a5fa; } /* Functions - blue */
-        .doc-code-block .bl { color: #c084fc; } /* Blade directives - purple */
-        .doc-code-block .op { color: #f1f5f9; } /* Operators - light */
-        .doc-code-block .cmd { color: #22d3ee; font-weight: 600; } /* Commands - cyan */
-
-        /* Tyro model classes - Role, Privilege, etc. */
-        .doc-code-block .ty {
-            color: #38bdf8;
-            font-weight: 700;
-            background: rgba(14, 165, 233, 0.16);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            border-radius: 4px;
-            padding: 0 0.2em;
-        }
-
-        /* Tyro RBAC methods - hasRole, can, assignRole, etc. */
-        .doc-code-block .rbac {
-            color: #fbbf24;
-            font-weight: 700;
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 4px;
-            padding: 0 0.2em;
-        }
-
-        /* Variable scope - user, role, request */
-        .doc-code-block .scope {
-            color: #a78bfa;
-            font-weight: 700;
-        }
-
-        /* Tyro middleware - role:, privilege:, ability: etc. */
-        .doc-code-block .mw {
-            color: #34d399;
-            font-weight: 700;
-            background: rgba(52, 211, 153, 0.15);
-            border: 1px solid rgba(52, 211, 153, 0.3);
-            border-radius: 4px;
-            padding: 0 0.2em;
+        /* Code Blocks Override */
+        .doc-section .code-block {
+            margin: 24px 0;
+            box-shadow: none;
         }
 
         .doc-inline-code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
             background: var(--color-bg-secondary);
-            color: var(--color-primary);
-            padding: 0.2em 0.5em;
-            border-radius: 4px;
-            font-family: "SF Mono", "Monaco", "Consolas", monospace;
-            font-size: 0.9em;
             border: 1px solid var(--color-border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--color-text);
         }
 
+        /* Alerts */
         .doc-alert {
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            margin: var(--spacing-lg) 0;
-            border-left: 4px solid;
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin: 32px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .doc-alert strong {
+            display: block;
+            margin-bottom: 4px;
         }
 
         .doc-alert-info {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: var(--color-primary);
-            color: var(--color-text);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: #e0f2fe;
         }
+
+        [data-theme="light"] .doc-alert-info { color: #0284c7; }
 
         .doc-alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: #f59e0b;
-            color: var(--color-text);
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            color: #fef3c7;
         }
+
+        [data-theme="light"] .doc-alert-warning { color: #d97706; }
 
         .doc-alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: #10b981;
-            color: var(--color-text);
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            color: #d1fae5;
         }
 
-        .doc-list {
-            margin: var(--spacing-md) 0;
-            padding-left: var(--spacing-xl);
-        }
+        [data-theme="light"] .doc-alert-success { color: #059669; }
 
-        .doc-list li {
-            margin-bottom: var(--spacing-sm);
-            color: var(--color-text-secondary);
-            line-height: 1.7;
-        }
-
+        /* Tables Override */
         .doc-table {
             width: 100%;
             border-collapse: collapse;
-            margin: var(--spacing-lg) 0;
-            font-size: 0.9375rem;
+            margin: 32px 0;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--color-bg);
+        }
+
+        .doc-table th, .doc-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
         }
 
         .doc-table th {
             background: var(--color-bg-secondary);
-            padding: var(--spacing-md);
-            text-align: left;
-            font-weight: 700;
-            border: 1px solid var(--color-border);
+            font-weight: 600;
             color: var(--color-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .doc-table td {
-            padding: var(--spacing-md);
-            border: 1px solid var(--color-border);
             color: var(--color-text-secondary);
-            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
-        .doc-table tr:hover {
+        .doc-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .doc-table tr:hover td {
             background: var(--color-bg-secondary);
         }
 
+        /* Commands */
         .doc-command-card {
-            background: var(--color-bg-secondary);
+            background: var(--color-bg);
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-lg);
-            margin: var(--spacing-md) 0;
-            transition: all var(--transition-base);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
         }
 
         .doc-command-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 4px 16px var(--color-shadow);
+            border-color: var(--color-border-hover);
         }
 
         .doc-command-name {
-            font-family: "SF Mono", "Monaco", "Consolas", monospace;
-            font-size: 1.125rem;
-            color: var(--color-primary);
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--hero-orange);
+            margin-bottom: 8px;
         }
 
         .doc-command-desc {
             color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-md);
-            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 16px;
         }
 
         .doc-command-tip {
-            color: var(--color-text-secondary);
-            font-size: 0.875rem;
-            margin-top: var(--spacing-md);
-            padding-top: var(--spacing-sm);
+            margin-top: 16px;
+            padding-top: 16px;
             border-top: 1px solid var(--color-border);
+            font-size: 0.85rem;
+            color: var(--color-text-tertiary);
             font-style: italic;
         }
 
-        .doc-back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            color: var(--color-primary);
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: var(--spacing-lg);
-            transition: all var(--transition-fast);
+        /* Mobile Adjustments */
+        .mobile-sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 50;
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            place-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
         }
 
-        .doc-back-link:hover {
-            gap: var(--spacing-sm);
+        .doc-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 35;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         @media (max-width: 1024px) {
-            .doc-layout {
-                grid-template-columns: 1fr;
-            }
-
             .doc-sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--color-border);
+                transform: translateX(-100%);
             }
-
-            .doc-content {
+            .doc-sidebar.open {
+                transform: translateX(0);
+            }
+            .doc-main {
                 margin-left: 0;
-                padding: var(--spacing-xl) var(--spacing-lg);
+                padding: 40px 24px;
+            }
+            .mobile-sidebar-toggle {
+                display: grid;
+            }
+            .doc-sidebar-overlay.open {
+                display: block;
+                opacity: 1;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Theme Toggle -->
+    <!-- Theme Toggle (Shared Component) -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -390,17 +421,32 @@
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
-        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
     </button>
 
+    <!-- Mobile Sidebar Toggle -->
+    <button class="mobile-sidebar-toggle" id="sidebarToggle" aria-label="Toggle Navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    <div class="doc-sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="doc-layout">
         <!-- Sidebar Navigation -->
-        <aside class="doc-sidebar">
+        <aside class="doc-sidebar" id="docSidebar">
             <div class="doc-sidebar-header">
-                <div class="doc-logo">Tyro</div>
-                <div class="doc-version">Documentation 1.5.0</div>
+                <a href="index.html" class="doc-logo">
+                    <svg viewBox="0 0 50 50" fill="currentColor">
+                        <path d="M41.7 13.9L26.5 5.1c-1-.6-2.1-.6-3.1 0L8.3 13.9c-1 .6-1.6 1.6-1.6 2.7v17.7c0 1.1.6 2.1 1.6 2.7l15.2 8.8c1 .6 2.1.6 3.1 0l15.2-8.8c1-.6 1.6-1.6 1.6-2.7V16.6c0-1.1-.6-2.2-1.7-2.7zM25 43.1L10.3 34.6V17.7L25 26.2v16.9zm1.7-19.8L12 14.8l13-7.5 14.7 8.5-13 7.5zm1.7 16.9V23.3l14.7-8.5v16.9L28.4 40.2z"/>
+                    </svg>
+                    Tyro
+                </a>
+                <div class="doc-version">v2.0 Documentation</div>
             </div>
 
             <nav class="doc-nav">
@@ -408,7 +454,6 @@
                     <div class="doc-nav-title">Getting Started</div>
                     <ul class="doc-nav-list">
                         <li><a href="#introduction" class="doc-nav-link active">Introduction</a></li>
-                        <li><a href="#benefits" class="doc-nav-link">Benefits</a></li>
                         <li><a href="#requirements" class="doc-nav-link">Requirements</a></li>
                         <li><a href="#installation" class="doc-nav-link">Installation</a></li>
                         <li><a href="#updating-tyro" class="doc-nav-link">Updating Tyro</a></li>
@@ -430,166 +475,63 @@
                 <div class="doc-nav-section">
                     <div class="doc-nav-title">Command Reference</div>
                     <ul class="doc-nav-list">
-                        <li><a href="#setup-commands" class="doc-nav-link">Setup & Installation</a></li>
+                        <li><a href="#setup-commands" class="doc-nav-link">Setup & Install</a></li>
                         <li><a href="#user-commands" class="doc-nav-link">User Management</a></li>
-                        <li><a href="#role-commands" class="doc-nav-link">Role & Privilege</a></li>
-                        <li><a href="#token-commands" class="doc-nav-link">Token Management</a></li>
-                        <li><a href="#audit-commands" class="doc-nav-link">Audit Management</a></li>
+                        <li><a href="#role-commands" class="doc-nav-link">Role Management</a></li>
+                        <li><a href="#token-commands" class="doc-nav-link">Tokens & Auth</a></li>
+                        <li><a href="#audit-commands" class="doc-nav-link">Audit Logs</a></li>
                     </ul>
                 </div>
 
                 <div class="doc-nav-section">
-                    <div class="doc-nav-title">Code Examples</div>
+                    <div class="doc-nav-title">Code Integration</div>
                     <ul class="doc-nav-list">
                         <li><a href="#checking-permissions" class="doc-nav-link">Checking Permissions</a></li>
-                        <li><a href="#managing-roles" class="doc-nav-link">Managing Roles</a></li>
+                        <li><a href="#managing-roles" class="doc-nav-link">Managing Roles (API)</a></li>
                         <li><a href="#trait-reference" class="doc-nav-link">Trait Reference</a></li>
-                        <li><a href="#api-routes" class="doc-nav-link">API Routes</a></li>
+                        <li><a href="#api-routes" class="doc-nav-link">Protecting Routes</a></li>
                     </ul>
                 </div>
 
                 <div class="doc-nav-section">
-                    <div class="doc-nav-title">API Reference</div>
+                    <div class="doc-nav-title">Advanced</div>
                     <ul class="doc-nav-list">
-                        <li><a href="#api-endpoints" class="doc-nav-link">Endpoints List</a></li>
-                    </ul>
-                </div>
-
-                <div class="doc-nav-section">
-                    <div class="doc-nav-title">Resources</div>
-                    <ul class="doc-nav-list">
-                        <li><a href="#audit-trail" class="doc-nav-link">Audit Trail</a></li>
+                        <li><a href="#api-endpoints" class="doc-nav-link">REST Endpoints</a></li>
+                        <li><a href="#audit-trail" class="doc-nav-link">Audit System</a></li>
                         <li><a href="#configuration" class="doc-nav-link">Configuration</a></li>
                         <li><a href="#faq" class="doc-nav-link">FAQ</a></li>
-                        <li><a href="index.html" class="doc-nav-link">← Back to Home</a></li>
                     </ul>
                 </div>
             </nav>
         </aside>
 
         <!-- Main Content -->
-        <main class="doc-content">
-            <a href="index.html" class="doc-back-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <main class="doc-main">
+            <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; color: var(--color-text-secondary); text-decoration: none; font-weight: 500; margin-bottom: 32px; font-size: 0.9rem; transition: color 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
-                Back to Home
+                Back to Homepage
             </a>
 
             <header class="doc-header">
                 <h1 class="doc-title">Tyro Documentation</h1>
-                <p class="doc-subtitle">Complete guide to Authentication, Authorization, and Role & Privilege Management for Laravel 12 and Laravel 13</p>
+                <p class="doc-subtitle">Complete guide to Authentication, Authorization, and Role & Privilege Management for Laravel 12 and 13.</p>
             </header>
 
             <!-- Introduction -->
             <section id="introduction" class="doc-section">
                 <h2 class="doc-section-title">Introduction</h2>
                 <p class="doc-text">
-                    <strong>Tyro</strong> is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12 and Laravel 13. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both.
+                    <strong>Tyro</strong> is the ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel. Think of it as a Swiss Army knife that handles everything from user authentication and fine-grained access control to user suspension workflows.
                 </p>
                 <p class="doc-text">
-                    With Sanctum integration, 40+ powerful CLI commands, Blade directives, ready-made middleware, and optional REST API endpoints, Tyro saves you weeks of development time while providing enterprise-grade security features.
+                    With native Sanctum integration, 44 powerful CLI commands, specialized Blade directives, ready-made middleware, and optional REST API endpoints, Tyro saves you weeks of development time while providing a robust, enterprise-grade architecture.
                 </p>
 
                 <div class="doc-alert doc-alert-success">
-                    <strong>✓ Works Everywhere:</strong> Tyro works seamlessly for APIs, web apps, and hybrid applications. Use the features you need, disable the ones you don't.
-                </div>
-            </section>
-
-            <!-- Benefits -->
-            <section id="benefits" class="doc-section">
-                <h2 class="doc-section-title">Why Choose Tyro?</h2>
-                <p class="doc-text">
-                    Tyro isn't just a package; it's a complete auth and access control toolkit. Here is why developers choose Tyro:
-                </p>
-
-                <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
-
-                    <!-- Card 1 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Complete Auth System</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Full authentication with Sanctum, role-based access control, privileges, and Laravel Gate integration. Works for APIs and web apps.
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Secure by Default</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Built on standard Laravel security. Assign roles and permissions to users with simple, readable code.
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="4 17 10 11 4 5"></polyline>
-                                <line x1="12" y1="19" x2="20" y2="19"></line>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">40+ CLI Commands</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Manage users, roles, privileges, and tokens from the terminal. Perfect for automation, CI/CD, and incident response.
-                        </p>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Grows With You</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Start small and scale up without rewriting your core authentication logic. Tyro adapts to your project size.
-                        </p>
-                    </div>
-
-                    <!-- Card 5 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Blade Directives</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Use @userCan, @hasRole, @hasPrivilege, and more in your Blade templates. Clean, readable views without PHP logic clutter.
-                        </p>
-                    </div>
-
-                    <!-- Card 6 -->
-                    <div class="feature-card" style="padding: var(--spacing-lg);">
-                        <div class="feature-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3"></circle>
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title" style="font-size: 1.25rem;">Optional REST API</h3>
-                        <p class="feature-description" style="font-size: 0.95rem;">
-                            Need API endpoints? They're included. Don't need them? Disable with one config flag. Zero lock-in.
-                        </p>
-                    </div>
-
+                    <strong>✓ Works Everywhere:</strong> Tyro is designed for APIs, traditional web apps, and hybrid applications. Use the features you need, disable the ones you don't. Zero lock-in.
                 </div>
             </section>
 
@@ -599,8 +541,8 @@
                 <p class="doc-text">Before installing Tyro, ensure your environment meets these requirements:</p>
                 <ul class="doc-list">
                     <li><strong>PHP:</strong> 8.2 or higher</li>
-                    <li><strong>Laravel:</strong> 12.0 or higher</li>
-                    <li><strong>Laravel Sanctum:</strong> 4.0 or higher</li>
+                    <li><strong>Laravel:</strong> 12.0 or 13.0</li>
+                    <li><strong>Laravel Sanctum:</strong> Required (auto-installed)</li>
                     <li><strong>Database:</strong> MySQL, PostgreSQL, SQLite, or SQL Server</li>
                 </ul>
             </section>
@@ -610,32 +552,34 @@
                 <h2 class="doc-section-title">Installation</h2>
 
                 <h3 class="doc-section-subtitle">Step 1: Install the Package</h3>
-                <p class="doc-text">Install Tyro via Composer:</p>
-                <div class="doc-code-block">
-                    <code>composer require hasinhayder/tyro</code>
+                <p class="doc-text">Require the package globally via Composer:</p>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">Terminal</span>
+                    </div>
+                    <pre class="code-block-content"><code>composer require hasinhayder/tyro</code></pre>
                 </div>
 
                 <h3 class="doc-section-subtitle">Step 2: Run the Installer</h3>
-                <p class="doc-text">Run the all-in-one installer command:</p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:install</span></code>
+                <p class="doc-text">Run the powerful, all-in-one setup command:</p>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">Terminal</span>
+                    </div>
+                    <pre class="code-block-content"><code>php artisan tyro:install</code></pre>
                 </div>
                 <p class="doc-text">This command automatically:</p>
                 <ul class="doc-list">
-                    <li>Calls Laravel's <code class="doc-inline-code">install:api</code> to set up Sanctum</li>
-                    <li>Runs database migrations</li>
-                    <li>Seeds default roles and privileges</li>
-                    <li>Prepares your User model with required traits</li>
+                    <li>Calls Laravel's <code class="doc-inline-code">install:api</code> to configure Sanctum</li>
+                    <li>Runs all required database migrations</li>
+                    <li>Seeds default system roles and privileges</li>
+                    <li>Wires up your <code class="doc-inline-code">User</code> model with the required Tyro traits</li>
                 </ul>
 
                 <div class="doc-alert doc-alert-info">
-                    <strong>💡 Tip:</strong> The installer is idempotent and safe to run multiple times. Use <code class="doc-inline-code">--force</code> flag in production environments.
-                </div>
-
-                <h3 class="doc-section-subtitle">Step 3: Verify Installation</h3>
-                <p class="doc-text">Check that everything is set up correctly:</p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:version</span></code>
+                    <strong>💡 Pro Tip:</strong> The installer is idempotent and safe to run multiple times. Use the <code class="doc-inline-code">--force</code> flag in CI/CD pipelines to bypass prompts.
                 </div>
             </section>
 
@@ -643,105 +587,79 @@
             <section id="updating-tyro" class="doc-section">
                 <h2 class="doc-section-title">Updating Tyro</h2>
                 <p class="doc-text">
-                    When updating Tyro from an older version using <code class="doc-inline-code">composer update</code>, you <strong>must run migrations</strong> to apply any new database changes (such as audit trail tables and other features).
+                    When updating Tyro using composer, you <strong>must run migrations</strong> to apply any potential database schema changes.
                 </p>
 
-                <h3 class="doc-section-subtitle">Update Steps</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Step 1: Update the package</span>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">Update Sequence</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="cmt"># Update the package</span>
 composer update hasinhayder/tyro
 
-<span class="cm"># Step 2: Run migrations to apply new database changes</span>
-php artisan migrate</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Run Migrations for Tyro Only</h3>
-                <p class="doc-text">If you prefer to run only Tyro's migrations without running other pending migrations:</p>
-                <div class="doc-code-block">
-                    <code>php artisan migrate --path=vendor/hasinhayder/tyro/database/migrations</code>
-                </div>
-
-                <div class="doc-alert doc-alert-warning">
-                    <strong>⚠️ Important:</strong> Always run migrations after updating Tyro. Skipping this step may result in missing database tables, audit logs not recording, or other unexpected behavior. New features depend on the database schema being up-to-date.
-                </div>
-
-                <h3 class="doc-section-subtitle">Verify Update</h3>
-                <p class="doc-text">Check that the update was successful:</p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:version</span></code>
+<span class="cmt"># Run migrations to apply new schema changes</span>
+php artisan migrate</code></pre>
                 </div>
             </section>
 
             <!-- Quick Start -->
             <section id="quick-start" class="doc-section">
                 <h2 class="doc-section-title">Quick Start</h2>
-                <p class="doc-text">After installation, you have a complete authentication and authorization system. Here's what you can do immediately:</p>
+                <p class="doc-text">After installation, you have a fully functional authentication system. Let's see it in action:</p>
 
-                <h3 class="doc-section-subtitle">1. Login with Default Admin</h3>
-                <div class="doc-code-block">
-                    <code>curl -X POST http://localhost/api/login \
+                <h3 class="doc-section-subtitle">1. Login to the API</h3>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">cURL</span>
+                    </div>
+                    <pre class="code-block-content"><code>curl -X POST http://localhost/api/login \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@tyro.project","password":"tyro"}'</code>
+  -d '{"email":"admin@tyro.project","password":"tyro"}'</code></pre>
                 </div>
 
-                <h3 class="doc-section-subtitle">2. Use the Token</h3>
-                <p class="doc-text">Save the token from the response and use it in subsequent requests:</p>
-                <div class="doc-code-block">
-                    <code>curl http://localhost/api/me \
-  -H "Authorization: Bearer YOUR_TOKEN_HERE"</code>
+                <h3 class="doc-section-subtitle">2. Protect Your Routes</h3>
+                <p class="doc-text">Immediately start protecting routes using the injected middleware aliases:</p>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">routes/web.php</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="fn">Route::middleware</span>([<span class="str">'auth'</span>, <span class="str">'role:admin'</span>])
+    -><span class="fn">get</span>(<span class="str">'/admin/dashboard'</span>, DashboardController::<span class="kw">class</span>);</code></pre>
                 </div>
 
                 <h3 class="doc-section-subtitle">3. Check Permissions in Code</h3>
-                <p class="doc-text">Use Tyro's intuitive API anywhere in your application:</p>
-                <div class="doc-code-block">
-                    <code><span class="cm">// Check roles</span>
-<span class="kw">if</span> ($<span class="scope">user</span>-><span class="rbac">hasRole</span>(<span class="str">'admin'</span>)) { ... }
+                <p class="doc-text">Utilize Tyro's fluent API directly on the User model:</p>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">Controller.php</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="cmt">// Check roles explicitly</span>
+<span class="kw">if</span> (<span class="var">$user</span>-><span class="fn">hasRole</span>(<span class="str">'editor'</span>)) { ... }
 
-<span class="cm">// Check privileges</span>
-<span class="kw">if</span> ($<span class="scope">user</span>-><span class="rbac">can</span>(<span class="str">'reports.run'</span>)) { ... }
-
-<span class="cm">// Get all role slugs</span>
-$roles = $<span class="scope">user</span>-><span class="rbac">tyroRoleSlugs</span>(); <span class="cm">// ['admin', 'editor']</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">4. Use Blade Directives</h3>
-                <p class="doc-text">Conditionally render content in your views:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
-    &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-<span class="bl">@endhasRole</span>
-
-<span class="bl">@hasPrivilege</span>(<span class="str">'edit-posts'</span>)
-    &lt;button&gt;Edit Post&lt;/button&gt;
-<span class="bl">@endhasPrivilege</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">5. Protect Routes</h3>
-                <p class="doc-text">Use middleware to protect your routes:</p>
-                <div class="doc-code-block">
-                    <code><span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'role:admin'</span>])
-    ->get(<span class="str">'/'</span><span><span class="str">admin/dashboard'</span>, DashboardController::<span class="kw">class</span>);</code>
-                </div>
-
-                <div class="doc-alert doc-alert-success">
-                    <strong>✓ You're Ready!</strong> With just 2 commands, you now have complete authentication, authorization, roles, privileges, 7 Blade directives, middleware, and 40+ CLI commands.
+<span class="cmt">// Check granular privileges</span>
+<span class="kw">if</span> (<span class="var">$user</span>-><span class="fn">can</span>(<span class="str">'reports.run'</span>)) { ... }</code></pre>
                 </div>
             </section>
 
             <!-- Roles & Privileges -->
             <section id="roles-privileges" class="doc-section">
-                <h2 class="doc-section-title">Roles & Privileges</h2>
+                <h2 class="doc-section-title">Roles & Privileges Architecture</h2>
                 <p class="doc-text">
-                    Tyro uses a flexible role-privilege system where roles (like "admin", "editor") can have multiple privileges (like "reports.run", "billing.view"). Users are assigned roles and inherit all privileges from those roles.
+                    Tyro operates on a pure RBAC (Role-Based Access Control) architecture. Users are assigned <strong>Roles</strong> (e.g., "admin", "editor"). Roles contain collections of <strong>Privileges</strong> (e.g., "users.delete", "reports.view"). Users automatically inherit all privileges assigned to their roles.
                 </p>
 
-                <h3 class="doc-section-subtitle">Default Roles</h3>
-                <p class="doc-text">Tyro seeds these roles by default:</p>
+                <h3 class="doc-section-subtitle">Default System Roles</h3>
+                <p class="doc-text">Upon installation, Tyro seeds the database with foundational roles:</p>
+                
                 <table class="doc-table">
                     <thead>
                         <tr>
-                            <th>Role</th>
+                            <th>Role Name</th>
                             <th>Slug</th>
                             <th>Description</th>
                         </tr>
@@ -750,271 +668,112 @@ $roles = $<span class="scope">user</span>-><span class="rbac">tyroRoleSlugs</spa
                         <tr>
                             <td>Super Admin</td>
                             <td><code class="doc-inline-code">super-admin</code></td>
-                            <td>Full system access with all privileges</td>
+                            <td>Absolute system access. Cannot be deleted via CLI.</td>
                         </tr>
                         <tr>
                             <td>Administrator</td>
                             <td><code class="doc-inline-code">admin</code></td>
-                            <td>Administrative access to manage users and roles</td>
+                            <td>Administrative access to manage users, roles, and content.</td>
                         </tr>
                         <tr>
                             <td>Editor</td>
                             <td><code class="doc-inline-code">editor</code></td>
-                            <td>Content management privileges</td>
+                            <td>Standard content management privileges.</td>
                         </tr>
                         <tr>
                             <td>User</td>
                             <td><code class="doc-inline-code">user</code></td>
-                            <td>Default role for new registrations</td>
-                        </tr>
-                        <tr>
-                            <td>Customer</td>
-                            <td><code class="doc-inline-code">customer</code></td>
-                            <td>Customer-specific access</td>
+                            <td>The default role assigned to new registrations.</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3 class="doc-section-subtitle">Working with Privileges</h3>
-                <p class="doc-text">Create and attach privileges to roles:</p>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Create a new privilege</span>
-php artisan <span class="cmd">tyro:privilege-create</span> reports.run --name=<span class="str">"Run Reports"</span>
-
-<span class="cm"># Attach it to a role</span>
-php artisan <span class="cmd">tyro:privilege-attach</span> reports.run editor</code>
+                <div class="doc-alert doc-alert-warning">
+                    <strong>⚠️ Protection Layer:</strong> Roles critical to the system (like <code class="doc-inline-code">admin</code> and <code class="doc-inline-code">super-admin</code>) are protected at the database level and cannot be accidentally deleted via standard API/CLI methods.
                 </div>
-            </section>
-
-            <!-- Authentication -->
-            <section id="authentication" class="doc-section">
-                <h2 class="doc-section-title">Authentication</h2>
-                <p class="doc-text">
-                    Tyro uses Laravel Sanctum for API authentication. Tokens automatically include all role and privilege slugs as abilities.
-                </p>
-
-                <h3 class="doc-section-subtitle">Generating Tokens via CLI</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Generate token with password prompt</span>
-php artisan <span class="cmd">tyro:login</span> --user=admin@tyro.project
-
-<span class="cm"># Quick token without password (development only)</span>
-php artisan <span class="cmd">tyro:user-token</span> --user=<span class="num">1</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Token Inspection</h3>
-                <p class="doc-text">Inspect what a token contains:</p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:me</span></code>
-                </div>
-                <p class="doc-text">Then paste your token when prompted to see the user and abilities.</p>
             </section>
 
             <!-- Middleware -->
             <section id="middleware" class="doc-section">
-                <h2 class="doc-section-title">Middleware</h2>
-                <p class="doc-text">Tyro provides powerful middleware for protecting your routes:</p>
+                <h2 class="doc-section-title">Middleware Aliases</h2>
+                <p class="doc-text">Tyro registers 8 powerful middleware aliases for enforcing access control directly at the routing layer.</p>
 
                 <table class="doc-table">
                     <thead>
                         <tr>
-                            <th>Middleware</th>
-                            <th>Usage</th>
-                            <th>Description</th>
+                            <th>Middleware Alias</th>
+                            <th>Example Syntax</th>
+                            <th>Behavior</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code class="doc-inline-code">ability</code></td>
-                            <td><code class="doc-inline-code">ability:admin,reports.run</code></td>
-                            <td>Require ALL listed abilities</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">abilities</code></td>
-                            <td><code class="doc-inline-code">abilities:admin,editor</code></td>
-                            <td>Allow ANY of the listed abilities</td>
-                        </tr>
-                        <tr>
                             <td><code class="doc-inline-code">role</code></td>
                             <td><code class="doc-inline-code">role:admin</code></td>
-                            <td>Require ALL listed roles</td>
+                            <td>User must have the exact role.</td>
                         </tr>
                         <tr>
                             <td><code class="doc-inline-code">roles</code></td>
                             <td><code class="doc-inline-code">roles:admin,editor</code></td>
-                            <td>Allow ANY of the listed roles</td>
+                            <td>User must have <strong>any one</strong> of the listed roles.</td>
                         </tr>
                         <tr>
                             <td><code class="doc-inline-code">privilege</code></td>
-                            <td><code class="doc-inline-code">privilege:reports.run</code></td>
-                            <td>Require ALL listed privileges</td>
+                            <td><code class="doc-inline-code">privilege:users.delete</code></td>
+                            <td>User must possess the exact privilege.</td>
                         </tr>
                         <tr>
                             <td><code class="doc-inline-code">privileges</code></td>
-                            <td><code class="doc-inline-code">privileges:billing.view</code></td>
-                            <td>Allow ANY of the listed privileges</td>
+                            <td><code class="doc-inline-code">privileges:x,y</code></td>
+                            <td>User must possess <strong>any one</strong> of the listed privileges.</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">ability</code></td>
+                            <td><code class="doc-inline-code">ability:admin,x</code></td>
+                            <td>User must possess <strong>ALL</strong> listed abilities (roles or privileges).</td>
+                        </tr>
+                        <tr>
+                            <td><code class="doc-inline-code">abilities</code></td>
+                            <td><code class="doc-inline-code">abilities:admin,y</code></td>
+                            <td>User must possess <strong>ANY</strong> of the listed abilities.</td>
                         </tr>
                         <tr>
                             <td><code class="doc-inline-code">tyro.log</code></td>
                             <td><code class="doc-inline-code">tyro.log</code></td>
-                            <td>Log request/response pairs for auditing</td>
+                            <td>Silently audits and logs the request/response cycle for the route.</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3 class="doc-section-subtitle">Example Usage</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">use</span> Illuminate\Support\Facades\Route;
-
-<span class="cm">// Require admin role</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'role:admin'</span>])
-    ->get(<span class="str">'/'</span><span class="str">admin/dashboard'</span>, DashboardController::<span class="kw">class</span>);
-
-<span class="cm">// Allow either admin or editor</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'roles:admin,editor'</span>])
-    ->post(<span class="str">'/'</span><span class="str">articles'</span>, ArticleController::<span class="kw">class</span>);
-
-<span class="cm">// Require specific privilege</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'privilege:reports.run'</span>])
-    ->get(<span class="str">'/'</span><span class="str">reports'</span>, ReportController::<span class="kw">class</span>);</code>
-                </div>
             </section>
 
             <!-- Blade Directives -->
             <section id="blade-directives" class="doc-section">
                 <h2 class="doc-section-title">Blade Directives</h2>
                 <p class="doc-text">
-                    Tyro provides custom Blade directives for checking user roles and privileges directly in your views. All directives automatically return <code class="doc-inline-code">false</code> if no user is authenticated.
+                    Keep your views clean. Tyro injects 7 native Blade directives to handle UI rendering conditionally based on the authenticated user's access level.
                 </p>
 
-                <h3 class="doc-section-subtitle">@userCan</h3>
-                <p class="doc-text">Checks if the current user has a specific role or privilege (uses the <code class="doc-inline-code">can()</code> method):</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@userCan</span>(<span class="str">'admin'</span>)
-    &lt;div class="admin-panel"&gt;
-        &lt;h2&gt;Admin Dashboard&lt;/h2&gt;
-        &lt;p&gt;Welcome to the admin area!&lt;/p&gt;
-    &lt;/div&gt;
-<span class="bl">@enduserCan</span>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">resources/views/dashboard.blade.php</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="tag">@hasRole</span>(<span class="str">'admin'</span>)
+    <span class="op">&lt;div&gt;</span><span class="text">Rendered only for admins</span><span class="op">&lt;/div&gt;</span>
+<span class="tag">@endhasRole</span>
 
-<span class="bl">@userCan</span>(<span class="str">'edit-posts'</span>)
-    &lt;button class="btn btn-primary"&gt;Edit Post&lt;/button&gt;
-<span class="bl">@enduserCan</span></code>
-                </div>
+<span class="tag">@hasAnyRole</span>(<span class="str">'admin'</span>, <span class="str">'editor'</span>)
+    <span class="op">&lt;div&gt;</span><span class="text">Rendered for admins OR editors</span><span class="op">&lt;/div&gt;</span>
+<span class="tag">@endhasAnyRole</span>
 
-                <h3 class="doc-section-subtitle">@hasRole</h3>
-                <p class="doc-text">Checks if the current user has a specific role:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
-    &lt;p&gt;Welcome, Admin!&lt;/p&gt;
-<span class="bl">@endhasRole</span>
+<span class="tag">@hasPrivilege</span>(<span class="str">'reports.export'</span>)
+    <span class="op">&lt;button&gt;</span><span class="text">Export CSV</span><span class="op">&lt;/button&gt;</span>
+<span class="tag">@endhasPrivilege</span>
 
-<span class="bl">@hasRole</span>(<span class="str">'editor'</span>)
-    &lt;a href="/dashboard/editor" class="nav-link"&gt;Editor Dashboard&lt;/a&gt;
-<span class="bl">@endhasRole</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">@hasAnyRole</h3>
-                <p class="doc-text">Checks if the current user has any of the provided roles:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasAnyRole</span>(<span class="str">'admin'</span>, <span class="str">'editor'</span>, <span class="str">'moderator'</span>)
-    &lt;div class="management-tools"&gt;
-        &lt;h3&gt;Management Tools&lt;/h3&gt;
-        &lt;p&gt;You have access to management features&lt;/p&gt;
-    &lt;/div&gt;
-<span class="bl">@endhasAnyRole</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">@hasAllRoles</h3>
-                <p class="doc-text">Checks if the current user has all of the provided roles:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasAllRoles</span>(<span class="str">'admin'</span>, <span class="str">'super-admin'</span>)
-    &lt;div class="super-admin-panel"&gt;
-        &lt;p&gt;You have both admin and super-admin privileges&lt;/p&gt;
-        &lt;button class="btn-danger"&gt;Critical Actions&lt;/button&gt;
-    &lt;/div&gt;
-<span class="bl">@endhasAllRoles</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">@hasPrivilege</h3>
-                <p class="doc-text">Checks if the current user has a specific privilege:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasPrivilege</span>(<span class="str">'delete-users'</span>)
-    &lt;button class="btn btn-danger" onclick="deleteUser()"&gt;
-        Delete User
-    &lt;/button&gt;
-<span class="bl">@endhasPrivilege</span>
-
-<span class="bl">@hasPrivilege</span>(<span class="str">'view-reports'</span>)
-    &lt;a href="/reports" class="nav-link"&gt;
-        &lt;i class="icon-reports"&gt;&lt;/i&gt; View Reports
-    &lt;/a&gt;
-<span class="bl">@endhasPrivilege</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">@hasAnyPrivilege</h3>
-                <p class="doc-text">Checks if the current user has any of the provided privileges:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasAnyPrivilege</span>(<span class="str">'edit-posts'</span>, <span class="str">'delete-posts'</span>, <span class="str">'publish-posts'</span>)
-    &lt;div class="post-actions"&gt;
-        &lt;h4&gt;Post Management&lt;/h4&gt;
-        <span class="bl">@hasPrivilege</span>(<span class="str">'edit-posts'</span>)
-            &lt;button&gt;Edit&lt;/button&gt;
-        <span class="bl">@endhasPrivilege</span>
-        <span class="bl">@hasPrivilege</span>(<span class="str">'delete-posts'</span>)
-            &lt;button&gt;Delete&lt;/button&gt;
-        <span class="bl">@endhasPrivilege</span>
-    &lt;/div&gt;
-<span class="bl">@endhasAnyPrivilege</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">@hasAllPrivileges</h3>
-                <p class="doc-text">Checks if the current user has all of the provided privileges:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasAllPrivileges</span>(<span class="str">'create-invoices'</span>, <span class="str">'approve-invoices'</span>)
-    &lt;button class="btn btn-success" onclick="createAndApproveInvoice()"&gt;
-        Create and Approve Invoice
-    &lt;/button&gt;
-<span class="bl">@endhasAllPrivileges</span>
-
-<span class="bl">@hasAllPrivileges</span>(<span class="str">'view-reports'</span>, <span class="str">'export-reports'</span>)
-    &lt;div class="reports-section"&gt;
-        &lt;a href="/reports"&gt;View Reports&lt;/a&gt;
-        &lt;button onclick="exportReport()"&gt;Export&lt;/button&gt;
-    &lt;/div&gt;
-<span class="bl">@endhasAllPrivileges</span></code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Combining Directives</h3>
-                <p class="doc-text">You can nest and combine directives for complex authorization logic:</p>
-                <div class="doc-code-block">
-                    <code><span class="bl">@hasRole</span>(<span class="str">'admin'</span>)
-    &lt;div class="admin-section"&gt;
-        &lt;h2&gt;Admin Controls&lt;/h2&gt;
-
-        <span class="bl">@hasPrivilege</span>(<span class="str">'manage-users'</span>)
-            &lt;a href="/admin/users"&gt;Manage Users&lt;/a&gt;
-        <span class="bl">@endhasPrivilege</span>
-
-        <span class="bl">@hasAnyPrivilege</span>(<span class="str">'view-reports'</span>, <span class="str">'export-data'</span>)
-            &lt;a href="/admin/reports"&gt;Reports&lt;/a&gt;
-        <span class="bl">@endhasAnyPrivilege</span>
-    &lt;/div&gt;
-<span class="bl">@endhasRole</span>
-
-<span class="bl">@hasAnyRole</span>(<span class="str">'editor'</span>, <span class="str">'author'</span>)
-    &lt;div class="content-tools"&gt;
-        <span class="bl">@hasPrivilege</span>(<span class="str">'publish-posts'</span>)
-            &lt;button&gt;Publish&lt;/button&gt;
-        <span class="bl">@else</span>
-            &lt;button disabled&gt;Publish (requires approval)&lt;/button&gt;
-        <span class="bl">@endhasPrivilege</span>
-    &lt;/div&gt;
-<span class="bl">@endhasanyrole</span></code>
-                </div>
-
-                <div class="doc-alert doc-alert-success">
-                    <strong>✓ Auto-Registered:</strong> All directives are automatically registered when the Tyro package is loaded. They provide a clean, readable way to conditionally display content based on user permissions.
+<span class="cmt">{{-- The @userCan directive wraps Laravel's native can() --}}</span>
+<span class="tag">@userCan</span>(<span class="str">'users.delete'</span>)
+    <span class="op">&lt;button class=</span><span class="str">"text-red-500"</span><span class="op">&gt;</span><span class="text">Delete</span><span class="op">&lt;/button&gt;</span>
+<span class="tag">@enduserCan</span></code></pre>
                 </div>
             </section>
 
@@ -1022,569 +781,92 @@ php artisan <span class="cmd">tyro:user-token</span> --user=<span class="num">1<
             <section id="user-suspension" class="doc-section">
                 <h2 class="doc-section-title">User Suspension</h2>
                 <p class="doc-text">
-                    Tyro includes first-class user suspension support to freeze accounts without deleting them.
+                    Never hard-delete a malicious user again. Tyro includes a first-class suspension workflow. When a user is suspended, <strong>all of their active Sanctum tokens are instantly revoked</strong>, and they are prevented from logging in.
                 </p>
 
-                <h3 class="doc-section-subtitle">Suspending Users</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Via CLI</span>
-php artisan <span class="cmd">tyro:user-suspend</span> --user=user@example.com --reason=<span class="str">"Policy violation"</span>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">CLI Control</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="cmt"># Suspend a user with an audit reason</span>
+php artisan tyro:user-suspend --user=malicious@email.com --reason="Spam activity"
 
-<span class="cm"># Via Code</span>
-$<span class="scope">user</span>-><span class="rbac">suspend</span>(<span class="str">'Policy violation'</span>);</code>
+<span class="cmt"># View all suspended users</span>
+php artisan tyro:user-suspended
+
+<span class="cmt"># Restore access</span>
+php artisan tyro:user-unsuspend --user=malicious@email.com</code></pre>
                 </div>
 
-                <h3 class="doc-section-subtitle">Unsuspending Users</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Via CLI</span>
-php artisan <span class="cmd">tyro:user-unsuspend</span> --user=user@example.com
+                <div class="code-block" style="margin-top: 24px;">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">Programmatic Control</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="cmt">// Suspend</span>
+<span class="var">$user</span>-><span class="fn">suspend</span>(<span class="str">'Violation of TOS'</span>);
 
-<span class="cm"># Via Code</span>
-$<span class="scope">user</span>-><span class="rbac">unsuspend</span>();</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Checking Suspension Status</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">if</span> ($<span class="scope">user</span>-><span class="ty">isSuspended</span>()) {
-    $reason = $<span class="scope">user</span>-><span class="ty">getSuspensionReason</span>();
-    <span class="kw">return</span> response()->json([<span class="str">'error'</span> => $reason], <span class="num">423</span>);
-}</code>
-                </div>
-
-                <div class="doc-alert doc-alert-warning">
-                    <strong>⚠️ Important:</strong> Suspending a user automatically revokes all their Sanctum tokens and prevents login.
+<span class="cmt">// Check status</span>
+<span class="kw">if</span> (<span class="var">$user</span>-><span class="fn">isSuspended</span>()) {
+    <span class="kw">echo</span> <span class="var">$user</span>-><span class="fn">getSuspensionReason</span>();
+}</code></pre>
                 </div>
             </section>
 
-            <!-- HasTyroRoles Trait Reference -->
-            <section id="trait-reference" class="doc-section">
-                <h2 class="doc-section-title">HasTyroRoles Trait Reference</h2>
-                <p class="doc-text">
-                    The <code class="doc-inline-code">HasTyroRoles</code> trait gives your User model a complete API for roles, privileges, and suspensions. These methods are the same ones used by Tyro's routes and CLI commands.
-                </p>
-
-                <h3 class="doc-section-subtitle">Role Methods</h3>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="doc-inline-code">roles(): BelongsToMany</code></td>
-                            <td>Returns the eager-loadable relationship for roles</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">assignRole(Role $role): void</code></td>
-                            <td>Attaches a role without detaching existing ones</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">removeRole(Role $role): void</code></td>
-                            <td>Detaches the given role from the user</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">hasRole(string $role): bool</code></td>
-                            <td>Checks if user has the specified role slug (supports wildcard *)</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">hasRoles(array $roles): bool</code></td>
-                            <td>Returns true only if user holds every role in the array</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">tyroRoleSlugs(): array</code></td>
-                            <td>Returns array of all role slugs for the user (cached)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="doc-section-subtitle">Privilege Methods</h3>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="doc-inline-code">privileges(): Collection</code></td>
-                            <td>Returns all unique privileges inherited through user's roles</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">hasPrivilege(string $privilege): bool</code></td>
-                            <td>Checks if user has a specific privilege</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">hasPrivileges(array $privileges): bool</code></td>
-                            <td>Returns true only if user has all specified privileges</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">tyroPrivilegeSlugs(): array</code></td>
-                            <td>Returns array of all privilege slugs for the user (cached)</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">can($ability, $args = []): bool</code></td>
-                            <td>Checks privilege, then role, then falls back to Laravel Gate</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="doc-section-subtitle">Suspension Methods</h3>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="doc-inline-code">suspend(?string $reason = null): void</code></td>
-                            <td>Suspends user, stores optional reason, revokes all tokens</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">unsuspend(): void</code></td>
-                            <td>Clears suspension without touching roles or privileges</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">isSuspended(): bool</code></td>
-                            <td>Returns true if user is currently suspended</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">getSuspensionReason(): ?string</code></td>
-                            <td>Returns the stored suspension reason (or null)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="doc-alert doc-alert-info">
-                    <strong>💡 Performance:</strong> Tyro caches role and privilege slugs per user so authorization checks never hit the database on every request. The cache respects your <code class="doc-inline-code">config/tyro.php</code> settings.
-                </div>
-            </section>
-
-            <!-- Setup Commands -->
-            <section id="setup-commands" class="doc-section">
-                <h2 class="doc-section-title">Setup & Installation Commands</h2>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:install</div>
-                    <div class="doc-command-desc">Run Laravel's install:api, migrate, and optionally seed or prepare user model</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:install</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:prepare-user-model</div>
-                    <div class="doc-command-desc">Automatically add HasApiTokens and HasTyroRoles to your User model</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:prepare-user-model</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:seed</div>
-                    <div class="doc-command-desc">Run the full TyroSeeder (roles + bootstrap admin)</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:seed</span> --force</code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:publish-config</div>
-                    <div class="doc-command-desc">Publish config/tyro.php to customize settings</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:publish-config</span> --force</code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:publish-migrations</div>
-                    <div class="doc-command-desc">Copy Tyro's migrations into your database/migrations directory</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:publish-migrations</span> --force</code>
-                    </div>
-                </div>
-            </section>
-
-            <!-- User Commands -->
+            <!-- Command Reference -->
             <section id="user-commands" class="doc-section">
-                <h2 class="doc-section-title">User Management Commands</h2>
+                <h2 class="doc-section-title">Command Reference Guide</h2>
+                <p class="doc-text">Tyro bundles 44 Artisan commands. Here are the most critical ones for daily management.</p>
 
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-create</div>
-                    <div class="doc-command-desc">Create a new user with interactive prompts</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-create</span></code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-list</div>
-                    <div class="doc-command-desc">List all users with their roles and suspension status</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-list</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-suspend</div>
-                    <div class="doc-command-desc">Suspend a user account with optional reason</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-suspend</span> --user=5 --reason="Manual review"</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-unsuspend</div>
-                    <div class="doc-command-desc">Lift suspension from a user account</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-unsuspend</span> --user=user@example.com</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-privileges</div>
-                    <div class="doc-command-desc">Display all privileges a user inherits through their roles</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-privileges</span> 1</code>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Role Commands -->
-            <section id="role-commands" class="doc-section">
-                <h2 class="doc-section-title">Role & Privilege Commands</h2>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:role-list</div>
-                    <div class="doc-command-desc">Display all roles with user counts</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:role-list</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:role-list-with-privileges</div>
-                    <div class="doc-command-desc">Display roles with their attached privileges</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:role-list-with-privileges</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:role-create</div>
-                    <div class="doc-command-desc">Create a new role</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:role-create</span> --name="Manager" --slug="manager"</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-
+                <h3 class="doc-section-subtitle">User & Role Commands</h3>
                 <div class="doc-command-card">
                     <div class="doc-command-name">tyro:role-assign</div>
-                    <div class="doc-command-desc">Assign a role to a user</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:role-assign</span> --user=5 --role=editor</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
+                    <div class="doc-command-desc">Attaches a role to a user. Supports interactive prompting if arguments are omitted.</div>
+                    <div class="doc-inline-code">php artisan tyro:role-assign --user=1 --role=admin</div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:privilege-create</div>
-                    <div class="doc-command-desc">Create a new privilege</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:privilege-create</span> reports.run --name="Run Reports"</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
+                    <div class="doc-command-name">tyro:user-roles</div>
+                    <div class="doc-command-desc">Lists all roles currently assigned to a specific user.</div>
+                    <div class="doc-inline-code">php artisan tyro:user-roles 1</div>
                 </div>
-
+                
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:privilege-attach</div>
-                    <div class="doc-command-desc">Attach a privilege to a role</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:privilege-attach</span> reports.run editor</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
+                    <div class="doc-command-name">tyro:user-privileges</div>
+                    <div class="doc-command-desc">Calculates and lists every single privilege a user has inherited through their roles.</div>
+                    <div class="doc-inline-code">php artisan tyro:user-privileges 1</div>
                 </div>
 
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:privilege-detach</div>
-                    <div class="doc-command-desc">Remove a privilege from a role</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:privilege-detach</span> reports.run editor</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-            </section>
-
-            <!-- Token Commands -->
-            <section id="token-commands" class="doc-section">
-                <h2 class="doc-section-title">Token Management Commands</h2>
-
+                <h3 class="doc-section-subtitle">Token & Auth Commands</h3>
                 <div class="doc-command-card">
                     <div class="doc-command-name">tyro:login</div>
-                    <div class="doc-command-desc">Generate a Sanctum token with password verification</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:login</span> --user=admin@tyro.project</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
+                    <div class="doc-command-desc">Validates credentials and mints a new Sanctum token for the user.</div>
+                    <div class="doc-inline-code">php artisan tyro:login --user=admin@example.com</div>
                 </div>
 
                 <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:user-token</div>
-                    <div class="doc-command-desc">Generate a token without password (development only)</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:user-token</span> --user=1</code>
-                    </div>
-                    <div class="doc-command-tip">💡 Run without arguments for interactive mode</div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:me</div>
-                    <div class="doc-command-desc">Inspect a token to see user and abilities</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:me</span></code>
-                    </div>
+                    <div class="doc-command-name">tyro:auth-me</div>
+                    <div class="doc-command-desc">Allows you to paste a bearer token into the CLI to inspect its owner and abilities.</div>
+                    <div class="doc-inline-code">php artisan tyro:auth-me</div>
                 </div>
 
                 <div class="doc-command-card">
                     <div class="doc-command-name">tyro:auth-logout-all-users</div>
-                    <div class="doc-command-desc">Revoke all tokens for all users (emergency rotation)</div>
-                    <div class="doc-code-block">
-                        <code>php artisan <span class="cmd">tyro:auth-logout-all-users</span> --force</code>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Audit Commands -->
-            <section id="audit-commands" class="doc-section">
-                <h2 class="doc-section-title">Audit Management Commands</h2>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:audit-list</div>
-                    <div class="doc-command-desc">View recent audit logs with optional filtering by event, date range, or user</div>
-                    <div class="doc-code-block">
-                        <code><span class="cm"># Show last 20 logs</span>
-php artisan <span class="cmd">tyro:audit-list</span>
-
-<span class="cm"># Show last 50 logs</span>
-php artisan <span class="cmd">tyro:audit-list</span> --limit=<span class="num">50</span>
-
-<span class="cm"># Filter by event type</span>
-php artisan <span class="cmd">tyro:audit-list</span> --event=user.suspended
-
-<span class="cm"># Filter by date range</span>
-php artisan <span class="cmd">tyro:audit-list</span> --from=<span class="num">2024-01-01</span> --to=<span class="num">2024-01-31</span></code>
-                    </div>
-                </div>
-
-                <div class="doc-command-card">
-                    <div class="doc-command-name">tyro:audit-purge</div>
-                    <div class="doc-command-desc">Purge old audit logs based on retention policy</div>
-                    <div class="doc-code-block">
-                        <code><span class="cm"># Purge logs older than configured retention days</span>
-php artisan <span class="cmd">tyro:audit-purge</span>
-
-<span class="cm"># Override retention and purge logs older than 7 days</span>
-php artisan <span class="cmd">tyro:audit-purge</span> --days=<span class="num">7</span>
-
-<span class="cm"># Force purge without confirmation prompt</span>
-php artisan <span class="cmd">tyro:audit-purge</span> --force</code>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Checking Permissions -->
-            <section id="checking-permissions" class="doc-section">
-                <h2 class="doc-section-title">Checking Permissions</h2>
-
-                <h3 class="doc-section-subtitle">Check User Roles</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">use</span> Illuminate\Http\Request;
-
-<span class="kw">class</span> ArticleController
-{
-    <span class="kw">public</span> <span class="kw">function</span> store(Request $request)
-    {
-        <span class="cm">// Check single role</span>
-        <span class="kw">if</span> (!$request-><span class="scope">user</span>()-><span class="rbac">hasRole</span>(<span class="str">'admin'</span>)) {
-            abort(<span class="num">403</span>, <span class="str">'Admin access required'</span>);
-        }
-
-        <span class="cm">// Check multiple roles (requires ALL)</span>
-        <span class="kw">if</span> (!$request-><span class="scope">user</span>()-><span class="rbac">hasRoles</span>([<span class="str">'admin'</span>, <span class="str">'editor'</span>])) {
-            abort(<span class="num">403</span>, <span class="str">'Insufficient permissions'</span>);
-        }
-
-        <span class="cm">// Create article...</span>
-    }
-}</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Check User Privileges</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">class</span> ReportController
-{
-    <span class="kw">public</span> <span class="kw">function</span> index(Request $request)
-    {
-        <span class="cm">// Check single privilege using can()</span>
-        <span class="kw">if</span> (!$request-><span class="scope">user</span>()-><span class="rbac">can</span>(<span class="str">'reports.run'</span>)) {
-            abort(<span class="num">403</span>, <span class="str">'Missing reports privilege'</span>);
-        }
-
-        <span class="cm">// Check multiple privileges (requires ALL)</span>
-        <span class="kw">if</span> (!$request-><span class="scope">user</span>()-><span class="rbac">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
-            abort(<span class="num">403</span>, <span class="str">'Missing required privileges'</span>);
-        }
-
-        <span class="cm">// Generate report...</span>
-    }
-}</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Get User's Roles and Privileges</h3>
-                <div class="doc-code-block">
-                    <code>// Get role slugs
-$roleSlugs = $request-><span class="scope">user</span>()-><span class="rbac">tyroRoleSlugs</span>();
-
-// Get privilege slugs
-$privilegeSlugs = $request-><span class="scope">user</span>()-><span class="rbac">tyroPrivilegeSlugs</span>();
-
-// Get full role models with relationships
-$roles = $request-><span class="scope">user</span>()->roles()->with(<span class="str">'privileges'</span>)->get();</code>
-                </div>
-            </section>
-
-            <!-- Managing Roles -->
-            <section id="managing-roles" class="doc-section">
-                <h2 class="doc-section-title">Managing Roles Programmatically</h2>
-
-                <h3 class="doc-section-subtitle">Assign Roles to Users</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">use</span> HasinHayder\Tyro\Models\Role;
-<span class="kw">use</span> App\Models\User;
-
-$user = User::find(<span class="num">1</span>);
-$editorRole = <span class="ty">Role</span>::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
-
-<span class="cm">// Assign a single role</span>
-$<span class="scope">user</span>-><span class="rbac">assignRole</span>($editorRole);
-
-<span class="cm">// Or use the relationship directly</span>
-$<span class="scope">user</span>-><span class="rbac">roles</span>()->attach($editorRole->id);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Remove Roles from Users</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm">// Remove a single role</span>
-$<span class="scope">user</span>-><span class="rbac">removeRole</span>($editorRole);
-
-<span class="cm">// Or use the relationship</span>
-$<span class="scope">user</span>-><span class="rbac">roles</span>()->detach($editorRole->id);
-
-<span class="cm">// Remove all roles</span>
-$<span class="scope">user</span>-><span class="rbac">roles</span>()->detach();</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Manage Privileges on Roles</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">use</span> HasinHayder\Tyro\Models\Privilege;
-
-$role = <span class="ty">Role</span>::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
-$privilege = <span class="ty">Privilege</span>::where(<span class="str">'slug'</span>, <span class="str">'reports.run'</span>)->first();
-
-<span class="cm">// Attach privilege to role</span>
-$<span class="scope">role</span>-><span class="rbac">privileges</span>()->attach($privilege->id);
-
-<span class="cm">// Detach privilege from role</span>
-$<span class="scope">role</span>-><span class="rbac">privileges</span>()->detach($privilege->id);
-
-<span class="cm">// Sync privileges (replaces all existing)</span>
-$<span class="scope">role</span>-><span class="rbac">privileges</span>()->sync([
-    $privilege1->id,
-    $privilege2->id,
-]);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Check Role Privileges</h3>
-                <div class="doc-code-block">
-                    <code>$role = <span class="ty">Role</span>::where(<span class="str">'slug'</span>, <span class="str">'editor'</span>)->first();
-
-<span class="cm">// Check if role has a privilege</span>
-<span class="kw">if</span> ($<span class="scope">role</span>-><span class="rbac">hasPrivilege</span>(<span class="str">'reports.run'</span>)) {
-    <span class="cm">// Role has the privilege</span>
-}
-
-<span class="cm">// Check if role has all specified privileges</span>
-<span class="kw">if</span> ($<span class="scope">role</span>-><span class="rbac">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
-    <span class="cm">// Role has both privileges</span>
-}</code>
-                </div>
-            </section>
-
-            <!-- API Routes -->
-            <section id="api-routes" class="doc-section">
-                <h2 class="doc-section-title">Protecting API Routes</h2>
-
-                <h3 class="doc-section-subtitle">Basic Route Protection</h3>
-                <div class="doc-code-block">
-                    <code><span class="kw">use</span> Illuminate\Support\Facades\Route;
-
-<span class="cm">// Require authentication</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>])
-    ->get(<span class="str">'/'</span><span class="str">profile'</span>, ProfileController::<span class="kw">class</span>);
-
-<span class="cm">// Require specific role</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'role:admin'</span>])
-    ->get(<span class="str">'/'</span><span class="str">admin/dashboard'</span>, AdminDashboardController::<span class="kw">class</span>);
-
-<span class="cm">// Allow any of multiple roles</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'roles:admin,editor'</span>])
-    ->post(<span class="str">'/'</span><span class="str">articles'</span>, ArticleController::<span class="kw">class</span>);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Privilege-Based Protection</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm">// Require specific privilege</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'privilege:reports.run'</span>])
-    ->get(<span class="str">'/'</span><span class="str">reports'</span>, ReportController::<span class="kw">class</span>);
-
-<span class="cm">// Allow any of multiple privileges</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'privileges:billing.view,reports.run'</span>])
-    ->get(<span class="str">'/'</span><span class="str">analytics'</span>, AnalyticsController::<span class="kw">class</span>);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Mixed Abilities (Roles + Privileges)</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm">// Require ALL abilities (roles and/or privileges)</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'ability:admin,reports.run'</span>])
-    ->post(<span class="str">'/'</span><span class="str">reports/export'</span>, ReportExportController::<span class="kw">class</span>);
-
-<span class="cm">// Allow ANY ability</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'abilities:admin,super-admin,reports.run'</span>])
-    ->get(<span class="str">'/'</span><span class="str">reports/advanced'</span>, AdvancedReportController::<span class="kw">class</span>);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">With Audit Logging</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm">// Add tyro.log middleware for request/response logging</span>
-<span class="fn">Route::middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="mw">'ability:billing.view'</span>, <span class="mw">'tyro.log'</span>])
-    ->get(<span class="str">'/'</span><span class="str">billing/statements'</span>, BillingStatementController::<span class="kw">class</span>);</code>
+                    <div class="doc-command-desc">Emergency command. Revokes EVERY single active token in the database.</div>
+                    <div class="doc-inline-code">php artisan tyro:auth-logout-all-users --force</div>
                 </div>
             </section>
 
             <!-- API Endpoints Reference -->
             <section id="api-endpoints" class="doc-section">
-                <h2 class="doc-section-title">API Endpoints Reference</h2>
-                <p class="doc-text">Complete list of available API endpoints in Tyro.</p>
+                <h2 class="doc-section-title">REST API Endpoints</h2>
+                <p class="doc-text">
+                    Tyro optionally provides a full suite of production-ready API endpoints. 
+                    If you don't need them, set <code class="doc-inline-code">TYRO_DISABLE_API=true</code> in your <code class="doc-inline-code">.env</code>.
+                </p>
 
-                <h3 class="doc-section-subtitle">Public Endpoints</h3>
+                <h3 class="doc-section-subtitle">Authentication</h3>
                 <table class="doc-table">
                     <thead>
                         <tr>
@@ -1595,30 +877,24 @@ $<span class="scope">role</span>-><span class="rbac">privileges</span>()->sync([
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/login</code></td>
-                            <td>Authenticate user and retrieve token</td>
+                            <td><span class="method-badge post">POST</span></td>
+                            <td><code>/api/login</code></td>
+                            <td>Authenticate and receive a Sanctum token</td>
                         </tr>
                         <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/users</code></td>
-                            <td>Register a new user</td>
+                            <td><span class="method-badge post">POST</span></td>
+                            <td><code>/api/users</code></td>
+                            <td>Public registration endpoint</td>
                         </tr>
                         <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/tyro</code></td>
-                            <td>Get Tyro package information</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/tyro/version</code></td>
-                            <td>Get installed Tyro version</td>
+                            <td><span class="method-badge get">GET</span></td>
+                            <td><code>/api/me</code></td>
+                            <td>Get the authenticated user's profile and roles</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3 class="doc-section-subtitle">Authenticated User Endpoints</h3>
-                <p class="doc-text">Requires <code class="doc-inline-code">auth:sanctum</code> middleware.</p>
+                <h3 class="doc-section-subtitle">Admin Endpoints (Requires admin role)</h3>
                 <table class="doc-table">
                     <thead>
                         <tr>
@@ -1629,407 +905,86 @@ $<span class="scope">role</span>-><span class="rbac">privileges</span>()->sync([
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/me</code></td>
-                            <td>Get current authenticated user profile</td>
+                            <td><span class="method-badge get">GET</span></td>
+                            <td><code>/api/users</code></td>
+                            <td>List all registered users</td>
                         </tr>
                         <tr>
-                            <td><span class="doc-inline-code">PUT/PATCH</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}</code></td>
-                            <td>Update own profile (requires user ability)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="doc-section-subtitle">Admin Endpoints</h3>
-                <p class="doc-text">Requires <code class="doc-inline-code">auth:sanctum</code> and admin abilities.</p>
-
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">User Management</h4>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Endpoint</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/users</code></td>
-                            <td>List all users</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}</code></td>
-                            <td>Get specific user details</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}</code></td>
-                            <td>Delete a user</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}/suspend</code></td>
+                            <td><span class="method-badge post">POST</span></td>
+                            <td><code>/api/users/{id}/suspend</code></td>
                             <td>Suspend a user account</td>
                         </tr>
                         <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}/suspend</code></td>
-                            <td>Unsuspend a user account</td>
+                            <td><span class="method-badge post">POST</span></td>
+                            <td><code>/api/roles</code></td>
+                            <td>Create a new system role</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method-badge post">POST</span></td>
+                            <td><code>/api/users/{id}/roles</code></td>
+                            <td>Assign a role to a user</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Role & Privilege Management</h4>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Endpoint</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/roles</code></td>
-                            <td>List all roles</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/roles</code></td>
-                            <td>Create a new role</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}</code></td>
-                            <td>Get role details</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">PUT/PATCH</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}</code></td>
-                            <td>Update a role</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}</code></td>
-                            <td>Delete a role</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/privileges</code></td>
-                            <td>List all privileges</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/privileges</code></td>
-                            <td>Create a new privilege</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/privileges/{privilege}</code></td>
-                            <td>Get privilege details</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">PUT/PATCH</span></td>
-                            <td><code class="doc-inline-code">/api/privileges/{privilege}</code></td>
-                            <td>Update a privilege</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/privileges/{privilege}</code></td>
-                            <td>Delete a privilege</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Assignments</h4>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Endpoint</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}/roles</code></td>
-                            <td>List roles assigned to user</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}/roles</code></td>
-                            <td>Assign role to user</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/users/{user}/roles/{role}</code></td>
-                            <td>Remove role from user</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">GET</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}/privileges</code></td>
-                            <td>List privileges in role</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">POST</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}/privileges</code></td>
-                            <td>Attach privilege to role</td>
-                        </tr>
-                        <tr>
-                            <td><span class="doc-inline-code">DELETE</span></td>
-                            <td><code class="doc-inline-code">/api/roles/{role}/privileges/{privilege}</code></td>
-                            <td>Detach privilege from role</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- Configuration -->
-            <section id="configuration" class="doc-section">
-                <h2 class="doc-section-title">Configuration</h2>
-                <p class="doc-text">Publish the configuration file to customize Tyro:</p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:publish-config</span> --force</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Key Configuration Options</h3>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Option</th>
-                            <th>Default</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="doc-inline-code">guard</code></td>
-                            <td>sanctum</td>
-                            <td>Authentication guard for protected routes</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">route_prefix</code></td>
-                            <td>api</td>
-                            <td>URL prefix for all Tyro routes</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">default_user_role_slug</code></td>
-                            <td>user</td>
-                            <td>Role assigned to new registrations</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">cache.enabled</code></td>
-                            <td>true</td>
-                            <td>Enable role/privilege caching</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">disable_api</code></td>
-                            <td>false</td>
-                            <td>Disable built-in API routes</td>
-                        </tr>
-                        <tr>
-                            <td><code class="doc-inline-code">disable_commands</code></td>
-                            <td>false</td>
-                            <td>Disable artisan commands</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="doc-section-subtitle">Environment Variables</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Disable commands in production</span>
-TYRO_DISABLE_COMMANDS=<span class="str">true</span>
-
-<span class="cm"># Disable API routes</span>
-TYRO_DISABLE_API=<span class="str">true</span></code>
-                </div>
             </section>
 
             <!-- Audit Trail -->
             <section id="audit-trail" class="doc-section">
-                <h2 class="doc-section-title">Audit Trail</h2>
+                <h2 class="doc-section-title">Immutable Audit Trail</h2>
                 <p class="doc-text">
-                    The Audit Trail feature provides a database-backed log of all administrative actions. It helps you track "Who did what, to whom, and when," which is essential for security compliance, troubleshooting, and forensic analysis.
+                    Tyro automatically records an immutable ledger of all critical administrative actions. It tracks <em>Who did what, to whom, and when.</em>
                 </p>
 
-                <h3 class="doc-section-subtitle">Recorded Events</h3>
-                <p class="doc-text">
-                    Tyro automatically captures the following events:
-                </p>
-
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">User Management</h4>
+                <h3 class="doc-section-subtitle">Monitored Events</h3>
                 <ul class="doc-list">
-                    <li><code class="doc-inline-code">user.suspended</code> - When a user is suspended (includes the reason)</li>
-                    <li><code class="doc-inline-code">user.unsuspended</code> - When a user's suspension is lifted</li>
-                    <li><code class="doc-inline-code">role.assigned</code> - When a role is attached to a user</li>
-                    <li><code class="doc-inline-code">role.removed</code> - When a role is detached from a user</li>
+                    <li>User suspension and restoration (includes reasons)</li>
+                    <li>Role assignment and removal</li>
+                    <li>Role/Privilege creation, modification, and deletion</li>
                 </ul>
 
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Role Management</h4>
-                <ul class="doc-list">
-                    <li><code class="doc-inline-code">role.created</code> - When a new role is created</li>
-                    <li><code class="doc-inline-code">role.updated</code> - When a role's name or slug is modified (logs old vs. new values)</li>
-                    <li><code class="doc-inline-code">role.deleted</code> - When a role is deleted</li>
-                </ul>
+                <h3 class="doc-section-subtitle">Viewing Logs</h3>
+                <div class="code-block">
+                    <div class="code-block-bar">
+                        <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                        <span class="code-block-bar-label">CLI</span>
+                    </div>
+                    <pre class="code-block-content"><code><span class="cmt"># View the most recent 20 events</span>
+php artisan tyro:audit-list
 
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Privilege Management</h4>
-                <ul class="doc-list">
-                    <li><code class="doc-inline-code">privilege.created</code> - When a new privilege is created</li>
-                    <li><code class="doc-inline-code">privilege.updated</code> - When a privilege is modified</li>
-                    <li><code class="doc-inline-code">privilege.deleted</code> - When a privilege is deleted</li>
-                </ul>
+<span class="cmt"># Filter by specific event type</span>
+php artisan tyro:audit-list --event=user.suspended
 
-                <h3 class="doc-section-subtitle">Data Captured</h3>
-                <p class="doc-text">
-                    Each audit log entry includes:
-                </p>
-                <ul class="doc-list">
-                    <li><strong>User ID:</strong> The ID of the authenticated user who performed the action (or "System" for CLI)</li>
-                    <li><strong>Event:</strong> The type of action performed</li>
-                    <li><strong>Auditable:</strong> A polymorphic relation to the object affected (e.g., the User or Role)</li>
-                    <li><strong>Old Values:</strong> A JSON representation of the data before the change</li>
-                    <li><strong>New Values:</strong> A JSON representation of the data after the change</li>
-                    <li><strong>Metadata:</strong> Includes IP Address, User-Agent, and whether the action was performed via Console (CLI)</li>
-                </ul>
-
-                <h3 class="doc-section-subtitle">Configuration</h3>
-                <p class="doc-text">
-                    Configure the audit trail in <code class="doc-inline-code">config/tyro.php</code>:
-                </p>
-                <div class="doc-code-block">
-                    <code>'audit' => [
-    'enabled' => env('TYRO_AUDIT_ENABLED', true),
-    'retention_days' => env('TYRO_AUDIT_RETENTION_DAYS', 30),
-],</code>
-                </div>
-                <ul class="doc-list">
-                    <li><strong>enabled:</strong> Set to <code class="doc-inline-code">false</code> to completely disable audit logging</li>
-                    <li><strong>retention_days:</strong> Number of days to keep logs before they are eligible for purging via the CLI</li>
-                </ul>
-
-                <h3 class="doc-section-subtitle">REST API Access</h3>
-                <p class="doc-text">
-                    If the Tyro API is enabled, admins can access logs via the REST endpoint:
-                </p>
-                <div class="doc-code-block">
-                    <code>GET /api/audit-logs</code>
-                </div>
-
-                <h4 style="margin: var(--spacing-md) 0; font-family: var(--font-display); font-size: 1.1rem;">Query Parameters</h4>
-                <ul class="doc-list">
-                    <li><code class="doc-inline-code">event</code> - Filter by event slug (e.g., <code class="doc-inline-code">role.assigned</code>)</li>
-                    <li><code class="doc-inline-code">user_id</code> - Filter by the actor's user ID</li>
-                    <li><code class="doc-inline-code">from</code> - Filter by start date (YYYY-MM-DD)</li>
-                    <li><code class="doc-inline-code">to</code> - Filter by end date (YYYY-MM-DD)</li>
-                    <li><code class="doc-inline-code">per_page</code> - Control pagination (default 20)</li>
-                </ul>
-
-                <div class="doc-alert doc-alert-info">
-                    <strong>ℹ️ API Requirement:</strong> The REST endpoint requires the authenticated user to have administrative privileges as defined in your Tyro config.
-                </div>
-
-                <h3 class="doc-section-subtitle">Example Usage</h3>
-                <div class="doc-code-block">
-                    <code><span class="cm">// View recent audit logs</span>
-php artisan <span class="cmd">tyro:audit-list</span>
-
-<span class="cm">// Filter by event type</span>
-php artisan <span class="cmd">tyro:audit-list</span> --event=role.assigned
-
-<span class="cm">// View logs from a specific date range</span>
-php artisan <span class="cmd">tyro:audit-list</span> --from=<span class="num">2024-06-01</span> --to=<span class="num">2024-06-30</span>
-
-<span class="cm">// Purge old logs (older than 30 days)</span>
-php artisan <span class="cmd">tyro:audit-purge</span>
-
-<span class="cm">// Immediately purge logs older than 7 days</span>
-php artisan <span class="cmd">tyro:audit-purge</span> --days=<span class="num">7</span> --force</code>
-                </div>
-
-                <div class="doc-alert doc-alert-success">
-                    <strong>✓ Compliance Ready:</strong> The Audit Trail helps meet compliance requirements and provides visibility into administrative changes for security and forensic purposes.
+<span class="cmt"># Automatic log rotation (purge logs older than 30 days)</span>
+php artisan tyro:audit-purge</code></pre>
                 </div>
             </section>
-
-            <!-- FAQ -->
-            <section id="faq" class="doc-section">
-                <h2 class="doc-section-title">Frequently Asked Questions</h2>
-
-                <h3 class="doc-section-subtitle">How do I change the default admin credentials?</h3>
-                <p class="doc-text">
-                    After installation, immediately change the default admin password using:
-                </p>
-                <div class="doc-code-block">
-                    <code>php artisan <span class="cmd">tyro:update-user</span> --user=admin@tyro.project --password=new_secure_password</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Can I use Tyro with an existing Laravel project?</h3>
-                <p class="doc-text">
-                    Yes! Tyro is designed to integrate seamlessly with existing projects. Just run <code class="doc-inline-code">tyro:install</code> and it will set up alongside your existing code without conflicts.
-                </p>
-
-                <h3 class="doc-section-subtitle">How do I disable Tyro's built-in routes?</h3>
-                <p class="doc-text">
-                    Set <code class="doc-inline-code">TYRO_DISABLE_API=true</code> in your <code class="doc-inline-code">.env</code> file to disable all built-in routes and implement your own.
-                </p>
-
-                <h3 class="doc-section-subtitle">What happens when I suspend a user?</h3>
-                <p class="doc-text">
-                    Suspending a user sets a <code class="doc-inline-code">suspended_at</code> timestamp, stores an optional reason, and immediately revokes all their Sanctum tokens. They cannot log in until unsuspended.
-                </p>
-
-                <h3 class="doc-section-subtitle">How do I add custom roles and privileges?</h3>
-                <p class="doc-text">
-                    Use the artisan commands or create them programmatically:
-                </p>
-                <div class="doc-code-block">
-                    <code><span class="cm"># Via CLI</span>
-php artisan <span class="cmd">tyro:role-create</span> --name=<span class="str">"Manager"</span> --slug=<span class="str">"manager"</span>
-php artisan <span class="cmd">tyro:privilege-create</span> custom.action --name=<span class="str">"Custom Action"</span>
-
-<span class="cm"># Via Code</span>
-<span class="ty">Role</span>::create([<span class="str">'name'</span> => <span class="str">'Manager'</span>, <span class="str">'slug'</span> => <span class="str">'manager'</span>]);
-<span class="ty">Privilege</span>::create([<span class="str">'name'</span> => <span class="str">'Custom Action'</span>, <span class="str">'slug'</span> => <span class="str">'custom.action'</span>]);</code>
-                </div>
-
-                <h3 class="doc-section-subtitle">Is Tyro production-ready?</h3>
-                <p class="doc-text">
-                    Yes! Tyro is battle-tested and includes comprehensive security features, caching, and performance optimizations. It's used in production applications.
-                </p>
-
-                <h3 class="doc-section-subtitle">How do I get help or report bugs?</h3>
-                <p class="doc-text">
-                    Visit the <a href="https://github.com/hasinhayder/tyro" target="_blank" rel="noopener" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">GitHub repository</a> to open issues, read the full README, or contribute to the project.
-                </p>
-            </section>
-
-            <!-- Footer Navigation -->
-            <div style="margin-top: var(--spacing-3xl); padding-top: var(--spacing-xl); border-top: 2px solid var(--color-border); text-align: center;">
-                <a href="index.html" class="btn btn-primary">← Back to Home</a>
+            
+            <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--color-border); text-align: center;">
+                <p style="color: var(--color-text-secondary); margin-bottom: 24px;">Need more help? Check the source code or open an issue.</p>
+                <a href="https://github.com/hasinhayder/tyro" target="_blank" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    Visit GitHub Repository
+                </a>
             </div>
+
         </main>
     </div>
 
     <script src="script.js"></script>
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Smooth scrolling & Sidebar active state
+        document.querySelectorAll('.doc-nav-link[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                    // Update active nav link
-                    document.querySelectorAll('.doc-nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
+                    document.querySelectorAll('.doc-nav-link').forEach(link => link.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // Close mobile sidebar if open
+                    document.getElementById('docSidebar').classList.remove('open');
+                    document.getElementById('sidebarOverlay').classList.remove('open');
                 }
             });
         });
@@ -2042,7 +997,6 @@ php artisan <span class="cmd">tyro:privilege-create</span> custom.action --name=
             let current = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
                 if (pageYOffset >= sectionTop - 100) {
                     current = section.getAttribute('id');
                 }
@@ -2055,6 +1009,20 @@ php artisan <span class="cmd">tyro:privilege-create</span> custom.action --name=
                 }
             });
         });
+
+        // Mobile Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('docSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if(sidebarToggle && sidebar && overlay) {
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            }
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+        }
     </script>
 </body>
 
