@@ -330,6 +330,59 @@
         </div>
     </section>
 
+    <!-- ═══════ BLADE DIRECTIVES ═══════ -->
+    <section id="directives" class="section-block">
+        <div class="section-block-inner">
+            <div class="feature-split reveal">
+                <div class="split-text-col">
+                    <div class="feature-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+                        Blade Integration
+                    </div>
+                    <h3 class="feature-title">7 Native Directives<br><span class="muted">for clean views.</span></h3>
+                    <p class="feature-desc">Keep your Blade templates pristine. Tyro injects custom directives to handle UI rendering conditionally based on the user's roles and privileges. No more messy PHP logic in your views.</p>
+                    <div class="feature-code-pills" style="gap: 8px;">
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasRole</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasAnyRole</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasAllRoles</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasPrivilege</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasAnyPrivilege</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>hasAllPrivileges</div>
+                        <div class="feature-pill" style="padding: 6px 12px;"><span class="tag">@</span>userCan</div>
+                    </div>
+                </div>
+                <div class="split-code-col">
+                    <div class="code-block">
+                        <div class="code-block-bar">
+                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
+                            <span class="code-block-bar-label">resources/views/dashboard.blade.php</span>
+                        </div>
+                        <pre class="code-block-content"><code><span class="tag">@hasRole</span>(<span class="str">'admin'</span>)
+    <span class="op">&lt;div class=</span><span class="str">"admin-panel"</span><span class="op">&gt;</span>
+        <span class="text">Rendered only for admins</span>
+    <span class="op">&lt;/div&gt;</span>
+<span class="tag">@endhasRole</span>
+
+<span class="tag">@hasAnyRole</span>(<span class="str">'admin'</span>, <span class="str">'editor'</span>)
+    <span class="op">&lt;div class=</span><span class="str">"editor-tools"</span><span class="op">&gt;</span>
+        <span class="text">Rendered for admins OR editors</span>
+    <span class="op">&lt;/div&gt;</span>
+<span class="tag">@endhasAnyRole</span>
+
+<span class="tag">@hasPrivilege</span>(<span class="str">'reports.export'</span>)
+    <span class="op">&lt;button class=</span><span class="str">"btn"</span><span class="op">&gt;</span><span class="text">Export CSV</span><span class="op">&lt;/button&gt;</span>
+<span class="tag">@endhasPrivilege</span>
+
+<span class="cmt">{{-- Wraps Laravel's native Gate check --}}</span>
+<span class="tag">@userCan</span>(<span class="str">'users.delete'</span>)
+    <span class="op">&lt;button class=</span><span class="str">"text-red"</span><span class="op">&gt;</span><span class="text">Delete</span><span class="op">&lt;/button&gt;</span>
+<span class="tag">@enduserCan</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ═══════ MORE FEATURES GRID ═══════ -->
     <section class="section-block" style="background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="section-block-inner">
