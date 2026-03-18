@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyro — Authentication & RBAC for Laravel</title>
-    <meta name="description" content="Complete authentication, authorization, and role-based access control for Laravel 12 & 13. 40+ CLI commands, 7 Blade directives, Sanctum integration.">
+    <title>Tyro — The Ultimate RBAC & Authentication Toolkit for Laravel</title>
+    <meta name="description" content="Stop reinventing auth. Tyro delivers complete authentication, authorization, and role-based access control for Laravel 12+. 40+ CLI commands, native Blade directives, and zero lock-in.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./styles.css">
 </head>
@@ -31,19 +31,18 @@
                 <a href="#features" class="navbar-link">Features</a>
                 <a href="#rbac" class="navbar-link">RBAC</a>
                 <a href="#commands" class="navbar-link">Commands</a>
-                <a href="#directives" class="navbar-link">Directives</a>
-                <a href="doc.html" class="navbar-link">Docs</a>
+                <a href="doc.html" class="navbar-link">Documentation</a>
                 <a href="https://github.com/hasinhayder/tyro" target="_blank" class="navbar-cta-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     GitHub
                 </a>
-                <a href="#setup" class="navbar-cta">Install</a>
+                <a href="#setup" class="navbar-cta">Install Now</a>
             </div>
         </div>
     </nav>
 
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -54,7 +53,7 @@
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
-        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
     </button>
@@ -64,94 +63,45 @@
     <!-- ═══════ HERO ═══════ -->
     <section class="hero">
         <div class="hero-pattern"></div>
+        <div class="hero-glow"></div>
 
-        <div class="hero-node" style="top: 20%; left: 10%;"></div>
-        <div class="pulse-ring" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
-        <div class="hero-node" style="top: 45%; left: 15%; animation-delay: 2s;"></div>
-        <div class="hero-node" style="top: 75%; left: 12%; animation-delay: 4s;"></div>
-        <div class="pulse-ring" style="top: 75%; left: 12%; animation-delay: 1.5s;"></div>
-        <div class="hero-node" style="top: 25%; right: 15%; animation-delay: 1s;"></div>
-        <div class="hero-node" style="top: 55%; right: 10%; animation-delay: 3s;"></div>
-        <div class="pulse-ring" style="top: 55%; right: 10%; animation-delay: 3s;"></div>
-        <div class="hero-node" style="top: 80%; right: 18%; animation-delay: 5s;"></div>
-
-        <div class="floating-code" style="top: 15%; left: 25%; animation-delay: 0.5s;">hasRole('admin')</div>
-        <div class="floating-code" style="bottom: 35%; right: 25%; animation-delay: 4s;">'role:admin'</div>
-
-        <div class="artifact-svg" style="top: 35%; left: 5%; opacity: 0.05;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <path d="m9 12 2 2 4-4"></path>
-            </svg>
-        </div>
-
-        <div class="floating-card" style="top: 22%; left: 8%; animation-delay: 0s;">
-            <div class="floating-card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    <path d="m9 12 2 2 4-4"></path>
-                </svg>
-            </div>
-            <div class="floating-card-info">
-                <h5>Role Management</h5>
-                <p>Granular access control</p>
-            </div>
-        </div>
-
-        <div class="floating-card" style="top: 48%; right: 6%; animation-delay: 1.5s;">
-            <div class="floating-card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-            </div>
-            <div class="floating-card-info">
-                <h5>User Suspension</h5>
-                <p>Freeze accounts instantly</p>
-            </div>
-        </div>
-
-        <div class="floating-card" style="bottom: 25%; left: 15%; animation-delay: 3s;">
-            <div class="floating-card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-            </div>
-            <div class="floating-card-info">
-                <h5>Audit Trail</h5>
-                <p>Track every admin action</p>
-            </div>
-        </div>
+        <div class="floating-code" style="top: 25%; left: 15%; animation-delay: 0.5s;">$user->hasRole('admin')</div>
+        <div class="floating-code" style="bottom: 30%; right: 15%; animation-delay: 2s;">middleware(['role:editor'])</div>
 
         <div class="hero-container">
-            <div class="hero-badge">
+            <div class="hero-badge reveal">
                 <span class="hero-badge-dot"><span></span><span></span></span>
-                Open Source &middot; MIT License
+                Tyro v2 is out now &middot; MIT Licensed
             </div>
 
-            <h1 class="hero-title">
+            <h1 class="hero-title reveal" style="transition-delay: 0.1s;">
                 Authentication & RBAC<br>
-                <span class="accent">for Laravel</span>
+                <span class="accent">Done Right.</span>
             </h1>
 
-            <p class="hero-description">
-                A complete auth and access control toolkit for Laravel 12 & 13. Sanctum integration, 40+ CLI commands, 7 Blade directives, and powerful middleware.
-                <strong>Everything you need to secure your application.</strong>
+            <p class="hero-description reveal" style="transition-delay: 0.2s;">
+                Stop reinventing the wheel. Tyro delivers granular role-based access control, intelligent user suspension, and robust authentication for modern <strong>Laravel 12+</strong> apps. Zero lock-in. Total control.
             </p>
 
-            <div class="hero-actions">
+            <div class="hero-actions reveal" style="transition-delay: 0.3s;">
+                <div class="install-chip">
+                    <span class="install-chip-text">composer require hasinhayder/tyro</span>
+                    <button class="install-chip-copy" onclick="copyToClipboard(this, 'composer require hasinhayder/tyro')" aria-label="Copy command">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                </div>
                 <a href="#setup" class="hero-btn">
-                    Get Started
-                    <span class="cta-arrow">↗</span>
+                    Start Building
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
-                <div class="install-chip">composer require hasinhayder/tyro</div>
             </div>
 
-            <div class="hero-powering">
-                <h3 class="powering-title">Built for the Modern Laravel Stack</h3>
+            <div class="hero-powering reveal" style="transition-delay: 0.4s;">
+                <h3 class="powering-title">Engineered for the Modern Stack</h3>
                 <div class="powering-grid">
                     <div class="powering-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/></svg>
-                        Laravel 12 & 13
+                        Laravel 12+
                     </div>
                     <div class="powering-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -159,11 +109,7 @@
                     </div>
                     <div class="powering-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        Laravel Gate
-                    </div>
-                    <div class="powering-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
-                        Blade
+                        Gates & Policies
                     </div>
                     <div class="powering-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -177,63 +123,42 @@
     <!-- ═══════ STATS ═══════ -->
     <section class="stats-row">
         <div class="stats-container">
-            <div class="stat-item">
-                <div class="stat-value">v2</div>
-                <div class="stat-label">Latest Version</div>
-            </div>
-            <div class="stat-item">
+            <div class="stat-item reveal">
                 <div class="stat-value">40+</div>
-                <div class="stat-label">CLI Commands</div>
+                <div class="stat-label">Artisan Commands</div>
             </div>
-            <div class="stat-item">
+            <div class="stat-item reveal" style="transition-delay: 0.1s;">
                 <div class="stat-value">7</div>
                 <div class="stat-label">Blade Directives</div>
             </div>
-            <div class="stat-item">
+            <div class="stat-item reveal" style="transition-delay: 0.2s;">
                 <div class="stat-value">8</div>
-                <div class="stat-label">Middleware</div>
+                <div class="stat-label">Middleware Aliases</div>
+            </div>
+            <div class="stat-item reveal" style="transition-delay: 0.3s;">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Zero Lock-in</div>
             </div>
         </div>
     </section>
 
     <!-- ═══════ WHY TYRO ═══════ -->
     <section id="why" class="why-section">
-        <div class="why-marquee">
-            <div class="why-marquee-inner">
-                <span>AUTH</span>
-                <span>ROLES</span>
-                <span>PRIVILEGES</span>
-                <span>TOKENS</span>
-                <span>MIDDLEWARE</span>
-                <span>AUDIT</span>
-                <span>AUTH</span>
-                <span>ROLES</span>
-                <span>PRIVILEGES</span>
-                <span>TOKENS</span>
-                <span>MIDDLEWARE</span>
-                <span>AUDIT</span>
-            </div>
-        </div>
-
         <div class="why-split">
             <div class="why-left">
                 <div class="why-left-content reveal">
-                    <div class="why-tagline">Every. Single. Project.</div>
+                    <div class="why-tagline">The Old Way</div>
                     <h2 class="why-title">
-                        <span class="why-title-line">You build</span>
-                        <span class="why-title-line why-faded">the same</span>
-                        <span class="why-title-line">thing.</span>
+                        <span class="why-title-line">Every single</span>
+                        <span class="why-title-line why-faded">project, you</span>
+                        <span class="why-title-line">build this.</span>
                     </h2>
                     <div class="why-list">
-                        <div class="why-list-item">User authentication</div>
-                        <div class="why-list-item">Role management</div>
-                        <div class="why-list-item">Permission checks</div>
-                        <div class="why-list-item">Token handling</div>
-                        <div class="why-list-item">Suspension logic</div>
-                    </div>
-                    <div class="why-time">
-                        <span class="why-time-value">21</span>
-                        <span class="why-time-label">days average</span>
+                        <div class="why-list-item">Design RBAC database schemas</div>
+                        <div class="why-list-item">Write complex middleware</div>
+                        <div class="why-list-item">Implement role & privilege caching</div>
+                        <div class="why-list-item">Handle user suspension logic</div>
+                        <div class="why-list-item">Build an audit trail from scratch</div>
                     </div>
                 </div>
             </div>
@@ -248,10 +173,10 @@
 
             <div class="why-right">
                 <div class="why-right-content reveal">
-                    <div class="why-tagline orange">Or you could</div>
+                    <div class="why-tagline orange">The Tyro Way</div>
                     <h2 class="why-title">
-                        <span class="why-title-line orange">just run</span>
-                        <span class="why-title-line orange">one</span>
+                        <span class="why-title-line orange">Or, just run</span>
+                        <span class="why-title-line orange">one simple</span>
                         <span class="why-title-line orange">command.</span>
                     </h2>
                     <div class="why-terminal">
@@ -259,50 +184,41 @@
                             <span></span><span></span><span></span>
                         </div>
                         <div class="why-terminal-body">
-                            <code><span class="why-prompt">$</span> php artisan tyro:sys-install</code>
+                            <code><span class="why-prompt">~</span> php artisan tyro:install</code>
+                            <div class="why-terminal-output">
+                                <span class="output-line success">✓ Published migrations</span>
+                                <span class="output-line success">✓ Seeded roles & privileges</span>
+                                <span class="output-line success">✓ Bootstrapped super-admin</span>
+                                <span class="output-line success">✓ System ready in 3 seconds.</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="why-result">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>Done in <strong>3 minutes</strong></span>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="why-footer reveal">
-            <div class="why-features">
-                <span>40+ Commands</span>
-                <span>8 Middleware</span>
-                <span>7 Blade Directives</span>
-                <span>Zero Lock-in</span>
-            </div>
-            <a href="#setup" class="why-cta">
-                Install Tyro →
-            </a>
         </div>
     </section>
 
     <!-- ═══════ FEATURES: ROLES & PRIVILEGES ═══════ -->
     <section id="features" class="section-block">
         <div class="section-block-inner">
-            <div class="reveal">
-                <span class="section-eyebrow">Features</span>
-                <h2 class="section-heading">Everything you need,<br><span class="accent">nothing you don't.</span></h2>
+            <div class="reveal" style="text-align:center; max-width: 700px; margin: 0 auto 80px;">
+                <span class="section-eyebrow">Core Features</span>
+                <h2 class="section-heading">Everything you need.<br><span class="accent">Nothing you don't.</span></h2>
+                <p class="section-lead" style="margin:0 auto;">Tyro seamlessly integrates with Laravel's native Gate and Policy engines while giving you a beautifully fluent API to manage access control.</p>
             </div>
 
+            <!-- Feature 1 -->
             <div class="feature-split reveal">
                 <div class="split-text-col">
                     <div class="feature-tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-                        Role Management
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        Fluent API
                     </div>
-                    <h3 class="feature-title">Granular access control,<br><span class="muted">effortlessly managed.</span></h3>
-                    <p class="feature-desc">Create unlimited roles with fine-grained privileges. Check permissions in controllers, middleware, Blade templates, or anywhere in your code with intuitive helpers. Supports wildcard matching.</p>
+                    <h3 class="feature-title">Granular control,<br><span class="muted">effortlessly managed.</span></h3>
+                    <p class="feature-desc">Check permissions in controllers, middleware, or Blade templates with intuitive helpers. Support for wildcard matching and heavily cached checks ensures sub-millisecond response times.</p>
                     <div class="feature-code-pills">
                         <div class="feature-pill"><span class="hl">$user</span><span class="op">-></span><span class="method">hasRole</span><span class="op">(</span><span class="str">'admin'</span><span class="op">)</span></div>
-                        <div class="feature-pill"><span class="hl">$user</span><span class="op">-></span><span class="method">hasRoles</span><span class="op">([</span><span class="str">'admin'</span><span class="op">,</span><span class="str">'editor'</span><span class="op">])</span></div>
-                        <div class="feature-pill"><span class="hl">$user</span><span class="op">-></span><span class="method">hasPrivileges</span><span class="op">([...])</span></div>
+                        <div class="feature-pill"><span class="hl">$user</span><span class="op">-></span><span class="method">hasRoles</span><span class="op">([</span><span class="str">'admin'</span><span class="op">, </span><span class="str">'editor'</span><span class="op">])</span></div>
                         <div class="feature-pill"><span class="hl">$user</span><span class="op">-></span><span class="method">can</span><span class="op">(</span><span class="str">'reports.run'</span><span class="op">)</span></div>
                     </div>
                 </div>
@@ -310,24 +226,19 @@
                     <div class="code-block">
                         <div class="code-block-bar">
                             <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">UserController.php</span>
+                            <span class="code-block-bar-label">app/Http/Controllers/ReportController.php</span>
                         </div>
-                        <pre class="code-block-content"><code><span class="cmt">// Check if user has admin role</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'admin'</span>)) {
-    <span class="cmt">// Grant access</span>
-}
-
-<span class="cmt">// Check multiple roles (user must have ALL)</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRoles</span>([<span class="str">'admin'</span>, <span class="str">'super-admin'</span>])) {
-    <span class="cmt">// User has both roles</span>
-}
-
-<span class="cmt">// Check specific privilege via Gate</span>
+                        <pre class="code-block-content"><code><span class="cmt">// Check specific privilege via Gate</span>
 <span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'reports.run'</span>)) {
-    <span class="cmt">// User can run reports</span>
+    <span class="kw">return</span> <span class="var">$this</span><span class="op">-></span><span class="fn">generateReport</span>();
 }
 
-<span class="cmt">// Require all listed privileges</span>
+<span class="cmt">// Check if user has admin role</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'admin'</span>)) {
+    <span class="kw">return</span> <span class="var">$this</span><span class="op">-></span><span class="fn">generateAllReports</span>();
+}
+
+<span class="cmt">// Require all listed privileges explicitly</span>
 <span class="var">$hasAccess</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">hasPrivileges</span>([
     <span class="str">'reports.run'</span>,
     <span class="str">'billing.view'</span>
@@ -337,46 +248,38 @@
             </div>
 
             <!-- Feature 2: Middleware (reversed) -->
-            <div class="feature-split reverse reveal" style="margin-top: 120px;">
+            <div class="feature-split reverse reveal" style="margin-top: 100px;">
                 <div class="split-text-col">
                     <div class="feature-tag">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                        Powerful Middleware
+                        Routing
                     </div>
-                    <h3 class="feature-title">Protect routes<br><span class="muted">with precision.</span></h3>
-                    <p class="feature-desc">Eight purpose-built middleware aliases for enforcing role and privilege checks directly on your routes. Require all or any abilities with flexible syntax.</p>
-                    <div class="middleware-pills">
-                        <div class="feature-pill"><span class="hl">role:</span>admin</div>
-                        <div class="feature-pill"><span class="hl">roles:</span>editor,admin</div>
-                        <div class="feature-pill"><span class="hl">privilege:</span>reports.run</div>
-                        <div class="feature-pill"><span class="hl">privileges:</span>a,b</div>
-                        <div class="feature-pill"><span class="hl">ability:</span>admin,edit</div>
-                        <div class="feature-pill"><span class="hl">abilities:</span>x,y</div>
-                    </div>
+                    <h3 class="feature-title">Protect routes<br><span class="muted">with absolute precision.</span></h3>
+                    <p class="feature-desc">Eight purpose-built middleware aliases for enforcing role and privilege checks directly on your routes. Require all or any abilities with flexible, elegant syntax.</p>
                 </div>
                 <div class="split-code-col">
                     <div class="code-block">
                         <div class="code-block-bar">
                             <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">routes/api.php</span>
+                            <span class="code-block-bar-label">routes/web.php</span>
                         </div>
                         <pre class="code-block-content"><code><span class="kw">use</span> <span class="cls">Illuminate\Support\Facades\Route</span>;
 
-<span class="cmt">// Require admin role</span>
-<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>])
-    <span class="op">-></span><span class="fn">get</span>(<span class="str">'dashboard'</span>, <span class="cls">DashboardController</span><span class="op">::</span><span class="kw">class</span>);
+<span class="cmt">// Require the admin role</span>
+<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth'</span>, <span class="str">'role:admin'</span>])
+    <span class="op">-></span><span class="fn">get</span>(<span class="str">'/dashboard'</span>, <span class="cls">DashboardController</span><span class="op">::</span><span class="kw">class</span>);
 
-<span class="cmt">// Allow editor OR admin</span>
-<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'roles:editor,admin'</span>])
-    <span class="op">-></span><span class="fn">post</span>(<span class="str">'articles'</span>, <span class="cls">ArticleController</span><span class="op">::</span><span class="kw">class</span>);
+<span class="cmt">// Allow either editor OR admin</span>
+<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth'</span>, <span class="str">'roles:editor,admin'</span>])
+    <span class="op">-></span><span class="fn">post</span>(<span class="str">'/articles'</span>, <span class="cls">ArticleController</span><span class="op">::</span><span class="kw">class</span>);
 
 <span class="cmt">// Require ALL listed privileges</span>
 <span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>(<span class="str">'privilege:reports.run,billing.view'</span>)
-    <span class="op">-></span><span class="fn">get</span>(<span class="str">'reports'</span>, <span class="cls">ReportsController</span><span class="op">::</span><span class="kw">class</span>);
+    <span class="op">-></span><span class="fn">get</span>(<span class="str">'/reports'</span>, <span class="cls">ReportsController</span><span class="op">::</span><span class="kw">class</span>);
 
-<span class="cmt">// Audit sensitive routes</span>
-<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>, <span class="str">'tyro.log'</span>])
-    <span class="op">-></span><span class="fn">delete</span>(<span class="str">'users/{user}'</span>, [<span class="cls">UserController</span><span class="op">::</span><span class="kw">class</span>, <span class="str">'destroy'</span>]);</code></pre>
+<span class="cmt">// Transparently audit sensitive routes</span>
+<span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth'</span>, <span class="str">'role:admin'</span>, <span class="str">'tyro.log'</span>])
+    <span class="op">-></span><span class="fn">delete</span>(<span class="str">'/users/{user}'</span>, [<span class="cls">UserController</span><span class="op">::</span><span class="kw">class</span>, <span class="str">'destroy'</span>]);</code></pre>
                     </div>
                 </div>
             </div>
@@ -384,256 +287,62 @@
     </section>
 
     <!-- ═══════ MORE FEATURES GRID ═══════ -->
-    <section class="section-block" style="background: var(--color-bg-secondary);">
+    <section class="section-block" style="background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
         <div class="section-block-inner">
-            <div class="matrix-grid reveal" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="matrix-grid reveal">
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     </div>
                     <h3>User Suspension</h3>
-                    <p>Freeze accounts instantly with optional reasons. All Sanctum tokens are revoked automatically on suspension.</p>
+                    <p>Freeze malicious or inactive accounts instantly. All active Sanctum tokens and sessions are revoked automatically upon suspension.</p>
                 </div>
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                     </div>
-                    <h3>Audit Trail</h3>
-                    <p>Track every administrative action with comprehensive before/after logs. View via CLI or API endpoint.</p>
+                    <h3>Immutable Audit Trail</h3>
+                    <p>Track every critical administrative action. Store comprehensive before/after logs that can be viewed via the CLI or queried via the API.</p>
                 </div>
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     </div>
-                    <h3>Password Security</h3>
-                    <p>Configurable password validation: min length, numbers, uppercase, special chars, common password detection.</p>
+                    <h3>Protected Core Roles</h3>
+                    <p>Prevent accidental lockouts. System-critical roles like <code>admin</code> and <code>super-admin</code> are protected at the database layer from being deleted.</p>
                 </div>
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </div>
-                    <h3>Protected Roles</h3>
-                    <p>System roles like admin and super-admin are protected from accidental deletion. Enforced at database level.</p>
+                    <h3>Sanctum Symbiosis</h3>
+                    <p>Tokens automatically mirror user role and privilege slugs as abilities. Revoke tokens effortlessly. Emergency token rotation is just one command away.</p>
                 </div>
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </div>
-                    <h3>REST API</h3>
-                    <p>Optional production-ready endpoints for login, registration, user, role, and privilege management. Disable with one flag.</p>
+                    <h3>Production-Ready API</h3>
+                    <p>Ship faster with pre-built, standardized REST endpoints for user authentication, registration, and comprehensive RBAC management.</p>
                 </div>
                 <div class="matrix-item">
                     <div class="matrix-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
                     </div>
-                    <h3>Zero Lock-in</h3>
-                    <p>Publish config, migrations, and factories. Disable CLI commands or API routes per environment. Adapt to your architecture.</p>
+                    <h3>Absolute Freedom</h3>
+                    <p>No black boxes. Publish config files, migrations, and factories. Adapt the schema, swap out traits, or selectively disable API routes per environment.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ═══════ GRANULAR ROLES & PRIVILEGES ═══════ -->
-    <section id="rbac" class="section-block">
-        <div class="section-block-inner">
-            <div class="reveal" style="text-align:center; margin-bottom: 64px;">
-                <span class="section-eyebrow">Fine-Grained Control</span>
-                <h2 class="section-heading">Granular Roles &<br><span class="accent">Privilege Control</span></h2>
-                <p class="section-lead" style="margin:0 auto; max-width: 680px;">The <code style="background: var(--color-bg-secondary); padding: 2px 8px; border-radius: 4px; font-size: 0.9em;">HasTyroRoles</code> trait gives your User model a complete API for checking roles, privileges, and managing access. One trait, endless possibilities.</p>
-            </div>
-
-            <!-- Role Checking Methods -->
-            <div class="feature-split reveal">
-                <div class="split-text-col">
-                    <div class="feature-tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        Role Methods
-                    </div>
-                    <h3 class="feature-title">Check roles<br><span class="muted">with precision.</span></h3>
-                    <p class="feature-desc">Verify single or multiple roles with intuitive methods. Wildcard support lets you match patterns. All role checks are cached for optimal performance.</p>
-                    <div class="rbac-methods">
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">hasRole()</span>
-                            <span class="rbac-method-desc">Check single role</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">hasRoles()</span>
-                            <span class="rbac-method-desc">Require ALL roles</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">hasAnyRole()</span>
-                            <span class="rbac-method-desc">Match ANY role</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">tyroRoleSlugs()</span>
-                            <span class="rbac-method-desc">Get all role slugs</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="split-code-col">
-                    <div class="code-block">
-                        <div class="code-block-bar">
-                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">Role Checks</span>
-                        </div>
-                        <pre class="code-block-content"><code><span class="cmt">// Check if user has a specific role</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'admin'</span>)) {
-    <span class="cmt">// User is an admin</span>
-}
-
-<span class="cmt">// Wildcard matching</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'*-admin'</span>)) {
-    <span class="cmt">// Matches super-admin, content-admin, etc.</span>
-}
-
-<span class="cmt">// Check multiple roles (user must have ALL)</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRoles</span>([<span class="str">'admin'</span>, <span class="str">'billing-manager'</span>])) {
-    <span class="cmt">// User has both roles</span>
-}
-
-<span class="cmt">// Check if user has ANY of the roles</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasAnyRole</span>(<span class="str">'editor'</span>, <span class="str">'author'</span>, <span class="str">'contributor'</span>)) {
-    <span class="cmt">// User has at least one</span>
-}
-
-<span class="cmt">// Get all role slugs (cached)</span>
-<span class="var">$roles</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">tyroRoleSlugs</span>();
-<span class="cmt">// Returns: ['admin', 'editor']</span></code></pre>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Privilege Checking Methods -->
-            <div class="feature-split reverse reveal" style="margin-top: 120px;">
-                <div class="split-text-col">
-                    <div class="feature-tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        Privilege Methods
-                    </div>
-                    <h3 class="feature-title">Fine-grained<br><span class="muted">permissions.</span></h3>
-                    <p class="feature-desc">Privileges are inherited through roles. Check specific abilities like <code>reports.run</code> or <code>users.delete</code>. The unified <code>can()</code> method checks privileges first, then roles, then falls back to Laravel Gate.</p>
-                    <div class="rbac-methods">
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">hasPrivilege()</span>
-                            <span class="rbac-method-desc">Check single privilege</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">hasPrivileges()</span>
-                            <span class="rbac-method-desc">Require ALL privileges</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">can()</span>
-                            <span class="rbac-method-desc">Unified check (Gate)</span>
-                        </div>
-                        <div class="rbac-method">
-                            <span class="rbac-method-name">tyroPrivilegeSlugs()</span>
-                            <span class="rbac-method-desc">Get all privilege slugs</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="split-code-col">
-                    <div class="code-block">
-                        <div class="code-block-bar">
-                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">Privilege Checks</span>
-                        </div>
-                        <pre class="code-block-content"><code><span class="cmt">// Check single privilege via Gate integration</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'reports.run'</span>)) {
-    <span class="cmt">// User can run reports</span>
-}
-
-<span class="cmt">// Direct privilege check</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasPrivilege</span>(<span class="str">'users.delete'</span>)) {
-    <span class="cmt">// User has delete-users privilege</span>
-}
-
-<span class="cmt">// Require ALL privileges</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
-    <span class="cmt">// User has BOTH privileges</span>
-}
-
-<span class="cmt">// Get all privilege slugs (cached)</span>
-<span class="var">$privileges</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">tyroPrivilegeSlugs</span>();
-<span class="cmt">// Returns: ['reports.run', 'billing.view', ...]</span>
-
-<span class="cmt">// can() checks privilege, then role, then Gate</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'admin'</span>)) {
-    <span class="cmt">// Checks if user has 'admin' privilege OR 'admin' role</span>
-}</code></pre>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Programmatic Management -->
-            <div class="feature-split reveal" style="margin-top: 120px;">
-                <div class="split-text-col">
-                    <div class="feature-tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Programmatic Control
-                    </div>
-                    <h3 class="feature-title">Manage roles &<br><span class="muted">privileges at runtime.</span></h3>
-                    <p class="feature-desc">Assign and remove roles dynamically. Attach privileges to roles. Build admin panels, self-service portals, or automated permission workflows with the full Role and Privilege model APIs.</p>
-                    <div class="check-list">
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Assign/remove roles without detaching existing ones</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Attach/detach privileges to roles</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Role model has hasPrivilege() and hasPrivileges()</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="split-code-col">
-                    <div class="code-block">
-                        <div class="code-block-bar">
-                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">Runtime Management</span>
-                        </div>
-                        <pre class="code-block-content"><code><span class="kw">use</span> <span class="cls">HasinHayder\Tyro\Models\Role</span>;
-<span class="kw">use</span> <span class="cls">HasinHayder\Tyro\Models\Privilege</span>;
-
-<span class="cmt">// Assign role to user</span>
-<span class="var">$role</span> <span class="op">=</span> <span class="cls">Role</span><span class="op">::</span><span class="fn">where</span>(<span class="str">'slug'</span>, <span class="str">'editor'</span>)-><span class="fn">first</span>();
-<span class="var">$user</span><span class="op">-></span><span class="fn">assignRole</span>(<span class="var">$role</span>);
-
-<span class="cmt">// Remove role from user</span>
-<span class="var">$user</span><span class="op">-></span><span class="fn">removeRole</span>(<span class="var">$role</span>);
-
-<span class="cmt">// Attach privilege to role</span>
-<span class="var">$privilege</span> <span class="op">=</span> <span class="cls">Privilege</span><span class="op">::</span><span class="fn">where</span>(<span class="str">'slug'</span>, <span class="str">'reports.export'</span>)-><span class="fn">first</span>();
-<span class="var">$role</span><span class="op">-></span><span class="fn">privileges</span>()-><span class="fn">attach</span>(<span class="var">$privilege</span>-><span class="prop">id</span>);
-
-<span class="cmt">// Detach privilege from role</span>
-<span class="var">$role</span><span class="op">-></span><span class="fn">privileges</span>()-><span class="fn">detach</span>(<span class="var">$privilege</span>-><span class="prop">id</span>);
-
-<span class="cmt">// Check if role has a privilege</span>
-<span class="kw">if</span> (<span class="var">$role</span><span class="op">-></span><span class="fn">hasPrivilege</span>(<span class="str">'reports.run'</span>)) {
-    <span class="cmt">// Role has this privilege</span>
-}
-
-<span class="cmt">// Check if role has ALL privileges</span>
-<span class="kw">if</span> (<span class="var">$role</span><span class="op">-></span><span class="fn">hasPrivileges</span>([<span class="str">'reports.run'</span>, <span class="str">'billing.view'</span>])) {
-    <span class="cmt">// Role has both</span>
-}</code></pre>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
     <!-- ═══════ COMMANDS ═══════ -->
     <section id="commands" class="section-block">
         <div class="section-block-inner">
-            <div class="reveal" style="text-align:center; margin-bottom: 64px;">
-                <span class="section-eyebrow">CLI Power</span>
-                <h2 class="section-heading" style="margin:0 auto 1rem;">40+ Artisan Commands</h2>
-                <p class="section-lead" style="margin:0 auto;">Manage users, roles, privileges, tokens, and audits entirely from the CLI. Perfect for automation, CI/CD, and incident response.</p>
+            <div class="reveal" style="text-align:center; margin-bottom: 60px;">
+                <span class="section-eyebrow">Developer Experience</span>
+                <h2 class="section-heading">40+ Artisan Commands</h2>
+                <p class="section-lead" style="margin:0 auto;">Manage users, roles, privileges, tokens, and audits entirely from your terminal. Designed for automation, CI/CD, and rapid incident response.</p>
             </div>
 
             <div class="commands-grid reveal">
@@ -642,19 +351,12 @@
                     <div class="cmd-category-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         <h3>User Management</h3>
-                        <span class="cmd-count">11</span>
                     </div>
                     <div class="cmd-list-full">
                         <div class="cmd-row"><code>tyro:user-create</code><span>Create new user</span></div>
-                        <div class="cmd-row"><code>tyro:user-update</code><span>Update user details</span></div>
-                        <div class="cmd-row"><code>tyro:user-delete</code><span>Delete user</span></div>
-                        <div class="cmd-row"><code>tyro:user-list</code><span>List all users</span></div>
-                        <div class="cmd-row"><code>tyro:user-list-with-roles</code><span>Users with roles</span></div>
                         <div class="cmd-row"><code>tyro:user-suspend</code><span>Suspend user</span></div>
-                        <div class="cmd-row"><code>tyro:user-unsuspend</code><span>Remove suspension</span></div>
-                        <div class="cmd-row"><code>tyro:user-suspended</code><span>List suspended</span></div>
-                        <div class="cmd-row"><code>tyro:user-roles</code><span>User's roles</span></div>
-                        <div class="cmd-row"><code>tyro:user-privileges</code><span>User's privileges</span></div>
+                        <div class="cmd-row"><code>tyro:user-roles</code><span>List user's roles</span></div>
+                        <div class="cmd-row"><code>tyro:user-privileges</code><span>List user's privs</span></div>
                         <div class="cmd-row"><code>tyro:user-token</code><span>Mint token</span></div>
                     </div>
                 </div>
@@ -664,36 +366,13 @@
                     <div class="cmd-category-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                         <h3>Role Management</h3>
-                        <span class="cmd-count">9</span>
                     </div>
                     <div class="cmd-list-full">
                         <div class="cmd-row"><code>tyro:role-create</code><span>Create new role</span></div>
-                        <div class="cmd-row"><code>tyro:role-update</code><span>Update role</span></div>
-                        <div class="cmd-row"><code>tyro:role-delete</code><span>Delete role</span></div>
-                        <div class="cmd-row"><code>tyro:role-list</code><span>List all roles</span></div>
-                        <div class="cmd-row"><code>tyro:role-list-with-privileges</code><span>Roles with privileges</span></div>
                         <div class="cmd-row"><code>tyro:role-assign</code><span>Assign role to user</span></div>
-                        <div class="cmd-row"><code>tyro:role-remove</code><span>Remove role from user</span></div>
+                        <div class="cmd-row"><code>tyro:role-remove</code><span>Remove role</span></div>
+                        <div class="cmd-row"><code>tyro:role-list</code><span>List all roles</span></div>
                         <div class="cmd-row"><code>tyro:role-users</code><span>Users with role</span></div>
-                        <div class="cmd-row"><code>tyro:role-purge</code><span>Remove all roles</span></div>
-                    </div>
-                </div>
-
-                <!-- Privilege Management -->
-                <div class="cmd-category">
-                    <div class="cmd-category-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-                        <h3>Privilege Management</h3>
-                        <span class="cmd-count">7</span>
-                    </div>
-                    <div class="cmd-list-full">
-                        <div class="cmd-row"><code>tyro:privilege-create</code><span>Create privilege</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-update</code><span>Update privilege</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-delete</code><span>Delete privilege</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-list</code><span>List all privileges</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-attach</code><span>Attach to role</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-detach</code><span>Detach from role</span></div>
-                        <div class="cmd-row"><code>tyro:privilege-purge</code><span>Remove all privileges</span></div>
                     </div>
                 </div>
 
@@ -702,146 +381,13 @@
                     <div class="cmd-category-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <h3>Auth & Tokens</h3>
-                        <span class="cmd-count">5</span>
                     </div>
                     <div class="cmd-list-full">
                         <div class="cmd-row"><code>tyro:auth-login</code><span>Mint Sanctum token</span></div>
                         <div class="cmd-row"><code>tyro:auth-logout</code><span>Revoke token</span></div>
                         <div class="cmd-row"><code>tyro:auth-logout-all</code><span>Revoke user's tokens</span></div>
-                        <div class="cmd-row"><code>tyro:auth-logout-all-users</code><span>Emergency rotation</span></div>
+                        <div class="cmd-row"><code>tyro:auth-logout-all-users</code><span style="color:#ef4444;">Emergency rotation</span></div>
                         <div class="cmd-row"><code>tyro:auth-me</code><span>Inspect token</span></div>
-                    </div>
-                </div>
-
-                <!-- Audit -->
-                <div class="cmd-category">
-                    <div class="cmd-category-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                        <h3>Audit & Logs</h3>
-                        <span class="cmd-count">2</span>
-                    </div>
-                    <div class="cmd-list-full">
-                        <div class="cmd-row"><code>tyro:audit-list</code><span>View audit logs</span></div>
-                        <div class="cmd-row"><code>tyro:audit-purge</code><span>Purge old logs</span></div>
-                    </div>
-                </div>
-
-                <!-- System -->
-                <div class="cmd-category">
-                    <div class="cmd-category-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        <h3>System & Setup</h3>
-                        <span class="cmd-count">10</span>
-                    </div>
-                    <div class="cmd-list-full">
-                        <div class="cmd-row"><code>tyro:install</code><span>Full installation</span></div>
-                        <div class="cmd-row"><code>tyro:user-prepare</code><span>Add trait to User</span></div>
-                        <div class="cmd-row"><code>tyro:seed-all</code><span>Seed roles & privileges</span></div>
-                        <div class="cmd-row"><code>tyro:seed-roles</code><span>Seed roles only</span></div>
-                        <div class="cmd-row"><code>tyro:seed-privileges</code><span>Seed privileges only</span></div>
-                        <div class="cmd-row"><code>tyro:publish-config</code><span>Publish config</span></div>
-                        <div class="cmd-row"><code>tyro:publish-migrations</code><span>Publish migrations</span></div>
-                        <div class="cmd-row"><code>tyro:sys-version</code><span>Show version</span></div>
-                        <div class="cmd-row"><code>tyro:sys-about</code><span>Info & links</span></div>
-                        <div class="cmd-row"><code>tyro:sys-postman</code><span>Postman collection</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════ BLADE DIRECTIVES ═══════ -->
-    <section id="directives" class="section-block" style="background: var(--color-bg-secondary);">
-        <div class="section-block-inner">
-            <div class="feature-split reveal">
-                <div class="split-text-col">
-                    <span class="section-eyebrow">Blade Integration</span>
-                    <h2 class="section-heading">7 Blade Directives</h2>
-                    <p class="section-lead">Conditionally render content based on user permissions directly in your Blade templates. All directives return false if no user is authenticated.</p>
-                    <div class="directive-pills">
-                        <div class="directive-pill"><span class="at">@</span><span class="name">userCan</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasRole</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasAnyRole</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasAllRoles</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasPrivilege</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasAnyPrivilege</span></div>
-                        <div class="directive-pill"><span class="at">@</span><span class="name">hasAllPrivileges</span></div>
-                    </div>
-                </div>
-                <div class="split-code-col">
-                    <div class="code-block">
-                        <div class="code-block-bar">
-                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">dashboard.blade.php</span>
-                        </div>
-                        <pre class="code-block-content"><code><span class="tag">@hasRole</span>(<span class="str">'admin'</span>)
-    <span class="op">&lt;div class=</span><span class="str">"admin-panel"</span><span class="op">&gt;</span>
-        <span class="text">Admin Dashboard</span>
-    <span class="op">&lt;/div&gt;</span>
-
-    <span class="tag">@hasPrivilege</span>(<span class="str">'manage-users'</span>)
-        <span class="op">&lt;a href=</span><span class="str">"/admin/users"</span><span class="op">&gt;</span>
-            <span class="text">Manage Users</span>
-        <span class="op">&lt;/a&gt;</span>
-    <span class="tag">@endhasPrivilege</span>
-<span class="tag">@endhasRole</span>
-
-<span class="tag">@hasAnyRole</span>(<span class="str">'editor'</span>, <span class="str">'author'</span>)
-    <span class="tag">@hasPrivilege</span>(<span class="str">'publish-posts'</span>)
-        <span class="op">&lt;button&gt;</span><span class="text">Publish</span><span class="op">&lt;/button&gt;</span>
-    <span class="tag">@endhasPrivilege</span>
-<span class="tag">@endhasAnyRole</span></code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════ SANCTUM TOKENS ═══════ -->
-    <section class="section-block">
-        <div class="section-block-inner">
-            <div class="feature-split reverse reveal">
-                <div class="split-text-col">
-                    <div class="feature-tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-                        Sanctum Integration
-                    </div>
-                    <h3 class="feature-title">Security that<br><span class="muted">never sleeps.</span></h3>
-                    <p class="feature-desc">Sanctum tokens automatically mirror role and privilege slugs as abilities. Suspension workflows revoke tokens instantly. Emergency token rotation is one command away.</p>
-                    <div class="check-list">
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Token abilities include role and privilege slugs</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Suspension instantly revokes all active tokens</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-dot"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                            <span>Per-user slug caching for optimal performance</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="split-code-col">
-                    <div class="code-block">
-                        <div class="code-block-bar">
-                            <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
-                            <span class="code-block-bar-label">AuthController.php</span>
-                        </div>
-                        <pre class="code-block-content"><code><span class="cmt">// Suspend a user (revokes all tokens automatically)</span>
-<span class="var">$user</span><span class="op">-></span><span class="fn">suspend</span>(<span class="str">'Pending account review'</span>);
-
-<span class="cmt">// Check suspension status</span>
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">isSuspended</span>()) {
-    <span class="var">$reason</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">getSuspensionReason</span>();
-}
-
-<span class="cmt">// Unsuspend and restore access</span>
-<span class="var">$user</span><span class="op">-></span><span class="fn">unsuspend</span>();
-
-<span class="cmt">// Emergency token rotation</span>
-<span class="cmt">// php artisan tyro:auth-logout-all-users --force</span></code></pre>
                     </div>
                 </div>
             </div>
@@ -849,18 +395,18 @@
     </section>
 
     <!-- ═══════ SETUP ═══════ -->
-    <section id="setup" class="section-block" style="background: var(--color-bg-secondary);">
+    <section id="setup" class="section-block" style="background: var(--color-bg-secondary); border-top: 1px solid var(--color-border);">
         <div class="section-block-inner" style="text-align: center;">
             <span class="section-eyebrow">Quick Start</span>
-            <h2 class="section-heading">Up and running<br><span class="accent">in seconds.</span></h2>
-            <p class="section-lead" style="margin: 0 auto;">Install Tyro, run one command, and you have a complete auth system with default roles, privileges, and a bootstrap admin account.</p>
+            <h2 class="section-heading">Up and running <span class="accent">in seconds.</span></h2>
+            <p class="section-lead" style="margin: 0 auto;">Install Tyro, run the artisan command, and instantly gain a robust authentication layer with seeded default roles, privileges, and an admin user.</p>
 
             <div class="install-steps" style="max-width: 700px; margin: 60px auto 0; text-align: left;">
                 <div class="install-step">
                     <div class="install-step-dot">1</div>
                     <div class="install-step-body">
                         <h3>Install the package</h3>
-                        <p>Require via Composer. Service provider is auto-discovered.</p>
+                        <p>Require Tyro via Composer. The service provider is automatically discovered.</p>
                         <div class="code-pill">
                             <code>composer require hasinhayder/tyro</code>
                             <button class="code-pill-copy" onclick="copyToClipboard(this, 'composer require hasinhayder/tyro')">
@@ -874,7 +420,7 @@
                     <div class="install-step-dot">2</div>
                     <div class="install-step-body">
                         <h3>Run the installer</h3>
-                        <p>Sets up Sanctum, runs migrations, seeds roles/privileges, prepares User model, and creates the bootstrap admin account.</p>
+                        <p>Automatically configure Sanctum, run migrations, seed initial roles, wire up your User model, and bootstrap your first super-admin account.</p>
                         <div class="code-pill">
                             <code>php artisan tyro:install</code>
                             <button class="code-pill-copy" onclick="copyToClipboard(this, 'php artisan tyro:install')">
@@ -885,42 +431,32 @@
                 </div>
 
                 <div class="install-step">
-                    <div class="install-step-dot" style="border-color: #22c55e; color: #22c55e;">3</div>
+                    <div class="install-step-dot" style="border-color: var(--hero-orange); background: rgba(249, 115, 22, 0.1); color: var(--hero-orange);">3</div>
                     <div class="install-step-body">
-                        <h3>Start using Tyro</h3>
-                        <p>Protect routes, check permissions, render Blade directives. You're ready to ship.</p>
+                        <h3>Start building</h3>
+                        <p>Protect routes, check permissions, and build interfaces. You're ready to ship.</p>
                         <div class="code-block" style="margin-top: 12px;">
                             <div class="code-block-bar">
                                 <div class="code-block-bar-dots"><span></span><span></span><span></span></div>
                                 <div class="code-block-bar-tabs">
-                                    <button class="code-block-bar-tab active" data-tab="setup-middleware">Middleware</button>
-                                    <button class="code-block-bar-tab" data-tab="setup-gate">Gate</button>
-                                    <button class="code-block-bar-tab" data-tab="setup-blade">Blade</button>
+                                    <button class="code-block-bar-tab active" data-tab="setup-blade">Blade</button>
+                                    <button class="code-block-bar-tab" data-tab="setup-middleware">Middleware</button>
                                 </div>
                             </div>
                             <div class="code-block-tabs-wrapper">
-<pre class="code-block-content code-tab-content active" id="setup-middleware"><code><span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth:sanctum'</span>, <span class="str">'role:admin'</span>])
-    <span class="op">-></span><span class="fn">group</span>(<span class="kw">function</span> () {
-        <span class="cmt">// Protected routes</span>
-    });</code></pre>
-<pre class="code-block-content code-tab-content" id="setup-gate"><code><span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">can</span>(<span class="str">'reports.run'</span>)) {
-    <span class="cmt">// User has the privilege</span>
-}
-
-<span class="kw">if</span> (<span class="var">$user</span><span class="op">-></span><span class="fn">hasRole</span>(<span class="str">'admin'</span>)) {
-    <span class="cmt">// User is an admin</span>
-}
-
-<span class="var">$slugs</span> <span class="op">=</span> <span class="var">$user</span><span class="op">-></span><span class="fn">tyroRoleSlugs</span>();</code></pre>
-<pre class="code-block-content code-tab-content" id="setup-blade"><code><span class="tag">@hasRole</span>(<span class="str">'admin'</span>)
+<pre class="code-block-content code-tab-content active" id="setup-blade"><code><span class="tag">@hasRole</span>(<span class="str">'admin'</span>)
     <span class="op">&lt;div class=</span><span class="str">"admin-panel"</span><span class="op">&gt;</span>
-        <span class="text">Welcome, Admin!</span>
+        <span class="text">Welcome back, Admin.</span>
     <span class="op">&lt;/div&gt;</span>
 <span class="tag">@endhasRole</span>
 
-<span class="tag">@userCan</span>(<span class="str">'edit-posts'</span>)
-    <span class="op">&lt;button&gt;</span><span class="text">Edit Post</span><span class="op">&lt;/button&gt;</span>
+<span class="tag">@userCan</span>(<span class="str">'users.delete'</span>)
+    <span class="op">&lt;button class=</span><span class="str">"btn-danger"</span><span class="op">&gt;</span><span class="text">Delete User</span><span class="op">&lt;/button&gt;</span>
 <span class="tag">@enduserCan</span></code></pre>
+<pre class="code-block-content code-tab-content" id="setup-middleware"><code><span class="cls">Route</span><span class="op">::</span><span class="fn">middleware</span>([<span class="str">'auth'</span>, <span class="str">'role:admin'</span>])
+    <span class="op">-></span><span class="fn">group</span>(<span class="kw">function</span> () {
+        <span class="cmt">// Your protected admin routes</span>
+    });</code></pre>
                             </div>
                         </div>
                     </div>
@@ -931,17 +467,17 @@
 
     <!-- ═══════ CTA ═══════ -->
     <section class="cta-block">
-        <div class="cta-block-inner">
+        <div class="cta-block-inner reveal">
             <h2>Ready to <span class="accent">ship?</span></h2>
-            <p>Stop building auth from scratch. Let Tyro handle roles, privileges, and tokens &mdash; so you can focus on what matters.</p>
+            <p>Stop wrestling with boilerplate authentication. Let Tyro handle roles, privileges, and API tokens—so you can focus on building your actual product.</p>
             <div class="cta-btns">
                 <a href="doc.html" class="cta-btn-a">
-                    Read the Docs
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    Read the Documentation
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
                 <a href="https://github.com/hasinhayder/tyro" target="_blank" class="cta-btn-b">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    Star on GitHub
+                    View Source
                 </a>
             </div>
         </div>
@@ -952,15 +488,14 @@
         <div class="footer-inner">
             <div class="footer-col brand">
                 <div class="footer-brand-name">Tyro</div>
-                <p class="footer-brand-desc">Authentication, authorization & RBAC for Laravel. Open source under MIT License.</p>
+                <p class="footer-brand-desc">Enterprise-grade authentication, authorization & RBAC toolkit designed exclusively for modern Laravel applications.</p>
             </div>
             <div class="footer-col">
                 <h4>Resources</h4>
                 <ul>
                     <li><a href="doc.html">Documentation</a></li>
-                    <li><a href="https://github.com/hasinhayder/tyro" target="_blank">GitHub</a></li>
+                    <li><a href="https://github.com/hasinhayder/tyro" target="_blank">GitHub Repository</a></li>
                     <li><a href="https://github.com/hasinhayder/tyro/blob/main/CHANGELOG.md" target="_blank">Release Notes</a></li>
-                    <li><a href="https://github.com/hasinhayder/tyro#optional--rest-api-endpoints" target="_blank">Postman Collection</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -980,7 +515,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">&copy; 2026 Tyro. Built for Laravel.</p>
+            <p class="footer-copy">&copy; 2026 Tyro. Open source under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
             <div class="footer-socials">
                 <a href="https://github.com/hasinhayder" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
             </div>
