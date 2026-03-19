@@ -7,20 +7,19 @@ const spotlight = document.getElementById('spotlight');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const navbarLinks = document.getElementById('navbarLinks');
 
+// Initialize Theme
 const savedTheme = localStorage.getItem('tyro-landing-theme');
-if (savedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
+if (savedTheme) { 
+    document.documentElement.setAttribute('data-theme', savedTheme); 
 }
 
+// Toggle Theme
 themeToggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('tyro-landing-theme', 'light');
-        return;
-    }
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('tyro-landing-theme', 'dark');
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('tyro-landing-theme', newTheme);
 });
 
 // ===========================
@@ -79,8 +78,6 @@ document.querySelectorAll('.code-block-bar-tab').forEach(tab => {
         tab.classList.add('active');
 
         // Handle both tab structures:
-        // 1. code-tab-content inside code-block-content
-        // 2. code-block-content as direct children of tabs-wrapper
         const tabsWrapper = container.querySelector('.code-block-tabs-wrapper');
         if (tabsWrapper) {
             tabsWrapper.querySelectorAll('.code-tab-content, .code-block-content').forEach(c => c.classList.remove('active'));
