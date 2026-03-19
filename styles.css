@@ -792,72 +792,76 @@ body {
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto auto;
-    gap: 24px;
+    grid-auto-rows: minmax(220px, auto);
+    gap: 20px;
 }
 
 .bento-item {
-    background: var(--color-bg);
+    background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 32px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Add a subtle top inner glow to the cards */
+/* Subtle background pattern/gradient */
 .bento-item::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    inset: 0;
+    background: radial-gradient(800px circle at 0% 0%, rgba(255, 255, 255, 0.02), transparent);
+    z-index: 0;
+    pointer-events: none;
 }
 
-.bento-item:hover::before {
-    opacity: 1;
+[data-theme="light"] .bento-item {
+    background: var(--color-bg);
+}
+
+[data-theme="light"] .bento-item::before {
+    background: radial-gradient(800px circle at 0% 0%, rgba(0, 0, 0, 0.02), transparent);
 }
 
 .bento-item:hover {
-    border-color: var(--color-border-hover);
     transform: translateY(-2px);
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] .bento-item:hover {
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+    border-color: var(--color-border-hover);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.08);
 }
 
 .bento-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    background: var(--color-bg-secondary);
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--hero-orange);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1;
 }
 
-.bento-item:hover .bento-icon {
-    background: var(--hero-orange-dim);
-    border-color: var(--hero-orange);
-    transform: scale(1.05);
+[data-theme="light"] .bento-icon {
+    background: var(--color-bg-secondary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
 .bento-item h3 {
     font-size: 1.15rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-text);
     margin: 0;
-    letter-spacing: -0.01em;
+    z-index: 1;
 }
 
 .bento-item p {
@@ -865,6 +869,7 @@ body {
     font-size: 0.95rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
+    z-index: 1;
 }
 
 /* Span styling for the Bento layout */
