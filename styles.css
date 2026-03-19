@@ -339,7 +339,7 @@ body {
 }
 
 .hero-container {
-    max-width: 900px;
+    max-width: 1200px;
     position: relative;
     z-index: 10;
     flex: 1;
