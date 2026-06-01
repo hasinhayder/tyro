@@ -39,10 +39,12 @@ use HasinHayder\Tyro\Console\Commands\RunTestsCommand;
 use HasinHayder\Tyro\Console\Commands\SeedCommand;
 use HasinHayder\Tyro\Console\Commands\SeedPrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\SeedRolesCommand;
+use HasinHayder\Tyro\Console\Commands\SetupAiSkillCommand;
 use HasinHayder\Tyro\Console\Commands\StarCommand;
 use HasinHayder\Tyro\Console\Commands\SuspendedUsersCommand;
 use HasinHayder\Tyro\Console\Commands\SuspendUserCommand;
 use HasinHayder\Tyro\Console\Commands\UnsuspendUserCommand;
+use HasinHayder\Tyro\Console\Commands\UpdateConfigCommand;
 use HasinHayder\Tyro\Console\Commands\UpdatePrivilegeCommand;
 use HasinHayder\Tyro\Console\Commands\UpdateRoleCommand;
 use HasinHayder\Tyro\Console\Commands\UpdateUserCommand;
@@ -197,15 +199,15 @@ class TyroServiceProvider extends ServiceProvider {
             PublishMigrationsCommand::class,
             QuickTokenCommand::class,
             RunTestsCommand::class,
-            SuspendUserCommand::class,
-            SuspendedUsersCommand::class,
-            UnsuspendUserCommand::class,
-            RoleUsersCommand::class,
-            DeletePrivilegeCommand::class,
             SeedCommand::class,
             SeedPrivilegesCommand::class,
             SeedRolesCommand::class,
+            SetupAiSkillCommand::class,
             StarCommand::class,
+            SuspendUserCommand::class,
+            SuspendedUsersCommand::class,
+            UnsuspendUserCommand::class,
+            UpdateConfigCommand::class,
             UpdatePrivilegeCommand::class,
             UpdateRoleCommand::class,
             UpdateUserCommand::class,

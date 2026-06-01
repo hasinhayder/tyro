@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = '1.6.0'; // Added tyro:update-config command
+        $version = '1.7.0'; // Added AI skill system, registered 4 missing commands, fixed SetupAiSkillCommand paths
 
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -30,6 +30,7 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+// 1.7.0 - Added AI skill system, registered 4 missing commands, fixed SetupAiSkillCommand paths
 // 1.6.0 - Added tyro:update-config command
 // 1.5.0 - Added Laravel 13 support. 
 // 1.4.0 - added hasAnyRole() Support. Now Users can check if they have any of the given roles with a single method call.
