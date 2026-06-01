@@ -654,6 +654,9 @@ Tyro ships with a powerful CLI toolbox for managing users, roles, privileges, an
 | `tyro:sys-doc`                | Open documentation.                                     |
 | `tyro:sys-star`               | Open GitHub to star the repo ⭐                         |
 | `tyro:sys-postman` | Open the Postman collection URL.                        |
+| `tyro:setup-ai-skill` | Install Tyro AI skill for your preferred agent.         |
+| `tyro:update-config` | Update tyro config with the latest version.             |
+| `tyro:sys-test`        | Run the project test suite (Pest by default).           |
 
 All commands accept non-interactive `--option` flags, making them perfect for scripts and automation.
 
@@ -763,6 +766,29 @@ curl -X POST http://localhost/api/roles/4/privileges \
 	-H "Authorization: Bearer ${TOKEN}" \
 	-d '{"privilege_id":2}'
 ```
+
+## AI Agent Integration
+
+Tyro ships a built-in AI skill that helps AI coding assistants understand your authorization system and write correct Tyro code. Install it for your preferred agent:
+
+```bash
+php artisan tyro:setup-ai-skill
+```
+
+The command prompts you to choose from supported agents:
+
+| Agent | Install Location |
+|---|---|
+| Kilo | `.kilo/skills/tyro/` |
+| Claude | `.claude/skills/tyro/` |
+| GitHub Copilot | `.github/skills/tyro/` |
+| Codex | `.codex/skills/tyro/` |
+| Gemini | `.gemini/skills/tyro/` |
+| Laravel Boost | `.ai/skills/tyro/` |
+
+Choosing `all` installs to every agent directory. A universal copy is also placed at `.agents/skills/tyro/` for any agent that follows the agents.md convention.
+
+The skill includes 27 rule files covering architecture, authorization, permissions, roles, privileges, suspensions, inheritance, caching, security, middleware, Blade directives, testing, and more — all grounded in Tyro's actual codebase patterns.
 
 ## FAQ
 
