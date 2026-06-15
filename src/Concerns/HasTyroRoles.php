@@ -33,22 +33,56 @@ trait HasTyroRoles {
      * Assign a role to the user.
      */
     public function assignRole(Role $role): void {
-        $this->roles()->syncWithoutDetaching($role);
+        $this->attachRole($role);
+    }
+
+    /**
+     * Attach a role to the user without affecting existing roles.
+     */
+    public function attachRole(Role $role): void {
+        $this->roles()->attach($role);
         TyroCache::forgetUser($this->getKey());
         $this->flushTyroRuntimeCache();
 
-        TyroAudit::log('role.assigned', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
+        TyroAudit::log('role.attached', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
+    }
+
+    /**
+     * Detach a role from the user.
+     */
+    public function detachRole(Role $role): void {
+        $this->roles()->detach($role);
+        TyroCache::forgetUser($this->getKey());
+        $this->flushTyroRuntimeCache();
+
+        TyroAudit::log('role.detached', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
     }
 
     /**
      * Remove a role from the user.
      */
     public function removeRole(Role $role): void {
-        $this->roles()->detach($role);
-        TyroCache::forgetUser($this->getKey());
-        $this->flushTyroRuntimeCache();
+        $this->detachRole($role);
+    }
 
-        TyroAudit::log('role.removed', $this, null, ['role_id' => $role->id, 'role_slug' => $role->slug]);
+    public function isAdmin(): bool {
+        return $this->hasRole('admin');
+    }
+
+    public function isSuperAdmin(): bool {
+        return $this->hasRole('super-admin');
+    }
+
+    public function isUser(): bool {
+        return $this->hasRole('user');
+    }
+
+    public function isEditor(): bool {
+        return $this->hasRole('editor');
+    }
+
+    public function isCustomer(): bool {
+        return $this->hasRole('customer');
     }
 
     /**
