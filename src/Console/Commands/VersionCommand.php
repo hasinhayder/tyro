@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = '1.8.0'; // Added attachRole/detachRole to HasTyroRoles and Privilege model, added role check helpers (isAdmin, isSuperAdmin, isEditor, isCustomer)
+        $version = '1.9.0'; // Added findRole() and findPrivilege() static methods to Role and Privilege models
 
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -30,6 +30,7 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+// 1.9.0 - Added findRole() and findPrivilege() static methods to Role and Privilege models
 // 1.8.0 - Added attachRole/detachRole to HasTyroRoles and Privilege model, added role check helpers (isAdmin, isSuperAdmin, isEditor, isCustomer)
 // 1.7.0 - Added AI skill system, registered 4 missing commands, fixed SetupAiSkillCommand paths
 // 1.6.0 - Added tyro:update-config command

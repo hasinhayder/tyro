@@ -37,4 +37,11 @@ class Privilege extends Model {
             config('tyro.tables.role_privilege', 'privilege_role')
         )->using(RolePrivilege::class)->withTimestamps();
     }
+
+    /**
+     * Find a privilege by its slug.
+     */
+    public static function findPrivilege(string $slug): ?self {
+        return self::where('slug', $slug)->first();
+    }
 }

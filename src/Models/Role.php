@@ -80,4 +80,11 @@ class Role extends Model {
             'privilege_slug' => $privilege->slug,
         ]);
     }
+
+    /**
+     * Find a role by its slug.
+     */
+    public static function findRole(string $slug): ?self {
+        return self::where('slug', $slug)->first();
+    }
 }
