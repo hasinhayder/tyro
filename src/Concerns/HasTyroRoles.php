@@ -95,6 +95,88 @@ trait HasTyroRoles {
     }
 
     /**
+     * Check if the user has the given role by slug.
+     */
+    public function is(string $slug): bool {
+        return $this->hasRole($slug);
+    }
+
+    /**
+     * Check if the user does NOT have the given role by slug.
+     * Inverse of is(). Honors super-admin ('*') wildcard.
+     */
+    public function isNot(string $slug): bool {
+        return ! $this->hasRole($slug);
+    }
+
+    /**
+     * Check if the user has NO roles assigned at all.
+     * Note: a super-admin wildcard holder counts as having roles.
+     */
+    public function hasNoRoles(): bool {
+        return empty($this->tyroRoleSlugs());
+    }
+
+    /**
+     * Get the total number of distinct roles assigned to the user.
+     * Excludes any wildcard pseudo-role (e.g. '*').
+     *
+     * @return int<0, max>
+     */
+    public function rolesCount(): int {
+        $slugs = $this->tyroRoleSlugs();
+
+        return count(array_filter($slugs, fn ($slug) => $slug !== '*'));
+    }
+
+    /**
+     * Sync the user's roles to the given set.
+     * Roles are matched by slug; any currently attached role whose slug is
+     * not in the provided list will be detached, and any provided slug that
+     * is not currently attached will be attached. Unknown slugs in the
+     * attach set cause a ModelNotFoundException; unknown slugs in the
+     * current set are skipped defensively. Audit entries are logged for
+     * each attached/detached role.
+     *
+     * @param  array<int, string|Role>  $roles  Slugs or Role instances.
+     * @return array{attached: array<int, string>, detached: array<int, string>}
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If an attach slug is unknown.
+     */
+    public function syncRoles(array $roles): array {
+        $desiredSlugs = [];
+        foreach ($roles as $role) {
+            $desiredSlugs[] = $role instanceof Role ? $role->slug : $role;
+        }
+        $desiredSlugs = array_values(array_unique($desiredSlugs));
+
+        $currentSlugs = $this->tyroRoleSlugs();
+
+        $toDetach = array_diff($currentSlugs, $desiredSlugs);
+        $toAttach = array_diff($desiredSlugs, $currentSlugs);
+
+        foreach ($toDetach as $slug) {
+            $roleModel = Role::findRole($slug);
+            if ($roleModel instanceof Role) {
+                $this->detachRole($roleModel);
+            }
+        }
+
+        foreach ($toAttach as $slug) {
+            $roleModel = Role::findRole($slug);
+            if (! $roleModel instanceof Role) {
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Role with slug [{$slug}] not found.");
+            }
+            $this->attachRole($roleModel);
+        }
+
+        return [
+            'attached' => array_values($toAttach),
+            'detached' => array_values($toDetach),
+        ];
+    }
+
+    /**
      * Check if the user has any of the given roles.
      */
     public function hasAnyRole(array $roles): bool {
