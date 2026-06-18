@@ -94,20 +94,6 @@ trait HasTyroRoles {
         return in_array($role, $userRoles, true) || in_array('*', $userRoles, true);
     }
 
-    /**
-     * Check if the user has the given role by slug.
-     */
-    public function is(string $slug): bool {
-        return $this->hasRole($slug);
-    }
-
-    /**
-     * Check if the user does NOT have the given role by slug.
-     * Inverse of is(). Honors super-admin ('*') wildcard.
-     */
-    public function isNot(string $slug): bool {
-        return ! $this->hasRole($slug);
-    }
 
     /**
      * Check if the user has NO roles assigned at all.
