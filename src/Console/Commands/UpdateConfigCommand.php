@@ -3,17 +3,30 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfigCommand extends Command {
     protected $signature = 'tyro:update-config {--with-backup : Create backup before publishing}';
 
     protected $description = 'Update tyro config with the latest version';
 
+    protected function showIntro(): void {
+        $this->newLine();
+        $this->line(sprintf('%s — %s', $this->getName(), $this->getDescription()));
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int {
+        $this->showIntro();
+
+        return parent::execute($input, $output);
+    }
+
     public function handle(): int {
         $appConfigPath = config_path('tyro.php');
 
         if ($this->option('with-backup')) {
-            $backupFilename = 'tyro-backup-' . date('Y-m-d-His') . '.txt';
+            $backupFilename = 'tyro-backup-'.date('Y-m-d-His').'.txt';
             $backupPath = config_path($backupFilename);
 
             if (file_exists($appConfigPath)) {

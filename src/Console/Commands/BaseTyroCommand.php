@@ -6,9 +6,25 @@ use HasinHayder\Tyro\Models\Privilege;
 use HasinHayder\Tyro\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 abstract class BaseTyroCommand extends Command {
+    /**
+     * Print a one-line description of what the command does before it runs.
+     */
+    protected function showIntro(): void {
+        $this->newLine();
+        $this->line(sprintf('%s — %s', $this->getName(), $this->getDescription()));
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int {
+        $this->showIntro();
+
+        return parent::execute($input, $output);
+    }
+
     protected function userClass(): string {
         return (string) config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }

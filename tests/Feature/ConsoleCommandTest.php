@@ -593,6 +593,13 @@ class ConsoleCommandTest extends TestCase {
             ->assertExitCode(0);
     }
 
+    public function test_commands_show_one_line_description_before_running(): void {
+        $this->artisan('tyro:sys-about')
+            ->expectsOutputToContain('tyro:sys-about — Show Tyro\'s mission, version, and author details')
+            ->expectsOutputToContain('Tyro for Laravel')
+            ->assertExitCode(0);
+    }
+
     public function test_doc_command_can_print_url(): void {
         $this->artisan('tyro:sys-doc', ['--no-open' => true])
             ->expectsOutputToContain('https://github.com/hasinhayder/tyro')

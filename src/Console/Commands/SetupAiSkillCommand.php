@@ -4,6 +4,8 @@ namespace HasinHayder\Tyro\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class SetupAiSkillCommand extends Command {
     /**
@@ -39,6 +41,17 @@ class SetupAiSkillCommand extends Command {
     /**
      * Execute the console command.
      */
+    protected function showIntro(): void {
+        $this->newLine();
+        $this->line(sprintf('%s — %s', $this->getName(), $this->getDescription()));
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int {
+        $this->showIntro();
+
+        return parent::execute($input, $output);
+    }
+
     public function handle(): int {
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -76,6 +89,7 @@ class SetupAiSkillCommand extends Command {
             if (! $relativePath) {
                 $this->warn("   ⚠ Unknown agent: {$agent}");
                 $ok = false;
+
                 continue;
             }
 
