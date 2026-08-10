@@ -542,6 +542,21 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString('report.generate', $output);
     }
 
+    public function test_user_show_command_displays_user_details(): void {
+        $userClass = config('tyro.models.user');
+        $user = $userClass::where('email', 'admin@tyro.project')->first();
+        $adminRole = Role::where('slug', 'admin')->first();
+
+        $exitCode = Artisan::call('tyro:user-show', ['user' => $user->email]);
+        $output = Artisan::output();
+
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString($user->email, $output);
+        $this->assertStringContainsString($adminRole->slug, $output);
+        $this->assertStringContainsString('Suspended', $output);
+        $this->assertStringContainsString('report.generate', $output);
+    }
+
     public function test_logout_all_command_revokes_every_token(): void {
         $userClass = config('tyro.models.user');
         $user = $userClass::where('email', 'admin@tyro.project')->first();
