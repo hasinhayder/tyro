@@ -199,6 +199,7 @@ class TyroServiceProvider extends ServiceProvider {
             PostmanCollectionCommand::class,
             PublishMigrationsCommand::class,
             QuickTokenCommand::class,
+            RoleUsersCommand::class,
             RunTestsCommand::class,
             SeedCommand::class,
             SeedPrivilegesCommand::class,
