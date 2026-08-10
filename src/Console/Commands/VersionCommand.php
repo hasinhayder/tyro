@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = '1.10.1'; // removed is() and isNot() from HasTyroRoles trait for compatibility issue
+        $version = '1.11.0'; // registered privilege-delete and role-users commands, added attached-role warning to privilege delete
 
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -30,6 +30,7 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+// 1.11.0 - Registered privilege-delete and role-users commands, added attached-role warning to privilege delete
 // 1.10.1 - removed is() and isNot() from HasTyroRoles trait for compatibility issue
 // 1.10.0 - Added is(), isNot(), syncRoles(), hasNoRoles(), and rolesCount() helpers to HasTyroRoles trait
 // 1.9.0 - Added findRole() and findPrivilege() static methods to Role and Privilege models
