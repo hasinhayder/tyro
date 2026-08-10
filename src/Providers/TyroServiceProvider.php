@@ -175,6 +175,7 @@ class TyroServiceProvider extends ServiceProvider {
             CreateUserCommand::class,
             DocCommand::class,
             DeleteRoleCommand::class,
+            DeletePrivilegeCommand::class,
             DeleteUserRoleCommand::class,
             DeleteUserCommand::class,
             DetachPrivilegeCommand::class,

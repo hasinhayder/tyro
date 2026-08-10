@@ -33,17 +33,33 @@ class DeletePrivilegeCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if (! $this->option('force') && ! $this->confirm("Delete privilege {$privilege->slug}?")) {
-            $this->info('Aborted.');
+        if (! $this->option('force')) {
+            $attachedRoles = $privilege->roles()->pluck('slug')->all();
 
-            return self::SUCCESS;
+            if ($attachedRoles !== []) {
+                $this->warn(sprintf(
+                    'This privilege is attached to %s: %s.',
+                    count($attachedRoles) === 1 ? 'this role' : 'these roles',
+                    implode(', ', $attachedRoles)
+                ));
+
+                if (! $this->confirm('Do you want to delete it?')) {
+                    $this->warn('Operation cancelled.');
+
+                    return self::SUCCESS;
+                }
+            } elseif (! $this->confirm(sprintf('Delete privilege "%s" (%s)?', $privilege->name, $privilege->slug))) {
+                $this->warn('Operation cancelled.');
+
+                return self::SUCCESS;
+            }
         }
 
         TyroCache::forgetUsersByPrivilege($privilege);
         $privilege->roles()->detach();
         $privilege->delete();
 
-        $this->info("Privilege [{$privilege->slug}] deleted.");
+        $this->info(sprintf('Privilege "%s" deleted.', $privilege->slug));
 
         return self::SUCCESS;
     }
