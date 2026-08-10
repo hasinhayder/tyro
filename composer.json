@@ -1,6 +1,6 @@
 {
     "name": "hasinhayder/tyro",
-    "description": "Tyro - The ultimate Authentication, Authorization, and Role & Privilege Management solution for Laravel 12 & 13",
+    "description": "Tyro is a complete Authentication, Authorization, and Role & Privilege (RBAC/ACL) management solution for Laravel 12 & 13, built on Laravel Sanctum.",
     "keywords": [
         "laravel",
         "authentication",
