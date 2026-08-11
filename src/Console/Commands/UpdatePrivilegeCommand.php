@@ -10,7 +10,7 @@ class UpdatePrivilegeCommand extends BaseTyroCommand {
 
     protected $aliases = ['tyro:update-privilege'];
 
-    protected $description = 'Update an existing privilege record';
+    protected $description = 'Modify an existing privilege record';
 
     // protected $aliases = ['tyro:update:privilege'];
 

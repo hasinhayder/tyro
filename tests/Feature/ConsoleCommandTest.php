@@ -507,7 +507,7 @@ class ConsoleCommandTest extends TestCase {
         $role = Role::where('slug', 'editor')->first();
         $user->roles()->sync([$role->id]);
 
-        $this->artisan('tyro:role-remove', [
+        $this->artisan('tyro:role-detach', [
             '--user' => $user->email,
             '--role' => $role->slug,
         ])->expectsOutputToContain('removed')

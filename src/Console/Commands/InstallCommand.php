@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 class InstallCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:sys-install
+    protected $signature = 'tyro:install
         {--force : Pass the --force flag to migrate}
         {--dry-run : Print the steps without executing install:api or migrate}';
 
-    protected $aliases = ['tyro:install'];
+    // protected $aliases = ['tyro:install'];
 
     protected $description = 'Bootstrap Tyro: set up Sanctum, run migrations, seed roles/privileges, and prepare your User model';
 

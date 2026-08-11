@@ -8,7 +8,7 @@ class DeletePrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-delete {privilege? : Privilege ID or slug}
         {--force : Skip confirmation prompt}';
 
-    protected $aliases = ['tyro:delete-privilege'];
+    // protected $aliases = ['tyro:delete-privilege'];
 
     protected $description = 'Delete a Tyro privilege record';
 

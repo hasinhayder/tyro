@@ -6,7 +6,7 @@ class DetachPrivilegeCommand extends BaseTyroCommand {
     protected $signature = 'tyro:privilege-detach {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
 
-    protected $aliases = ['tyro:detach-privilege'];
+    // protected $aliases = ['tyro:detach-privilege'];
 
     protected $description = 'Detach a privilege from a Tyro role';
 

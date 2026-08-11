@@ -11,7 +11,7 @@ class UpdateRoleCommand extends BaseTyroCommand {
 
     protected $aliases = ['tyro:update-role'];
 
-    protected $description = 'Update a role name or slug';
+    protected $description = 'Modify a role name or slug';
 
     public function handle(): int {
         $identifier = $this->option('role') ?? $this->ask('Role ID or slug');

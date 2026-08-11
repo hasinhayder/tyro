@@ -39,7 +39,8 @@ TyroAudit::log('role-created', $role);              // kebab-case
 // Commands: tyro:{entity}-{action} with kebab-case
 protected $signature = 'tyro:add-role';
 protected $signature = 'tyro:delete-role';
-protected $signature = 'tyro:assign-role';
+protected $signature = 'tyro:role-attach';
+protected $aliases = ['tyro:role-assign'];
 protected $signature = 'tyro:attach-privilege';
 protected $signature = 'tyro:create-user';
 protected $signature = 'tyro:sys-install';

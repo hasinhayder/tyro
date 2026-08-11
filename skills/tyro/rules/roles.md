@@ -78,7 +78,7 @@ $slugs = $user->tyroRoleSlugs();
 // List:    php artisan tyro:role-list
 // Update:  php artisan tyro:role-update
 // Delete:  php artisan tyro:role-delete (handle protected slugs)
-// Assign:  php artisan tyro:role-assign
+// Assign:  php artisan tyro:role-attach (alias: tyro:role-assign)
 // Users:   php artisan tyro:role-users
 ```
 

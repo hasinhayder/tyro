@@ -603,8 +603,8 @@ Tyro ships with a powerful CLI toolbox for managing users, roles, privileges, an
 | `tyro:role-create`           | Create a new role.                                 |
 | `tyro:role-update`           | Update a role's name or slug.                      |
 | `tyro:role-delete`           | Delete a role (protected roles cannot be deleted). |
-| `tyro:role-assign`           | Assign a role to a user.                           |
-| `tyro:role-remove`           | Remove a role from a user.                         |
+| `tyro:role-attach`           | Assign a role to a user.                           |
+| `tyro:role-detach`           | Remove a role from a user.                         |
 | `tyro:role-users`            | List all users with a specific role.               |
 | `tyro:user-roles`            | Display a user's roles and their privileges.       |
 

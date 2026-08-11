@@ -3,9 +3,9 @@
 namespace HasinHayder\Tyro\Console\Commands;
 
 class DeleteUserRoleCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:role-remove {--user=} {--role=}';
+    protected $signature = 'tyro:role-detach {--user=} {--role=}';
 
-    protected $aliases = ['tyro:delete-user-role'];
+    protected $aliases = ['tyro:delete-user-role', 'tyro:role-remove'];
 
     protected $description = 'Detach a role from a user';
 

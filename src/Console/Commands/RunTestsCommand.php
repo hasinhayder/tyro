@@ -14,7 +14,8 @@ class RunTestsCommand extends BaseTyroCommand {
         {--dry-run : Print the command instead of executing it}
         {--extra=* : Additional arguments to pass through}';
 
-    protected $aliases = ['tyro:sys-test', 'tyro:run-tests', 'tyro:test'];
+    // protected $aliases = ['tyro:sys-test', 'tyro:run-tests', 'tyro:test'];
+    protected $aliases = ['tyro:test'];
 
     protected $description = 'Run your project\'s automated tests (Pest by default)';
 

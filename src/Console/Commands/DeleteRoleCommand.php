@@ -7,7 +7,7 @@ use HasinHayder\Tyro\Support\TyroCache;
 class DeleteRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-delete {--role=} {--force}';
 
-    protected $aliases = ['tyro:delete-role'];
+    // protected $aliases = ['tyro:delete-role'];
 
     protected $description = 'Delete a role (except the protected ones)';
 

@@ -12,7 +12,7 @@ class UpdateUserCommand extends BaseTyroCommand {
 
     protected $aliases = ['tyro:update-user'];
 
-    protected $description = "Update a user's name, email and password";
+    protected $description = "Modify a user's name, email and password";
 
     public function handle(): int {
         $identifier = $this->option('user') ?? $this->ask('User ID or email');

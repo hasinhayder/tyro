@@ -121,7 +121,7 @@ public function handle(): int {
 - Exceptions: `SetupAiSkillCommand` and `UpdateConfigCommand` extend `Command` directly (not `BaseTyroCommand`).
 - The `findUser()` resolves by numeric ID or email. `findRole()` and `findPrivilege()` resolve by numeric ID or slug.
 - Commands are conditionally disabled via `config('tyro.disable_commands')` or `TYRO_DISABLE_COMMANDS=true`.
-- Command names follow `tyro:{entity}-{action}`: `tyro:role-create`, `tyro:role-delete`, `tyro:role-assign`, `tyro:privilege-attach`, `tyro:user-create`, `tyro:sys-install`, `tyro:auth-login`.
+- Command names follow `tyro:{entity}-{action}`: `tyro:role-create`, `tyro:role-delete`, `tyro:role-attach`, `tyro:privilege-attach`, `tyro:user-create`, `tyro:sys-install`, `tyro:auth-login`.
 - System commands use `tyro:sys-{action}`: `tyro:sys-install`, `tyro:sys-about`, `tyro:sys-doc`, `tyro:sys-version`, `tyro:sys-star`, `tyro:sys-test`.
 - Auth commands use `tyro:auth-{action}`: `tyro:auth-login`, `tyro:auth-logout`, `tyro:auth-logout-all`, `tyro:auth-logout-all-users`, `tyro:auth-me`.
 - All commands must return `self::SUCCESS` (0) or `self::FAILURE` (1).
@@ -138,13 +138,13 @@ All 49 registered commands with their signatures and aliases:
 | `tyro:sys-about` | `tyro:about` | Show Tyro's mission, version, and author details |
 | `tyro:privilege-create {slug?} {--name=} {--description=}` | `tyro:add-privilege` | Create a new privilege |
 | `tyro:role-create {--name=} {--slug=}` | `tyro:create-role` | Create a new role |
-| `tyro:role-assign {--user=} {--role=}` | `tyro:assign-role` | Attach a role to a user |
+| `tyro:role-attach {--user=} {--role=}` | `tyro:assign-role`, `tyro:role-assign` | Attach a role to a user |
 | `tyro:privilege-attach {privilege?} {role?}` | `tyro:attach-privilege` | Attach a privilege to a role |
 | `tyro:user-create {--name=} {--email=} {--password=}` | `tyro:create-user` | Create a user with default role |
 | `tyro:privilege-delete {privilege?} {--force}` | `tyro:delete-privilege` | Delete a privilege |
 | `tyro:role-delete {--role=} {--force}` | `tyro:delete-role` | Delete a role (protected slugs guarded) |
 | `tyro:user-delete {--user=} {--force}` | `tyro:delete-user` | Delete a user (last-admin guard) |
-| `tyro:role-remove {--user=} {--role=}` | `tyro:delete-user-role` | Detach a role from a user |
+| `tyro:role-detach {--user=} {--role=}` | `tyro:delete-user-role`, `tyro:role-remove` | Detach a role from a user |
 | `tyro:privilege-detach {privilege?} {role?}` | `tyro:detach-privilege` | Detach a privilege from a role |
 | `tyro:sys-doc {--no-open}` | `tyro:doc` | Open documentation in browser |
 | `tyro:role-purge {--force}` | `tyro:purge-roles` | Truncate roles and pivot tables |
