@@ -1,5 +1,12 @@
 # Tyro
 
+[![Tests](https://github.com/hasinhayder/tyro/actions/workflows/tests.yml/badge.svg)](https://github.com/hasinhayder/tyro/actions/workflows/tests.yml)
+
+![Laravel 12](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)
+![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
+![PHP 8.2+](https://img.shields.io/packagist/php-v/hasinhayder/tyro?color=777BB4&logo=php&logoColor=white)
+![MIT License](https://img.shields.io/github/license/hasinhayder/tyro)
+
 **Tyro** is a very powerful Authentication, Authorization, and Role & Privilege Management solution for Laravel 12 and 13. Think of it as a Swiss Army knife that handles everything from user authentication and role-based access control to user suspension workflows—whether you're building an API, a traditional web application, or both. With Sanctum integration, 40+ powerful CLI commands, 7 Blade directives, and ready-made middleware, Tyro saves you weeks of development time.
 
 ### Related Resources
