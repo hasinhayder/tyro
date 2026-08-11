@@ -5,9 +5,9 @@ namespace HasinHayder\Tyro\Console\Commands;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class MeCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:auth-who {token?} {--token=}';
+    protected $signature = 'tyro:who {token?} {--token=}';
 
-    protected $aliases = ['tyro:who'];
+    protected $aliases = ['tyro:me'];
 
     protected $description = 'Inspect which user a given token belongs to';
 

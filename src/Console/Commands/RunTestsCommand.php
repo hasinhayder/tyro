@@ -5,7 +5,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 use Symfony\Component\Process\Process;
 
 class RunTestsCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:sys-test
+    protected $signature = 'tyro:run-tests
         {--pest : Force Pest}
         {--phpunit : Force PHPUnit}
         {--filter= : Filter tests by name}

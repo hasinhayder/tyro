@@ -5,7 +5,7 @@ namespace HasinHayder\Tyro\Console\Commands;
 class AssignRoleCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-attach {--user=} {--role=}';
 
-    // protected $aliases = ['tyro:assign-role', 'tyro:role-assign'];
+    protected $aliases = ['tyro:assign-role', 'tyro:role-assign'];
 
     protected $description = 'Attach a role to a user';
 

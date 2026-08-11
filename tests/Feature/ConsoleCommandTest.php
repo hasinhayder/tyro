@@ -601,7 +601,7 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_doc_command_can_print_url(): void {
-        $this->artisan('tyro:sys-doc', ['--no-open' => true])
+        $this->artisan('tyro:doc', ['--no-open' => true])
             ->expectsOutputToContain('https://github.com/hasinhayder/tyro')
             ->assertExitCode(0);
     }
@@ -613,7 +613,7 @@ class ConsoleCommandTest extends TestCase {
     }
 
     public function test_install_command_runs_install_api_and_migrate(): void {
-        $this->artisan('tyro:sys-install', ['--dry-run' => true])
+        $this->artisan('tyro:install', ['--dry-run' => true])
             ->expectsOutputToContain('Dry run: skipped install:api and migrate.')
             ->assertExitCode(0);
     }

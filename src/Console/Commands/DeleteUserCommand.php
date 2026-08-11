@@ -9,7 +9,7 @@ use HasinHayder\Tyro\Support\TyroCache;
 class DeleteUserCommand extends BaseTyroCommand {
     protected $signature = 'tyro:user-delete {--user=} {--force}';
 
-    // protected $aliases = ['tyro:delete-user'];
+    protected $aliases = ['tyro:delete-user'];
 
     protected $description = 'Delete a user while respecting the admin guardrails';
 

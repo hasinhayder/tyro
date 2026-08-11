@@ -9,7 +9,7 @@ class AddPrivilegeCommand extends BaseTyroCommand {
         {--name= : Readable name for the privilege}
         {--description= : Optional description for the privilege}';
 
-    // protected $aliases = ['tyro:add-privilege'];
+    protected $aliases = ['tyro:add-privilege'];
 
     protected $description = 'Create a new Tyro privilege record';
 

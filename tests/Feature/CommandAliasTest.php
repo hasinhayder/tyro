@@ -40,15 +40,15 @@ class CommandAliasTest extends TestCase {
             'tyro:logout' => 'tyro:auth-logout',
             'tyro:logout-all' => 'tyro:auth-logout-all',
             'tyro:logout-all-users' => 'tyro:auth-logout-all-users',
-            'tyro:me' => 'tyro:auth-me',
+            'tyro:who' => 'tyro:who',
             'tyro:run-tests' => 'tyro:test',
             'tyro:postman-collection' => 'tyro:postman',
             'tyro:seed' => 'tyro:seed-all',
-            'tyro:doc' => 'tyro:sys-doc',
-            'tyro:star' => 'tyro:sys-star',
+            'tyro:doc' => 'tyro:doc',
+            'tyro:star' => 'tyro:star',
             'tyro:version' => 'tyro:sys-version',
             'tyro:about' => 'tyro:sys-about',
-            'tyro:install' => 'tyro:sys-install',
+            'tyro:install' => 'tyro:install',
         ];
 
         // Commands that are now primary but were previously aliases
