@@ -40,11 +40,12 @@ That's it. `tyro:install` sets up Sanctum, prepares your User model, runs migrat
 ### Checking roles & privileges
 
 ```php
-$user->hasRole('admin');                 // single role
-$user->hasRoles(['admin', 'editor']);    // must have ALL roles
-$user->hasAnyRole(['admin', 'editor']);  // must have ANY role
-$user->can('reports.run');               // privilege or Laravel Gate
-$user->hasPrivileges(['reports.run', 'billing.view']);
+$user->hasRole('admin');                                // check single role
+$user->hasRoles(['admin', 'editor']);                  // must have ALL roles
+$user->hasAnyRole(['admin', 'editor']);                // must have ANY role
+$user->hasPrivilege('reports.run');                     // check single privilege
+$user->hasPrivileges(['reports.run', 'billing.view']); // must have ALL privileges
+$user->can('reports.run');                             // check privilege, role, or Laravel Gate
 ```
 
 ### Managing roles & privileges
@@ -63,13 +64,13 @@ $role->privileges()->detach($privilege->id);    // revoke a privilege
 
 Route middleware aliases available out of the box:
 
-| Middleware Alias | Class | Description |
-| --- | --- | --- |
-| `role:admin` | `EnsureTyroRole` | User must possess the specified single role. |
-| `roles:admin,editor` | `EnsureAnyTyroRole` | User must possess **any** of the comma-separated roles. |
-| `privilege:reports.run` | `EnsureTyroPrivilege` | User must possess the specified single privilege. |
-| `privileges:reports.run,billing.view` | `EnsureAnyTyroPrivilege` | User must possess **any** of the comma-separated privileges. |
-| `tyro.log` | `TyroLog` | Log API requests into Tyro's audit trail. |
+| Middleware Alias | Description |
+| --- | --- |
+| `role:admin` | User must possess the specified single role. |
+| `roles:admin,editor` | User must possess **any** of the comma-separated roles. |
+| `privilege:reports.run` | User must possess the specified single privilege. |
+| `privileges:reports.run,billing.view` | User must possess **any** of the comma-separated privileges. |
+| `tyro.log` | Log API requests into Tyro's audit trail. |
 
 Example route definitions:
 
@@ -82,11 +83,16 @@ Route::middleware(['auth:sanctum', 'privileges:reports.run,billing.view'])->get(
 
 ### Role & Privilege Helpers (`HasTyroRoles`)
 
-In addition to basic role/privilege checks, `HasTyroRoles` includes convenient helper methods:
+In addition to basic role/privilege checks (`hasRole`, `hasRoles`, `hasAnyRole`, `hasPrivilege`, `hasPrivileges`, `can`), `HasTyroRoles` includes convenient helper methods:
 
 ```php
-// Synchronize user roles (accepts array of role slugs or Role instances)
-$user->syncRoles(['admin', 'editor']);
+// Role & privilege checking methods
+$user->hasRole('admin');                                // check single role
+$user->hasRoles(['admin', 'editor']);                  // check user has ALL roles
+$user->hasAnyRole(['admin', 'editor']);                // check user has ANY role
+$user->hasPrivilege('reports.run');                     // check single privilege
+$user->hasPrivileges(['reports.run', 'billing.view']); // check user has ALL privileges
+$user->can('reports.run');                             // check privilege, role, or Laravel Gate
 
 // Quick boolean role checks
 $user->isAdmin();        // checks for 'admin' role
@@ -248,28 +254,28 @@ Every option in `config/tyro.php`:
 
 **API & routes**
 
-| Config key / Env var | Default | Description |
+| Env var | Default | Description |
 | --- | --- | --- |
-| `disable_api` / `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
-| `disable_commands` / `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
-| `guard` / `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
-| `route_prefix` / `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
-| `route_name_prefix` / `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
+| `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
+| `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
+| `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
+| `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
+| `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
 | `load_default_routes` | `true` | Enable or disable automatic loading of Tyro's API route definitions |
 | `route_middleware` | `['api']` | Middleware stack applied to Tyro's API routes |
 
 **Users & roles**
 
-| Config key / Env var | Default | Description |
+| Env var | Default | Description |
 | --- | --- | --- |
-| `models.user` / `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
+| `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
+| `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
+| `TYRO_USERS_TABLE` | `users` | Table name used for suspension columns |
 | `models.role` | `HasinHayder\Tyro\Models\Role` | Role model class |
 | `models.privilege` | `HasinHayder\Tyro\Models\Privilege` | Privilege model class |
 | `models.pivot` | `HasinHayder\Tyro\Models\UserRole` | User-Role pivot model class |
 | `models.audit_log` | `HasinHayder\Tyro\Models\AuditLog` | Audit log model class |
-| `default_user_role_slug` / `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
 | `protected_role_slugs` | `['admin', 'super-admin']` | Slugs of protected roles guarded against CLI deletion |
-| `tables.users` / `TYRO_USERS_TABLE` | `users` | Table name used for suspension columns |
 | `tables.roles` | `roles` | Table name for roles |
 | `tables.pivot` | `user_roles` | Table name for user-role pivot relationships |
 | `tables.privileges` | `privileges` | Table name for privileges |
