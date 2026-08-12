@@ -103,13 +103,80 @@ Also available: `@userCan`, `@hasAnyRole`, `@hasAllRoles`, `@hasAnyPrivilege`, `
 
 One of Tyro's most powerful features: you can manage **everything** from the CLI (users, roles, privileges, tokens, suspensions, and audit logs) without touching the database directly. Perfect for automation, CI/CD pipelines, and incident response.
 
-| Category | Commands |
+### Users
+
+| Command | Description |
 | --- | --- |
-| Users | `tyro:user-create`, `tyro:user-list`, `tyro:user-list-with-roles`, `tyro:user-update`, `tyro:user-delete`, `tyro:user-show`, `tyro:user-suspend`, `tyro:user-unsuspend`, `tyro:user-suspended`, `tyro:user-token` |
-| Roles | `tyro:role-create`, `tyro:role-update`, `tyro:role-delete`, `tyro:role-list`, `tyro:role-list-with-privileges`, `tyro:role-attach`, `tyro:role-detach`, `tyro:role-users`, `tyro:role-purge` |
-| Privileges | `tyro:privilege-create`, `tyro:privilege-update`, `tyro:privilege-delete`, `tyro:privilege-list`, `tyro:privilege-attach`, `tyro:privilege-detach`, `tyro:privilege-purge`, `tyro:user-privileges` |
-| Auth & tokens | `tyro:auth-login`, `tyro:auth-logout`, `tyro:auth-logout-all`, `tyro:auth-logout-all-users`, `tyro:who`, `tyro:user-roles` |
-| Audit & setup | `tyro:audit-list`, `tyro:audit-purge`, `tyro:seed-all`, `tyro:seed-roles`, `tyro:seed-privileges`, `tyro:user-prepare`, `tyro:install`, `tyro:publish-config`, `tyro:publish-migrations`, `tyro:update-config`, `tyro:sys-version`, `tyro:sys-about`, `tyro:setup-ai-skill`, `tyro:doc`, `tyro:postman`, `tyro:star`, `tyro:run-tests` |
+| `tyro:user-create` | Create a new user and attach Tyro's default role |
+| `tyro:user-list` | Display all users tracked by Tyro |
+| `tyro:user-list-with-roles` | Display users alongside their Tyro roles |
+| `tyro:user-show` | Display a single user's details, roles, privileges, and suspension state |
+| `tyro:user-update` | Modify a user's name, email, and password |
+| `tyro:user-delete` | Delete a user while respecting the admin guardrails |
+| `tyro:user-suspend` | Suspend a user (revokes all tokens) |
+| `tyro:user-unsuspend` | Lift the suspension for a user |
+| `tyro:user-suspended` | List every user currently suspended |
+| `tyro:user-token` | Mint a Sanctum token without prompting for credentials |
+| `tyro:user-roles` | Display a user's roles and their attached privileges |
+| `tyro:user-privileges` | Display the privileges inherited by a user |
+
+### Roles
+
+| Command | Description |
+| --- | --- |
+| `tyro:role-create` | Create a new role |
+| `tyro:role-list` | Display all Tyro roles |
+| `tyro:role-list-with-privileges` | Display each role along with its attached privileges |
+| `tyro:role-update` | Modify a role name or slug |
+| `tyro:role-delete` | Delete a role (except the protected ones) |
+| `tyro:role-attach` | Attach a role to a user |
+| `tyro:role-detach` | Detach a role from a user |
+| `tyro:role-users` | Display every user assigned to the given role |
+| `tyro:role-purge` | Truncate the roles and pivot tables without re-seeding |
+
+### Privileges
+
+| Command | Description |
+| --- | --- |
+| `tyro:privilege-create` | Create a new Tyro privilege record |
+| `tyro:privilege-list` | Display all Tyro privileges and their roles |
+| `tyro:privilege-update` | Modify an existing privilege record |
+| `tyro:privilege-delete` | Delete a Tyro privilege record |
+| `tyro:privilege-attach` | Attach a privilege to a Tyro role |
+| `tyro:privilege-detach` | Detach a privilege from a Tyro role |
+| `tyro:privilege-purge` | Delete every privilege record and detach them from roles |
+
+### Auth & Tokens
+
+| Command | Description |
+| --- | --- |
+| `tyro:auth-login` | Mint a Sanctum token for a user via the CLI |
+| `tyro:auth-logout` | Delete a single Sanctum token (log out the corresponding session) |
+| `tyro:auth-logout-all` | Delete every Sanctum token for a specific user |
+| `tyro:auth-logout-all-users` | Revoke every Sanctum token issued for all users |
+| `tyro:who` | Inspect which user a given token belongs to |
+
+### Audit & Setup
+
+| Command | Description |
+| --- | --- |
+| `tyro:audit-list` | Display recent Tyro audit logs |
+| `tyro:audit-purge` | Purge old Tyro audit logs |
+| `tyro:seed-all` | Seed default roles, privileges, and bootstrap admin user |
+| `tyro:seed-roles` | Seed default role definitions |
+| `tyro:seed-privileges` | Seed default privilege definitions and role assignments |
+| `tyro:user-prepare` | Add `HasApiTokens` and `HasTyroRoles` traits to the default User model |
+| `tyro:install` | Bootstrap Tyro: set up Sanctum, run migrations, seed roles/privileges, and prepare your User model |
+| `tyro:publish-config` | Publish Tyro's configuration file into your application |
+| `tyro:publish-migrations` | Publish Tyro's migration files into your application |
+| `tyro:update-config` | Update tyro config with the latest version |
+| `tyro:sys-version` | Show the currently installed Tyro version |
+| `tyro:sys-about` | Show Tyro's mission, version, and author details |
+| `tyro:setup-ai-skill` | Install the Tyro Authorization AI skill for your preferred agent |
+| `tyro:doc` | Open the Tyro documentation in your browser |
+| `tyro:postman` | Open the Tyro Postman collection in your browser |
+| `tyro:star` | Open the Tyro GitHub repository so you can star it |
+| `tyro:run-tests` | Run your project's automated tests (Pest by default) |
 
 Run `php artisan list tyro` to see every available command. Most commands also have shorter aliases (for example, `tyro:login`, `tyro:users`, `tyro:roles`, `tyro:me`, `tyro:audit`).
 
