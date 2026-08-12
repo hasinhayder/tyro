@@ -199,16 +199,28 @@ php artisan vendor:publish --tag=tyro-migrations
 
 Every option in `config/tyro.php`:
 
+**API & routes**
+
 | Env var | Default | Description |
 | --- | --- | --- |
 | `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
 | `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
-| `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
-| `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
 | `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
-| `DELETE_PREVIOUS_ACCESS_TOKENS_ON_LOGIN` | `false` | Revoke all previous tokens on login (single-session mode) |
 | `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
 | `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
+
+**Users & roles**
+
+| Env var | Default | Description |
+| --- | --- | --- |
+| `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
+| `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
+| `TYRO_USERS_TABLE` | `users` | Users table used for suspension columns |
+
+**Passwords**
+
+| Env var | Default | Description |
+| --- | --- | --- |
 | `TYRO_PASSWORD_MIN_LENGTH` | `8` | Minimum password length |
 | `TYRO_PASSWORD_MAX_LENGTH` | `null` | Maximum password length (no limit when `null`) |
 | `TYRO_PASSWORD_REQUIRE_UPPERCASE` | `false` | Require at least one uppercase letter |
@@ -218,12 +230,27 @@ Every option in `config/tyro.php`:
 | `TYRO_PASSWORD_REQUIRE_CONFIRMATION` | `false` | Require a matching `password_confirmation` field |
 | `TYRO_PASSWORD_CHECK_COMMON` | `false` | Block common or compromised passwords |
 | `TYRO_PASSWORD_DISALLOW_USER_INFO` | `false` | Reject passwords containing the user's email or name |
+
+**Sessions & tokens**
+
+| Env var | Default | Description |
+| --- | --- | --- |
+| `DELETE_PREVIOUS_ACCESS_TOKENS_ON_LOGIN` | `false` | Revoke all previous tokens on login (single-session mode) |
+
+**Audit trail**
+
+| Env var | Default | Description |
+| --- | --- | --- |
 | `TYRO_AUDIT_ENABLED` | `true` | Enable the database-backed audit trail |
 | `TYRO_AUDIT_RETENTION_DAYS` | `30` | Days audit logs are kept before purging |
+
+**Cache**
+
+| Env var | Default | Description |
+| --- | --- | --- |
 | `TYRO_CACHE_ENABLED` | `true` | Cache per-user role/privilege lookups |
 | `TYRO_CACHE_TTL` | `300` | Seconds role/privilege lookups are cached |
 | `TYRO_CACHE_STORE` | `null` | Cache store to use (`null` uses Laravel's default) |
-| `TYRO_USERS_TABLE` | `users` | Users table used for suspension columns |
 
 ## Related resources
 
