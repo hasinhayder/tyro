@@ -1,10 +1,12 @@
 # Tyro
 
-[![Packagist](https://img.shields.io/packagist/v/hasinhayder/tyro?style=for-the-badge&logo=packagist&logoColor=white&label=Packagist)](https://packagist.org/packages/hasinhayder/tyro) [![Downloads](https://img.shields.io/packagist/dt/hasinhayder/tyro?style=for-the-badge&logo=packagist&logoColor=white&label=Downloads)](https://packagist.org/packages/hasinhayder/tyro/stats) [![Tests](https://img.shields.io/github/actions/workflow/status/hasinhayder/tyro/tests.yml?style=for-the-badge&label=Tests)](https://github.com/hasinhayder/tyro/actions/workflows/tests.yml) [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com) [![Laravel](https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com) [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php)](https://php.net) [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Packagist](https://img.shields.io/packagist/v/hasinhayder/tyro?style=for-the-badge&logo=packagist&logoColor=white&label=Packagist)](https://packagist.org/packages/hasinhayder/tyro) [![Downloads](https://img.shields.io/packagist/dt/hasinhayder/tyro?style=for-the-badge&logo=packagist&logoColor=white&label=Downloads)](https://packagist.org/packages/hasinhayder/tyro/stats) [![Tests](https://img.shields.io/github/actions/workflow/status/hasinhayder/tyro/tests.yml?style=for-the-badge&label=Tests)](https://github.com/hasinhayder/tyro/actions/workflows/tests.yml) [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com) [![Laravel](https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com) [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php)](https://php.net) [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE) [![Documentation](https://img.shields.io/badge/Documentation-Visit-4B32C3?style=for-the-badge&logo=readthedocs&logoColor=white)](https://hasinhayder.github.io/tyro/doc.html) [![CLI Ready](https://img.shields.io/badge/CLI-Ready-2EA44F?style=for-the-badge&logo=terminal&logoColor=white)](https://github.com/hasinhayder/tyro)
 
 **Tyro** is the complete authentication, roles & privileges package for Laravel 12 & 13: a modern RBAC/ACL solution built on Laravel Sanctum, with a fantastic CLI that manages everything for you.
 
 Set up in under a minute. No complicated configuration. No boilerplate.
+
+📖 [**Full documentation**](https://hasinhayder.github.io/tyro/doc.html)
 
 - **Instant install**: one command bootstraps Sanctum, runs migrations, seeds roles & privileges, and prepares your User model.
 - **RBAC & ACL**: unlimited roles with granular privileges; check access in controllers, middleware, Blade, or anywhere with `$user->can()`, `hasRole()`, `hasPrivileges()`, and more.
@@ -103,13 +105,13 @@ One of Tyro's most powerful features: you can manage **everything** from the CLI
 
 | Category | Commands |
 | --- | --- |
-| Users | `tyro:user-create`, `tyro:user-list`, `tyro:user-update`, `tyro:user-delete`, `tyro:user-show`, `tyro:user-suspend`, `tyro:user-unsuspend`, `tyro:user-suspended`, `tyro:user-token` |
-| Roles | `tyro:role-create`, `tyro:role-update`, `tyro:role-delete`, `tyro:role-list`, `tyro:role-attach`, `tyro:role-detach`, `tyro:role-users` |
-| Privileges | `tyro:privilege-create`, `tyro:privilege-update`, `tyro:privilege-delete`, `tyro:privilege-list`, `tyro:privilege-attach`, `tyro:privilege-detach`, `tyro:user-privileges` |
-| Auth & tokens | `tyro:auth-login`, `tyro:auth-logout`, `tyro:auth-logout-all`, `tyro:auth-logout-all-users`, `tyro:who` |
-| Audit & setup | `tyro:audit-list`, `tyro:audit-purge`, `tyro:seed-all`, `tyro:seed-roles`, `tyro:seed-privileges`, `tyro:user-prepare`, `tyro:sys-version`, `tyro:sys-about`, `tyro:setup-ai-skill` |
+| Users | `tyro:user-create`, `tyro:user-list`, `tyro:user-list-with-roles`, `tyro:user-update`, `tyro:user-delete`, `tyro:user-show`, `tyro:user-suspend`, `tyro:user-unsuspend`, `tyro:user-suspended`, `tyro:user-token` |
+| Roles | `tyro:role-create`, `tyro:role-update`, `tyro:role-delete`, `tyro:role-list`, `tyro:role-list-with-privileges`, `tyro:role-attach`, `tyro:role-detach`, `tyro:role-users`, `tyro:role-purge` |
+| Privileges | `tyro:privilege-create`, `tyro:privilege-update`, `tyro:privilege-delete`, `tyro:privilege-list`, `tyro:privilege-attach`, `tyro:privilege-detach`, `tyro:privilege-purge`, `tyro:user-privileges` |
+| Auth & tokens | `tyro:auth-login`, `tyro:auth-logout`, `tyro:auth-logout-all`, `tyro:auth-logout-all-users`, `tyro:who`, `tyro:user-roles` |
+| Audit & setup | `tyro:audit-list`, `tyro:audit-purge`, `tyro:seed-all`, `tyro:seed-roles`, `tyro:seed-privileges`, `tyro:user-prepare`, `tyro:install`, `tyro:publish-config`, `tyro:publish-migrations`, `tyro:update-config`, `tyro:sys-version`, `tyro:sys-about`, `tyro:setup-ai-skill`, `tyro:doc`, `tyro:postman`, `tyro:star`, `tyro:run-tests` |
 
-Run `php artisan list tyro` to see every available command.
+Run `php artisan list tyro` to see every available command. Most commands also have shorter aliases (for example, `tyro:login`, `tyro:users`, `tyro:roles`, `tyro:me`, `tyro:audit`).
 
 ## Optional: REST API
 
@@ -128,19 +130,33 @@ php artisan vendor:publish --tag=tyro-config
 php artisan vendor:publish --tag=tyro-migrations
 ```
 
-Key options in `config/tyro.php`:
+Every option in `config/tyro.php`:
 
-| Option | Default | Description |
+| Env var | Default | Description |
 | --- | --- | --- |
-| `models.user` | `App\Models\User` | Your user model |
-| `route_prefix` | `api` | Prefix for REST routes |
-| `default_user_role_slug` | `user` | Role attached to new users |
-| `protected_role_slugs` | `admin`, `super-admin` | Roles that can't be deleted |
-| `disable_commands` / `disable_api` | `false` | Turn off CLI or REST surface |
-| `audit.enabled` / `audit.retention_days` | `true` / `30` | Audit trail settings |
-| `cache.enabled` | `true` | Per-user role/privilege caching |
-
-Password policy (length, complexity, common-password checks) is configurable via `TYRO_PASSWORD_*` env vars.
+| `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
+| `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
+| `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
+| `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
+| `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
+| `DELETE_PREVIOUS_ACCESS_TOKENS_ON_LOGIN` | `false` | Revoke all previous tokens on login (single-session mode) |
+| `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
+| `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
+| `TYRO_USERS_TABLE` | `users` | Users table used for suspension columns |
+| `TYRO_AUDIT_ENABLED` | `true` | Enable the database-backed audit trail |
+| `TYRO_AUDIT_RETENTION_DAYS` | `30` | Days audit logs are kept before purging |
+| `TYRO_CACHE_ENABLED` | `true` | Cache per-user role/privilege lookups |
+| `TYRO_CACHE_STORE` | `null` | Cache store to use (`null` uses Laravel's default) |
+| `TYRO_CACHE_TTL` | `300` | Seconds role/privilege lookups are cached |
+| `TYRO_PASSWORD_MIN_LENGTH` | `8` | Minimum password length |
+| `TYRO_PASSWORD_MAX_LENGTH` | `null` | Maximum password length (no limit when `null`) |
+| `TYRO_PASSWORD_REQUIRE_CONFIRMATION` | `false` | Require a matching `password_confirmation` field |
+| `TYRO_PASSWORD_REQUIRE_UPPERCASE` | `false` | Require at least one uppercase letter |
+| `TYRO_PASSWORD_REQUIRE_LOWERCASE` | `false` | Require at least one lowercase letter |
+| `TYRO_PASSWORD_REQUIRE_NUMBERS` | `false` | Require at least one number |
+| `TYRO_PASSWORD_REQUIRE_SPECIAL_CHARS` | `false` | Require at least one special character |
+| `TYRO_PASSWORD_CHECK_COMMON` | `false` | Block common or compromised passwords |
+| `TYRO_PASSWORD_DISALLOW_USER_INFO` | `false` | Reject passwords containing the user's email or name |
 
 ## Related resources
 
