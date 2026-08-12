@@ -61,9 +61,44 @@ $role->privileges()->detach($privilege->id);    // revoke a privilege
 
 ### Protecting routes
 
+Route middleware aliases available out of the box:
+
+| Middleware Alias | Class | Description |
+| --- | --- | --- |
+| `role:admin` | `EnsureTyroRole` | User must possess the specified single role. |
+| `roles:admin,editor` | `EnsureAnyTyroRole` | User must possess **any** of the comma-separated roles. |
+| `privilege:reports.run` | `EnsureTyroPrivilege` | User must possess the specified single privilege. |
+| `privileges:reports.run,billing.view` | `EnsureAnyTyroPrivilege` | User must possess **any** of the comma-separated privileges. |
+| `tyro.log` | `TyroLog` | Log API requests into Tyro's audit trail. |
+
+Example route definitions:
+
 ```php
 Route::middleware(['auth:sanctum', 'role:admin'])->get('/admin', AdminController::class);
+Route::middleware(['auth:sanctum', 'roles:admin,editor'])->get('/dashboard', DashboardController::class);
 Route::middleware(['auth:sanctum', 'privilege:reports.run'])->get('/reports', ReportsController::class);
+Route::middleware(['auth:sanctum', 'privileges:reports.run,billing.view'])->get('/finance', FinanceController::class);
+```
+
+### Role & Privilege Helpers (`HasTyroRoles`)
+
+In addition to basic role/privilege checks, `HasTyroRoles` includes convenient helper methods:
+
+```php
+// Synchronize user roles (accepts array of role slugs or Role instances)
+$user->syncRoles(['admin', 'editor']);
+
+// Quick boolean role checks
+$user->isAdmin();        // checks for 'admin' role
+$user->isSuperAdmin();   // checks for 'super-admin' role
+$user->isEditor();       // checks for 'editor' role
+$user->isCustomer();     // checks for 'customer' role
+$user->isUser();         // checks for 'user' role
+
+// Inspection helpers
+$user->hasNoRoles();     // true if user has 0 roles assigned
+$user->rolesCount();     // count of assigned distinct roles (excluding super-admin wildcard)
+$user->privileges();     // returns Eloquent Collection of all unique user privileges
 ```
 
 ### Suspending users
@@ -87,6 +122,16 @@ php artisan tyro:audit-purge             # purge logs per retention policy
 
 ### Blade directives
 
+| Directive | Description |
+| --- | --- |
+| `@hasRole('admin')` ... `@endhasRole` | Check for a single role |
+| `@hasRoles(['admin', 'editor'])` ... `@endhasRoles` | Check if user has ALL specified roles |
+| `@hasAnyRole(['admin', 'editor'])` ... `@endhasAnyRole` | Check if user has ANY specified role |
+| `@hasPrivilege('reports.run')` ... `@endhasPrivilege` | Check for a single privilege |
+| `@hasPrivileges(['reports.run', 'billing.view'])` ... `@endhasPrivileges` | Check if user has ALL specified privileges |
+| `@hasAnyPrivilege(['reports.run', 'billing.view'])` ... `@endhasAnyPrivilege` | Check if user has ANY specified privilege |
+| `@userCan('reports.run')` ... `@enduserCan` | Check privilege, role, or Laravel Gate |
+
 ```blade
 @hasRole('admin')
     Welcome, Admin!
@@ -95,9 +140,11 @@ php artisan tyro:audit-purge             # purge logs per retention policy
 @hasPrivilege('reports.run')
     <a href="/reports">View Reports</a>
 @endhasPrivilege
-```
 
-Also available: `@userCan`, `@hasAnyRole`, `@hasAllRoles`, `@hasAnyPrivilege`, `@hasAllPrivileges`.
+@hasRoles(['admin', 'editor'])
+    Full editing permissions active.
+@endhasRoles
+```
 
 ## CLI at a glance
 
@@ -201,21 +248,34 @@ Every option in `config/tyro.php`:
 
 **API & routes**
 
-| Env var | Default | Description |
+| Config key / Env var | Default | Description |
 | --- | --- | --- |
-| `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
-| `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
-| `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
-| `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
-| `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
+| `disable_api` / `TYRO_DISABLE_API` | `false` | Skip loading Tyro's REST routes entirely |
+| `disable_commands` / `TYRO_DISABLE_COMMANDS` | `false` | Skip registering Tyro's artisan commands |
+| `guard` / `TYRO_GUARD` | `sanctum` | Guard used by Tyro's protected routes |
+| `route_prefix` / `TYRO_ROUTE_PREFIX` | `api` | Prefix for Tyro's REST routes |
+| `route_name_prefix` / `TYRO_ROUTE_NAME_PREFIX` | `tyro.` | Prefix for Tyro's route names |
+| `load_default_routes` | `true` | Enable or disable automatic loading of Tyro's API route definitions |
+| `route_middleware` | `['api']` | Middleware stack applied to Tyro's API routes |
 
 **Users & roles**
 
-| Env var | Default | Description |
+| Config key / Env var | Default | Description |
 | --- | --- | --- |
-| `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
-| `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
-| `TYRO_USERS_TABLE` | `users` | Users table used for suspension columns |
+| `models.user` / `TYRO_USER_MODEL`, `AUTH_MODEL` | `App\Models\User` | User model Tyro operates on |
+| `models.role` | `HasinHayder\Tyro\Models\Role` | Role model class |
+| `models.privilege` | `HasinHayder\Tyro\Models\Privilege` | Privilege model class |
+| `models.pivot` | `HasinHayder\Tyro\Models\UserRole` | User-Role pivot model class |
+| `models.audit_log` | `HasinHayder\Tyro\Models\AuditLog` | Audit log model class |
+| `default_user_role_slug` / `DEFAULT_ROLE_SLUG` | `user` | Role slug attached to newly registered users |
+| `protected_role_slugs` | `['admin', 'super-admin']` | Slugs of protected roles guarded against CLI deletion |
+| `tables.users` / `TYRO_USERS_TABLE` | `users` | Table name used for suspension columns |
+| `tables.roles` | `roles` | Table name for roles |
+| `tables.pivot` | `user_roles` | Table name for user-role pivot relationships |
+| `tables.privileges` | `privileges` | Table name for privileges |
+| `tables.role_privilege` | `privilege_role` | Table name for role-privilege pivot relationships |
+| `tables.audit_logs` | `tyro_audit_logs` | Table name for audit log trail |
+| `abilities` | Sanctum ability mapping | Maps default Sanctum token abilities to role permissions |
 
 **Passwords**
 
