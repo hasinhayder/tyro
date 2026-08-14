@@ -228,4 +228,72 @@ class RoleCloneSyncTest extends TestCase {
 
         $this->assertCount(2, Role::where('slug', 'support-eu')->first()->fresh()->privileges);
     }
+
+    public function test_role_sync_command_rejects_admin_as_target(): void {
+        $this->createRoleWithPrivileges('support', ['tickets.view']);
+
+        $adminPrivileges = Role::where('slug', 'admin')->first()->privileges()->pluck('slug')->all();
+
+        $this->artisan('tyro:role-sync', [
+            'source' => 'support',
+            'target' => 'admin',
+        ])->expectsOutputToContain('protected and cannot be used as a sync target')
+            ->assertExitCode(1);
+
+        $this->assertSame(
+            $adminPrivileges,
+            Role::where('slug', 'admin')->first()->fresh()->privileges()->pluck('slug')->all(),
+            'Admin role privileges must remain untouched'
+        );
+    }
+
+    public function test_role_sync_command_rejects_admin_as_target_even_in_dry_run(): void {
+        $this->createRoleWithPrivileges('support', ['tickets.view']);
+
+        $adminPrivileges = Role::where('slug', 'admin')->first()->privileges()->pluck('slug')->all();
+
+        $this->artisan('tyro:role-sync', [
+            'source' => 'support',
+            'target' => 'admin',
+            '--dry-run' => true,
+        ])->expectsOutputToContain('protected and cannot be used as a sync target')
+            ->assertExitCode(1);
+
+        $this->assertSame(
+            $adminPrivileges,
+            Role::where('slug', 'admin')->first()->fresh()->privileges()->pluck('slug')->all(),
+            'Admin role privileges must remain untouched'
+        );
+    }
+
+    public function test_role_sync_command_rejects_super_admin_as_target_even_in_dry_run(): void {
+        $this->createRoleWithPrivileges('support', ['tickets.view']);
+
+        $this->artisan('tyro:role-sync', [
+            'source' => 'support',
+            'target' => 'super-admin',
+            '--dry-run' => true,
+        ])->expectsOutputToContain('protected and cannot be used as a sync target')
+            ->assertExitCode(1);
+    }
+
+    public function test_role_sync_command_allows_protected_role_as_source(): void {
+        $admin = Role::where('slug', 'admin')->first();
+        $this->assertNotNull($admin, 'Seeded admin role should exist');
+
+        $this->createRoleWithPrivileges('support-eu', []);
+
+        $this->artisan('tyro:role-sync', [
+            'source' => 'admin',
+            'target' => 'support-eu',
+        ])->assertExitCode(0);
+
+        $target = Role::where('slug', 'support-eu')->first()->fresh();
+
+        $this->assertCount($admin->privileges()->count(), $target->privileges);
+        $this->assertSame(
+            $admin->privileges()->pluck('slug')->sort()->values()->all(),
+            $target->privileges->pluck('slug')->sort()->values()->all()
+        );
+    }
 }

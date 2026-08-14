@@ -4,6 +4,7 @@
 
 - Added `tyro:role-clone` command to clone a role together with all of its privileges
 - Added `tyro:role-sync` command to synchronize privileges between roles (supports `--remove-extra` and `--dry-run`)
+- `tyro:role-sync` refuses to use protected roles (`admin`, `super-admin`) as the sync target
 
 ## [1.10.1] - 2026-06-18
 

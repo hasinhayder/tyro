@@ -7,13 +7,13 @@ use Illuminate\Support\Collection;
 
 class RoleSyncCommand extends BaseTyroCommand {
     protected $signature = 'tyro:role-sync {source? : Role ID or slug to sync from}
-        {target? : Role ID or slug to sync to}
+        {target? : Role ID or slug to sync to (protected roles are not allowed)}
         {--remove-extra : Detach privileges from the target that the source does not have}
         {--dry-run : Show the diff without applying any changes}';
 
     protected $aliases = ['tyro:sync-roles'];
 
-    protected $description = 'Synchronize a role\'s privileges with another role';
+    protected $description = 'Synchronize a role\'s privileges with another role (protected roles cannot be targets)';
 
     public function handle(): int {
         $sourceIdentifier = $this->argument('source');
@@ -38,6 +38,13 @@ class RoleSyncCommand extends BaseTyroCommand {
 
         if (! $target) {
             $this->error(sprintf('Target role [%s] not found.', $targetIdentifier ?? 'N/A'));
+
+            return self::FAILURE;
+        }
+
+        $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
+        if (in_array($target->slug, $protected, true)) {
+            $this->error(sprintf('Role [%s] is protected and cannot be used as a sync target.', $target->slug));
 
             return self::FAILURE;
         }
