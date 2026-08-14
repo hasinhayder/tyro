@@ -34,6 +34,8 @@ use HasinHayder\Tyro\Console\Commands\PublishMigrationsCommand;
 use HasinHayder\Tyro\Console\Commands\PurgeAuditLogsCommand;
 use HasinHayder\Tyro\Console\Commands\PurgePrivilegesCommand;
 use HasinHayder\Tyro\Console\Commands\QuickTokenCommand;
+use HasinHayder\Tyro\Console\Commands\RoleCloneCommand;
+use HasinHayder\Tyro\Console\Commands\RoleSyncCommand;
 use HasinHayder\Tyro\Console\Commands\RoleUsersCommand;
 use HasinHayder\Tyro\Console\Commands\RunTestsCommand;
 use HasinHayder\Tyro\Console\Commands\SeedCommand;
@@ -57,6 +59,8 @@ use HasinHayder\Tyro\Http\Middleware\EnsureAnyTyroRole;
 use HasinHayder\Tyro\Http\Middleware\EnsureTyroPrivilege;
 use HasinHayder\Tyro\Http\Middleware\EnsureTyroRole;
 use HasinHayder\Tyro\Http\Middleware\TyroLog;
+use HasinHayder\Tyro\Models\Observers\PrivilegeObserver;
+use HasinHayder\Tyro\Models\Observers\RoleObserver;
 use HasinHayder\Tyro\Models\Privilege;
 use HasinHayder\Tyro\Models\Role;
 use HasinHayder\Tyro\View\Directives\UserCanDirective;
@@ -200,6 +204,8 @@ class TyroServiceProvider extends ServiceProvider {
             PostmanCollectionCommand::class,
             PublishMigrationsCommand::class,
             QuickTokenCommand::class,
+            RoleCloneCommand::class,
+            RoleSyncCommand::class,
             RoleUsersCommand::class,
             RunTestsCommand::class,
             SeedCommand::class,
@@ -234,8 +240,8 @@ class TyroServiceProvider extends ServiceProvider {
 
     protected function registerObservers(): void {
         if (config('tyro.audit.enabled', true)) {
-            Role::observe(\HasinHayder\Tyro\Models\Observers\RoleObserver::class);
-            Privilege::observe(\HasinHayder\Tyro\Models\Observers\PrivilegeObserver::class);
+            Role::observe(RoleObserver::class);
+            Privilege::observe(PrivilegeObserver::class);
         }
     }
 }

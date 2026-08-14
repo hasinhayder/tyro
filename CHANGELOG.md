@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+- Added `tyro:role-clone` command to clone a role together with all of its privileges
+- Added `tyro:role-sync` command to synchronize privileges between roles (supports `--remove-extra` and `--dry-run`)
+
 ## [1.10.1] - 2026-06-18
 
 - Removed `is()` and `isNot()` from `HasTyroRoles` trait to resolve compatibility issues

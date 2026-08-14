@@ -10,7 +10,7 @@ class VersionCommand extends BaseTyroCommand {
     protected $description = 'Show the currently installed Tyro version';
 
     public function handle(): int {
-        $version = '1.12.0'; // added user-show command, command description banners
+        $version = '1.13.0'; // added tyro:role-clone and tyro:role-sync commands
 
         $this->info('');
         $this->info('  ╔════════════════════════════════════════╗');
@@ -30,6 +30,7 @@ class VersionCommand extends BaseTyroCommand {
         return self::SUCCESS;
     }
 }
+// 1.13.0 - Added tyro:role-clone and tyro:role-sync commands
 // 1.12.0 - Added user-show command and one-line command description banners
 // 1.11.0 - Registered privilege-delete and role-users commands, added attached-role warning to privilege delete
 // 1.10.1 - removed is() and isNot() from HasTyroRoles trait for compatibility issue
@@ -38,7 +39,7 @@ class VersionCommand extends BaseTyroCommand {
 // 1.8.0 - Added attachRole/detachRole to HasTyroRoles and Privilege model, added role check helpers (isAdmin, isSuperAdmin, isEditor, isCustomer)
 // 1.7.0 - Added AI skill system, registered 4 missing commands, fixed SetupAiSkillCommand paths
 // 1.6.0 - Added tyro:update-config command
-// 1.5.0 - Added Laravel 13 support. 
+// 1.5.0 - Added Laravel 13 support.
 // 1.4.0 - added hasAnyRole() Support. Now Users can check if they have any of the given roles with a single method call.
 // 1.3.1 - log user's email change for audit log
 // 1.3.0 - audit Trail and Consitent Naming for the commands with backward compatibility

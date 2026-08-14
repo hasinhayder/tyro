@@ -186,6 +186,8 @@ One of Tyro's most powerful features: you can manage **everything** from the CLI
 | `tyro:role-detach` | Detach a role from a user |
 | `tyro:role-users` | Display every user assigned to the given role |
 | `tyro:role-purge` | Truncate the roles and pivot tables without re-seeding |
+| `tyro:role-clone` | Clone a role together with all of its privileges |
+| `tyro:role-sync` | Synchronize a role's privileges with another role (supports `--remove-extra` and `--dry-run`) |
 
 ### Privileges
 
