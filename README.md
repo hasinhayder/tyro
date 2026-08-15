@@ -252,6 +252,12 @@ php artisan vendor:publish --tag=tyro-config
 php artisan vendor:publish --tag=tyro-migrations
 ```
 
+If you want to update your published configuration later when new options are introduced, you can run:
+
+```bash
+php artisan tyro:update-config
+```
+
 Every option in `config/tyro.php`
 
 **API & routes**
